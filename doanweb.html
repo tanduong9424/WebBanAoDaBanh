@@ -1,0 +1,71 @@
+<html>
+<link rel="stylesheet" href="CSS/test2.css">
+
+<body>
+    <div id="user" class="modal">
+        <div id="login">
+            <form name="loginform">
+                <h2>ĐĂNG NHẬP</h2>
+                <div class="login-info">
+                    <div class="form-group">
+                        <label for="username">Tên đăng nhập:</label>
+                        <input type="text" id="username" required>
+                        <span id="form-message">Bạn chưa nhập tên đăng nhập!</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu:</label>
+                        <input type="password" id="password" required>
+                        <span id="form-message">Bạn chưa nhập mật khẩu!</span>
+                    </div>
+                    <button id="btnlogin">ĐĂNG NHẬP</button>
+                    <p>Bạn chưa có tài khoản?<a href="#">Đăng ký</a></p>
+                </div>
+            </form>
+        </div>
+        <div id="signup">
+            <form name="signupform">
+                <h2>ĐĂNG KÝ</h2>
+                <div class="signup-info">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="fullname">Họ và tên:</label>
+                            <input type="text" id="fullname" placeholder="Hong Tham" required>
+                            <span id="form-message">Bạn chưa nhập họ và tên!</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Địa chỉ:</label>
+                            <input type="text" id="address" placeholder="Hong Tham" required>
+                            <span id="form-message">Bạn chưa nhập địa chỉ!</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Số điện thoại:</label>
+                            <input type="tel" id="phone" placeholder="Hong Tham" required>
+                            <span id="form-message">Bạn chưa nhập số điện thoại!</span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="mail">Email:</label>
+                            <input type="email" id="mail" placeholder="Hong Tham" required>
+                            <span id="form-message">Bạn chưa nhập email!</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="password1">Mật khẩu:</label>
+                            <input type="password" id="password1" placeholder="Hong Tham" required>
+                            <span id="form-message">Mật khẩu không đúng!</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="password2">Nhập lại mật khẩu:</label>
+                            <input type="password" id="password2" placeholder="Hong Tham" required>
+                            <span id="form-message">Mật khẩu không đúng!</span>
+                        </div>
+                    </div>
+                </div>
+                <button id="btnsignup">ĐĂNG KÝ</button>
+                <p>Bạn đã có tài khoản?<a href="#">Đăng nhập</a></p>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
