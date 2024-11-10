@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="employee.css">
+    <script>
+    
+    </script>
+    <title>employee</title>
+</head>
+<body>
+    <div>
+        <div id="tab_menu">
+            <div><a href="">Thông tin nhân viên</a></div>
+            <div><a href="" onclick="showPanel('products', event)">Sản phẩm</a></div>
+            <div><a href="" onclick="showPanel('orders', event)">Đơn hàng</a></div>
+        </div>
+        <div id="main_content">
+            <!-- Quản lý sản phẩm -->
+            <div id="products_panel" style="display: none;">
+                <div class="top_label">Quản lý sản phẩm</div>
+                <button style="margin-bottom: 5px;" onclick="addProduct()">Thêm Sản Phẩm</button>
+                <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." oninput="applyFilters()" size="50">
+                <div class="filter-container">
+
+                    <select id="brandFilter" onchange="applyFilters()">
+                        <option value="">Tất cả thương hiệu</option>
+                        <!-- Thêm các thương hiệu cụ thể -->
+                        <option value="Nike">Nike</option>
+                        <option value="Adidas">Adidas</option>
+                        <option value="Puma">Puma</option>
+                    </select>
+                
+                    <select id="sizeFilter" onchange="applyFilters()">
+                        <option value="">Tất cả kích cỡ</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                    </select>
+                
+                    <select id="teamFilter" onchange="applyFilters()">
+                        <option value="">Tất cả đội</option>
+                        <option value="TeamA">Team A</option>
+                        <option value="TeamB">Team B</option>
+                    </select>
+                
+                    <select id="categoryFilter" onchange="applyFilters()">
+                        <option value="">Tất cả danh mục</option>
+                        <option value="Shirts">Áo thun</option>
+                        <option value="Jackets">Áo khoác</option>
+                    </select>
+                
+                    <select id="sortOption" onchange="applyFilters()">
+                        <option value="">Sắp xếp</option>
+                        <option value="priceAsc">Giá tăng dần</option>
+                        <option value="priceDesc">Giá giảm dần</option>
+                        <option value="dateNew">Ngày thêm mới nhất</option>
+                        <option value="dateOld">Ngày thêm cũ nhất</option>
+                        <option value="stockAsc">Số lượng tăng dần</option>
+                        <option value="stockDesc">Số lượng giảm dần</option>
+                    </select>
+                </div>
+                <div id="products_container">
+                    
+                </div>
+            </div>
+            
+            <!-- Quản lý Đơn Hàng -->
+            <div id="orders_panel" style="display: none;">
+                <div  class="top_label">Quản lý Đơn Hàng</div>
+                <button onclick="addOrder()">Thêm Đơn Hàng</button>
+                <div id="orders_container">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Popup ẩn -->
+    <div id="detailModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="detailContent"></div>
+        </div>
+    </div>
+    <script src="employee.js"></script>
+</body>
+</html>
