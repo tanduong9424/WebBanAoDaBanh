@@ -6,19 +6,88 @@ function renderAccounts() {
     const container = document.getElementById("accounts_container");
     container.innerHTML = '';
     accounts.forEach((account, index) => {
-        const accountEl = document.createElement("div");
-        accountEl.className = "account";
-        accountEl.innerHTML = `
-            <span>Mã: ${account.id}</span>
-            <span>Tên: ${account.username}</span>
-            <span>Mật khẩu: ${account.password}</span>
-            <span>Loại: ${account.role}</span>
-            <span>Trạng thái: ${account.status}</span>
-            <div>
-                <button onclick="editAccount(${index})">Sửa</button>
-                <button onclick="deleteAccount(${index})">Xóa</button>
-            </div>
-        `;
+        const accountEl = createAccountElement(account, index);
+        container.appendChild(accountEl);
+    });
+}
+
+// Tạo phần tử hiển thị tài khoản
+function createAccountElement(account, index) {
+    const accountEl = document.createElement("div");
+    accountEl.className = "account";
+    accountEl.innerHTML = `
+        <span>Mã: ${account.id}</span>
+        <span>Tên: ${account.username}</span>
+        <span>Mật khẩu: ${account.password}</span>
+        <span>Loại: ${account.role}</span>
+        <span>Trạng thái: ${account.status}</span>
+        <div>
+            <button onclick="editAccount(${index})">Sửa</button>
+            <button onclick="deleteAccount(${index})">Xóa</button>
+        </div>
+    `;
+    return accountEl;
+}
+
+// Thêm tài khoản nhân viên
+function addAccount() {
+    const username = prompt("Tên tài khoản:");
+    const password = prompt("Mật khẩu:");
+    if (username && password) {
+        const newAccount = {
+            id: `NV${Date.now()}`,
+            username: username,
+            password: password,
+            role: "Nhân viên",
+            status: "Hợp lệ"
+        };
+        accounts.push(newAccount);
+        saveData();
+        renderAccounts();
+    }
+}
+
+// Sửa thông tin tài khoản
+function editAccount(index) {
+    const account = accounts[index];
+    const newUsername = prompt("Tên tài khoản:", account.username);
+    const newPassword = prompt("Mật khẩu:", account.password);
+    const newStatus = prompt("Trạng thái (Hợp lệ hoặc Không hợp lệ):", account.status);
+
+    if (newUsername && newPassword && newStatus) {
+        account.username = newUsername;
+        account.password = newPassword;
+        account.status = newStatus;
+        saveData();
+        renderAccounts();
+    }
+}
+
+// Xóa tài khoản
+function deleteAccount(index) {
+    if (confirm("Bạn có chắc chắn muốn xóa tài khoản này?")) {
+        accounts.splice(index, 1);
+        saveData();
+        renderAccounts();
+    }
+}
+
+// Tìm kiếm tài khoản
+function filterAccounts() {
+    const searchQuery = document.getElementById("searchAccount").value.toLowerCase();
+    const filteredAccounts = accounts.filter(account =>
+        account.username.toLowerCase().includes(searchQuery)
+    );
+    renderFilteredAccounts(filteredAccounts);
+}
+
+// Hiển thị các tài khoản sau khi lọc
+function renderFilteredAccounts(filteredAccounts) {
+    const container = document.getElementById("accounts_container");
+    container.innerHTML = '';
+    filteredAccounts.forEach(account => {
+        const originalIndex = accounts.findIndex(a => a.id === account.id);
+        const accountEl = createAccountElement(account, originalIndex);
         container.appendChild(accountEl);
     });
 }
@@ -47,37 +116,7 @@ function renderPromotions() {
     });
 }
 
-// Tìm kiếm tài khoản
-function filterAccounts() {
-    const searchQuery = document.getElementById("searchAccount").value.toLowerCase();
-    const filteredAccounts = accounts.filter(account =>
-        account.username.toLowerCase().includes(searchQuery)
-    );
-    renderFilteredAccounts(filteredAccounts);
-}
 
-// Hiển thị các tài khoản sau khi lọc
-function renderFilteredAccounts(filteredAccounts) {
-    const container = document.getElementById("accounts_container");
-    container.innerHTML = '';
-    filteredAccounts.forEach(account => {
-        const originalIndex = accounts.findIndex(a => a.id === account.id);
-        const accountEl = document.createElement("div");
-        accountEl.className = "account";
-        accountEl.innerHTML = `
-            <span>Mã: ${account.id}</span>
-            <span>Tên: ${account.username}</span>
-            <span>Mật khẩu: ${account.password}</span>
-            <span>Loại: ${account.role}</span>
-            <span>Trạng thái: ${account.status}</span>
-            <div>
-                <button onclick="editAccount(${originalIndex})">Sửa</button>
-                <button onclick="deleteAccount(${originalIndex})">Xóa</button>
-            </div>
-        `;
-        container.appendChild(accountEl);
-    });
-}
 
 // Lọc khuyến mãi theo thời gian và tìm kiếm
 function filterPromotions() {
