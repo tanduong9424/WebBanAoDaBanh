@@ -45,6 +45,116 @@
             <div id="detailContent"></div>
         </div>
     </div>
+    <!-- Form thêm và sửa tài khoản -->
+        <div id="accountForm" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h3 id="formTitle">Thêm Tài Khoản Nhân Viên</h3>
+                <label>Tên đăng nhập:</label>
+                <input type="text" id="username" /><br />
+                <label>Mật khẩu:</label>
+                <input type="password" id="password" /><br />
+                <label>Tên nhân viên:</label>
+                <input type="text" id="name" /><br />
+                <label>Số điện thoại:</label>
+                <input type="text" id="phone" /><br />
+                <label>Email:</label>
+                <input type="email" id="email" /><br />
+                <label>Lương:</label>
+                <input type="number" id="salary" /><br />
+                <label>Trạng thái:</label>
+                <select id="status">
+                    <option value="Hợp lệ">Hợp lệ</option>
+                    <option value="Không hợp lệ">Không hợp lệ</option>
+                </select><br />
+                <button onclick="saveAccount()">Lưu</button>
+                <button onclick="cancelForm()">Hủy</button>
+            </div>    
+        </div>
+    
+    <!-- Form sửa tài khoản Admin -->
+    <div id="editAdminForm" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Sửa Tài Khoản Admin</h3>
+            <label>Mật khẩu:</label>
+            <input type="password" id="adminPassword" /><br />
+            <button onclick="updateAdminAccount()">Lưu</button>
+            <button onclick="cancelForm()">Hủy</button>
+        </div>
+    </div>
+
+    <!-- Form sửa tài khoản Nhân viên -->
+    <div id="editEmployeeForm" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Sửa Tài Khoản Nhân Viên</h3>
+            <label>Tên đăng nhập:</label>
+            <input type="text" id="empUsername" readonly /><br />
+            <label>Mật khẩu:</label>
+            <input type="password" id="empPassword" /><br />
+            <label>Tên nhân viên:</label>
+            <input type="text" id="empName" /><br />
+            <label>Số điện thoại:</label>
+            <input type="text" id="empPhone" /><br />
+            <label>Email:</label>
+            <input type="email" id="empEmail" /><br />
+            <label>Lương:</label>
+            <input type="number" id="empSalary" /><br />
+            <label>Trạng thái:</label>
+            <select id="empStatus">
+                <option value="Hợp lệ">Hợp lệ</option>
+                <option value="Không hợp lệ">Không hợp lệ</option>
+            </select><br />
+            <button onclick="updateEmployeeAccount()">Lưu</button>
+            <button onclick="cancelForm()">Hủy</button>
+        </div>
+    </div>
+
+    <!-- Form sửa tài khoản Khách hàng -->
+    <div id="editCustomerForm" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Sửa Tài Khoản Khách Hàng</h3>
+            <label>Tên đăng nhập:</label>
+            <input type="text" id="custUsername" readonly /><br />
+            <label>Mật khẩu:</label>
+            <input type="password" id="custPassword" /><br />
+            <label>Tên khách hàng:</label>
+            <input type="text" id="custName" /><br />
+            <label>Số điện thoại:</label>
+            <input type="text" id="custPhone" /><br />
+            <label>Email:</label>
+            <input type="email" id="custEmail" /><br />
+            <label>Địa chỉ:</label>
+            <input type="text" id="custAddress" /><br />
+            <button onclick="updateCustomerAccount()">Lưu</button>
+            <button onclick="cancelForm()">Hủy</button>
+        </div>
+    </div>
+
+    <!-- Form thêm/sửa khuyến mãi -->
+    <div id="promotionForm" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3 id="promotionFormTitle">Thêm khuyến mãi</h3>
+            <form id="promotionFormContent">
+                <label for="promotionCode">Cú pháp khuyến mãi:</label>
+                <input type="text" id="promotionCode" required>
+
+                <label for="startDate">Ngày bắt đầu:</label>
+                <input type="date" id="startDate" required>
+
+                <label for="endDate">Ngày kết thúc:</label>
+                <input type="date" id="endDate" required>
+
+                <label for="requiredAmount">Tổng tiền cần thiết:</label>
+                <input type="number" id="requiredAmount" required>
+
+                <label for="discountPercent">Phần trăm giảm:</label>
+                <input type="number" id="discountPercent" required>
+
+                <button type="submit">Lưu</button>
+                <button type="button" onclick="closePromotionForm()">Hủy</button>
+            </form>
+        </div>
+    </div>
+
     
     <script src="admin.js"></script>
 </body>

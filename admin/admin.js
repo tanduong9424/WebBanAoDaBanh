@@ -97,74 +97,220 @@ function createAccountElement(account, index) {
     return accountEl;
 }
 
+// Hiển thị form thêm tài khoản
+function showAddAccountForm() {
+    // Đặt tiêu đề form và hiện form
+    document.getElementById("formTitle").innerText = "Thêm Tài Khoản Nhân Viên";
+    document.getElementById("accountForm").style.display = "block";
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+    document.getElementById("name").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("salary").value = "";
+    document.getElementById("status").value = "Hợp lệ";
+}
 
-// Thêm tài khoản nhân viên
-function addAccount() {
-    // Tự động tăng mã tài khoản dựa trên số lượng tài khoản hiện có
+// Lưu tài khoản mới
+function saveAccount() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const name = document.getElementById("name").value;
+    const phone = document.getElementById("phone").value;
+    const email = document.getElementById("email").value;
+    const salary = document.getElementById("salary").value;
+    const status = document.getElementById("status").value;
+
+    // Tạo mã tài khoản tự động
     const accountId = `TK${accounts.length + 1}`;
-    const username = prompt("Tên tài khoản:");
-    const password = prompt("Mật khẩu:");
 
-    if (username && password) {
-        // Tạo tài khoản nhân viên
-        const newAccount = {
-            id: accountId,  // Mã tài khoản tự động tăng
-            username: username,
-            password: password,
-            role: "Nhân viên",
-            status: "Hợp lệ"
-        };
-        accounts.push(newAccount);
+    // Tạo tài khoản nhân viên
+    const newAccount = {
+        id: accountId,
+        username: username,
+        password: password,
+        role: "Nhân viên",
+        status: status
+    };
 
-        // Nhập thông tin nhân viên và tạo mã nhân viên tự động
-        const tennv = prompt("Tên nhân viên:");
-        const sdt = prompt("Số điện thoại:");
-        const email = prompt("Email:");
-        const luong = prompt("Lương:");
-        
-        const manv = `NV${employee.length + 1}`;  // Mã nhân viên tự động tăng
+    accounts.push(newAccount);
 
-        const newEmployee = {
-            matk: newAccount.id, // Liên kết với mã tài khoản
-            manv: manv,
-            tennv: tennv,
-            sdt: sdt,
-            email: email,
-            luong: luong
-        };
-        employee.push(newEmployee);
+    // Tạo thông tin nhân viên
+    const empId = `NV${employee.length + 1}`;
+    const newEmployee = {
+        matk: accountId,
+        manv: empId,
+        tennv: name,
+        sdt: phone,
+        email: email,
+        luong: salary
+    };
+    employee.push(newEmployee);
 
-        // Lưu dữ liệu vào localStorage
-        saveData();
-        renderAccounts();
+    saveData();
+    renderAccounts();
+    cancelForm();
+}
+
+// Hủy form thêm hoặc sửa tài khoản
+function cancelForm() {
+    // Ẩn form và đưa các trường về trạng thái ban đầu
+    document.getElementById("accountForm").style.display = "none";
+    document.getElementById("editAdminForm").style.display = "none";
+    document.getElementById("editEmployeeForm").style.display = "none";
+    document.getElementById("editCustomerForm").style.display = "none";
+}
+
+// Hiển thị form sửa tài khoản
+function showEditAccountForm(index) {
+    const account = accounts[index];
+    const emp = employee.find(e => e.matk === account.id);
+    const cust = customer.find(c => c.matk === account.id);
+
+    // Ẩn tất cả form trước khi hiển thị form phù hợp
+    document.getElementById("editAdminForm").style.display = "none";
+    document.getElementById("editEmployeeForm").style.display = "none";
+    document.getElementById("editCustomerForm").style.display = "none";
+
+    if (account.role === "admin") {
+        // Hiển thị form sửa Admin
+        document.getElementById("editAdminForm").style.display = "block";
+        document.getElementById("adminPassword").value = account.password;
+    } else if (account.role === "Nhân viên") {
+        // Hiển thị form sửa Nhân viên
+        document.getElementById("editEmployeeForm").style.display = "block";
+        document.getElementById("empUsername").value = account.username;
+        document.getElementById("empPassword").value = account.password;
+        document.getElementById("empStatus").value = account.status;
+
+        if (emp) {
+            document.getElementById("empName").value = emp.tennv;
+            document.getElementById("empPhone").value = emp.sdt;
+            document.getElementById("empEmail").value = emp.email;
+            document.getElementById("empSalary").value = emp.luong;
+        }
+    } else if (account.role === "Khách hàng") {
+        // Hiển thị form sửa Khách hàng
+        document.getElementById("editCustomerForm").style.display = "block";
+        document.getElementById("custUsername").value = account.username;
+        document.getElementById("custPassword").value = account.password;
+
+        if (cust) {
+            document.getElementById("custName").value = cust.tenkh;
+            document.getElementById("custPhone").value = cust.sdt;
+            document.getElementById("custEmail").value = cust.email;
+            document.getElementById("custAddress").value = cust.diachi;
+        }
     }
+
+    // Lưu lại chỉ số tài khoản đang chỉnh sửa
+    editAccountIndex = index;
 }
 
 
-// Sửa thông tin tài khoản
-function editAccount(index) {
+
+// Cập nhật tài khoản
+function updateAccount(index) {
     const account = accounts[index];
-    const newPassword = prompt("Mật khẩu:", account.password);
-    const newStatus = prompt("Trạng thái (Hợp lệ hoặc Không hợp lệ):", account.status);
+    const password = document.getElementById("password").value;
+    const status = document.getElementById("status").value;
 
-    if (newPassword && newStatus) {
-        account.password = newPassword;
-        account.status = newStatus;
+    // Cập nhật thông tin cơ bản của tài khoản
+    account.password = password;
+    account.status = status;
 
-        // Nếu tài khoản là nhân viên, cho phép sửa thông tin cá nhân
-        if (account.role === 'Nhân viên') {
-            const emp = employee.find(e => e.matk === account.id);
-            if (emp) {
-                emp.tennv = prompt("Tên nhân viên:", emp.tennv) || emp.tennv;
-                emp.sdt = prompt("Số điện thoại:", emp.sdt) || emp.sdt;
-                emp.email = prompt("Email:", emp.email) || emp.email;
-                emp.luong = prompt("Lương:", emp.luong) || emp.luong;
-            }
+    // Nếu tài khoản là nhân viên, cập nhật thông tin nhân viên
+    if (account.role === "Nhân viên") {
+        const name = document.getElementById("name").value;
+        const phone = document.getElementById("phone").value;
+        const email = document.getElementById("email").value;
+        const salary = document.getElementById("salary").value;
+
+        const emp = employee.find(e => e.matk === account.id);
+        if (emp) {
+            emp.tennv = name;
+            emp.sdt = phone;
+            emp.email = email;
+            emp.luong = salary;
         }
-
-        saveData();
-        renderAccounts();
     }
+
+    // Nếu tài khoản là khách hàng, cập nhật thông tin khách hàng
+    if (account.role === "Khách hàng") {
+        const name = document.getElementById("name").value;
+        const phone = document.getElementById("phone").value;
+        const email = document.getElementById("email").value;
+        const address = document.getElementById("address").value;
+
+        const cust = customer.find(c => c.matk === account.id);
+        if (cust) {
+            cust.tenkh = name;
+            cust.sdt = phone;
+            cust.email = email;
+            cust.diachi = address;
+        }
+    }
+
+    saveData();
+    renderAccounts();
+    cancelForm();
+}
+
+function updateAdminAccount() {
+    const account = accounts[editAccountIndex];
+    account.password = document.getElementById("adminPassword").value;
+    saveData();
+    renderAccounts();
+    cancelForm();
+}
+
+function updateEmployeeAccount() {
+    const account = accounts[editAccountIndex];
+    const emp = employee.find(e => e.matk === account.id);
+
+    account.password = document.getElementById("empPassword").value;
+    account.status = document.getElementById("empStatus").value;
+
+    if (emp) {
+        emp.tennv = document.getElementById("empName").value;
+        emp.sdt = document.getElementById("empPhone").value;
+        emp.email = document.getElementById("empEmail").value;
+        emp.luong = document.getElementById("empSalary").value;
+    }
+
+    saveData();
+    renderAccounts();
+    cancelForm();
+}
+
+function updateCustomerAccount() {
+    const account = accounts[editAccountIndex];
+    const cust = customer.find(c => c.matk === account.id);
+
+    account.password = document.getElementById("custPassword").value;
+
+    if (cust) {
+        cust.tenkh = document.getElementById("custName").value;
+        cust.sdt = document.getElementById("custPhone").value;
+        cust.email = document.getElementById("custEmail").value;
+        cust.diachi = document.getElementById("custAddress").value;
+    }
+
+    saveData();
+    renderAccounts();
+    cancelForm();
+}
+
+
+function addAccount() {
+    isEditMode = false; 
+    showAddAccountForm(); // Hiển thị form thêm tài khoản
+}
+
+function editAccount(index) {
+    isEditMode = true;
+    editAccountIndex = index;
+    showEditAccountForm(index);  // Hiển thị form sửa tài khoản
 }
 
 
@@ -269,36 +415,83 @@ function renderFilteredPromotions(filteredPromotions) {
     });
 }
 
-// Thêm khuyến mãi
-function addPromotion() {
-    const newPromotion = {
-        id: `KM${Date.now()}`,
-        code: prompt("Cú pháp khuyến mãi:"),
-        createdDate: new Date().toISOString().split('T')[0],
-        startDate: prompt("Ngày bắt đầu (YYYY-MM-DD):"),
-        endDate: prompt("Ngày kết thúc (YYYY-MM-DD):"),
-        requiredAmount: prompt("Tổng tiền cần thiết:"),
-        discountPercent: prompt("Phần trăm giảm:")
-    };
-    if (newPromotion.code && newPromotion.startDate && newPromotion.endDate) {
-        promotions.push(newPromotion);
-        saveData();
-        renderPromotions();
+// Hiển thị form thêm/sửa khuyến mãi
+function openPromotionForm(isEdit, index) {
+    const form = document.getElementById("promotionForm");
+    const title = document.getElementById("promotionFormTitle");
+    const formContent = document.getElementById("promotionFormContent");
+
+    if (isEdit) {
+        title.textContent = "Sửa khuyến mãi";
+        const promotion = promotions[index];
+        document.getElementById("promotionCode").value = promotion.code;
+        document.getElementById("startDate").value = promotion.startDate;
+        document.getElementById("endDate").value = promotion.endDate;
+        document.getElementById("requiredAmount").value = promotion.requiredAmount;
+        document.getElementById("discountPercent").value = promotion.discountPercent;
+    } else {
+        title.textContent = "Thêm khuyến mãi";
+        formContent.reset();
     }
+
+    form.style.display = "block";
 }
 
-// Sửa khuyến mãi
-function editPromotion(index) {
-    const promotion = promotions[index];
-    promotion.code = prompt("Cú pháp:", promotion.code);
-    promotion.startDate = prompt("Ngày bắt đầu (YYYY-MM-DD):", promotion.startDate);
-    promotion.endDate = prompt("Ngày kết thúc (YYYY-MM-DD):", promotion.endDate);
-    promotion.requiredAmount = prompt("Tổng tiền cần thiết:", promotion.requiredAmount);
-    promotion.discountPercent = prompt("Phần trăm giảm:", promotion.discountPercent);
+// Đóng form khuyến mãi
+function closePromotionForm() {
+    document.getElementById("promotionForm").style.display = "none";
+}
+
+// Thêm hoặc sửa khuyến mãi
+document.getElementById("promotionFormContent").onsubmit = function(event) {
+    event.preventDefault();
+
+    const code = document.getElementById("promotionCode").value;
+    const startDate = document.getElementById("startDate").value;
+    const endDate = document.getElementById("endDate").value;
+    const requiredAmount = document.getElementById("requiredAmount").value;
+    const discountPercent = document.getElementById("discountPercent").value;
+
+    if (!code || !startDate || !endDate || !requiredAmount || !discountPercent) return;
+
+    if (isPromotionEdit) {
+        // Sửa khuyến mãi
+        const promotion = promotions[promotionEditIndex];
+        promotion.code = code;
+        promotion.startDate = startDate;
+        promotion.endDate = endDate;
+        promotion.requiredAmount = requiredAmount;
+        promotion.discountPercent = discountPercent;
+    } else {
+        // Thêm khuyến mãi
+        const promotionId = `KM${promotions.length + 1}`;
+        const newPromotion = {
+            id: promotionId,
+            code: code,
+            createdDate: new Date().toISOString().split('T')[0],
+            startDate: startDate,
+            endDate: endDate,
+            requiredAmount: requiredAmount,
+            discountPercent: discountPercent
+        };
+        promotions.push(newPromotion);
+    }
+
     saveData();
     renderPromotions();
+    closePromotionForm();
+};
+
+function addPromotion() {
+    isPromotionEdit = false;
+    openPromotionForm(false);  // Hiển thị form thêm khuyến mãi
 }
 
+function editPromotion(index) {
+    isPromotionEdit = true;
+    promotionEditIndex = index;
+    openPromotionForm(true, index);  // Hiển thị form sửa khuyến mãi
+}
 // Xóa khuyến mãi
 function deletePromotion(index) {
     if (confirm("Bạn có chắc chắn muốn xóa khuyến mãi này?")) {
