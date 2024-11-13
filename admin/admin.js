@@ -1,5 +1,10 @@
 let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+let employee = JSON.parse(localStorage.getItem("employee")) || [];
+let customer = JSON.parse(localStorage.getItem("customer")) || [];
 let promotions = JSON.parse(localStorage.getItem("promotions")) || [];
+
+
+
 
 // Hiển thị danh sách tài khoản
 function renderAccounts() {
@@ -11,57 +16,157 @@ function renderAccounts() {
     });
 }
 
+//Lọc tài khoản
+function filterAccountsByType() {
+    const selectedType = document.getElementById("accountTypeFilter").value;
+    const filteredAccounts = selectedType 
+        ? accounts.filter(account => account.role === selectedType) 
+        : accounts;  // Nếu không chọn loại, hiển thị tất cả
+
+    renderFilteredAccounts(filteredAccounts);
+}
+
+
+//Xem thông tin chi tiết của tài khoản
+function viewAccountDetails(index) {
+    const account = accounts[index];
+    let detailContent = '';
+
+    if (account.role === 'Nhân viên') {
+        const emp = employee.find(e => e.matk === account.id);  // So sánh với account.id
+        if (emp) {
+            detailContent = `
+                <p><strong>Mã nhân viên:</strong> ${emp.manv}</p>
+                <p><strong>Tên nhân viên:</strong> ${emp.tennv}</p>
+                <p><strong>SĐT:</strong> ${emp.sdt}</p>
+                <p><strong>Email:</strong> ${emp.email}</p>
+                <p><strong>Lương:</strong> ${emp.luong}</p>
+            `;
+        } else {
+            detailContent = `<p>Thông tin nhân viên không tìm thấy.</p>`;
+        }
+    } else if (account.role === 'Khách hàng') {
+        const cust = customer.find(c => c.matk === account.id);  // So sánh với account.id
+        if (cust) {
+            detailContent = `
+                <p><strong>Mã khách hàng:</strong> ${cust.makh}</p>
+                <p><strong>Tên khách hàng:</strong> ${cust.tenkh}</p>
+                <p><strong>SĐT:</strong> ${cust.sdt}</p>
+                <p><strong>Email:</strong> ${cust.email}</p>
+                <p><strong>Địa chỉ:</strong> ${cust.diachi}</p>
+            `;
+        } else {
+            detailContent = `<p>Thông tin khách hàng không tìm thấy.</p>`;
+        }
+    }
+
+    document.getElementById("detailContent").innerHTML = detailContent;
+    document.getElementById("detailModal").style.display = "block";
+}
+
+
+
+//Nút đóng bảng thông tin chi tiết
+function closeModal() {
+    document.getElementById("detailModal").style.display = "none";
+}
+
+
 // Tạo phần tử hiển thị tài khoản
 function createAccountElement(account, index) {
+    // Chỉ hiển thị nút "Xem chi tiết" nếu tài khoản không phải là admin
+    const detailButton = account.role !== 'admin' 
+        ? `<button onclick="viewAccountDetails(${index})">Xem chi tiết</button>` 
+        : '';
+
     const accountEl = document.createElement("div");
     accountEl.className = "account";
     accountEl.innerHTML = `
-        <span>Mã: ${account.id}</span>
-        <span>Tên: ${account.username}</span>
+        <span>Mã tài khoản: ${account.id}</span>
+        <span>Tên đăng nhập: ${account.username}</span>
         <span>Mật khẩu: ${account.password}</span>
         <span>Loại: ${account.role}</span>
         <span>Trạng thái: ${account.status}</span>
         <div>
+            ${detailButton}
             <button onclick="editAccount(${index})">Sửa</button>
             <button onclick="deleteAccount(${index})">Xóa</button>
         </div>
     `;
+
     return accountEl;
 }
 
+
 // Thêm tài khoản nhân viên
 function addAccount() {
+    // Tự động tăng mã tài khoản dựa trên số lượng tài khoản hiện có
+    const accountId = `TK${accounts.length + 1}`;
     const username = prompt("Tên tài khoản:");
     const password = prompt("Mật khẩu:");
+
     if (username && password) {
+        // Tạo tài khoản nhân viên
         const newAccount = {
-            id: `NV${Date.now()}`,
+            id: accountId,  // Mã tài khoản tự động tăng
             username: username,
             password: password,
             role: "Nhân viên",
             status: "Hợp lệ"
         };
         accounts.push(newAccount);
+
+        // Nhập thông tin nhân viên và tạo mã nhân viên tự động
+        const tennv = prompt("Tên nhân viên:");
+        const sdt = prompt("Số điện thoại:");
+        const email = prompt("Email:");
+        const luong = prompt("Lương:");
+        
+        const manv = `NV${employee.length + 1}`;  // Mã nhân viên tự động tăng
+
+        const newEmployee = {
+            matk: newAccount.id, // Liên kết với mã tài khoản
+            manv: manv,
+            tennv: tennv,
+            sdt: sdt,
+            email: email,
+            luong: luong
+        };
+        employee.push(newEmployee);
+
+        // Lưu dữ liệu vào localStorage
         saveData();
         renderAccounts();
     }
 }
+
 
 // Sửa thông tin tài khoản
 function editAccount(index) {
     const account = accounts[index];
-    const newUsername = prompt("Tên tài khoản:", account.username);
     const newPassword = prompt("Mật khẩu:", account.password);
     const newStatus = prompt("Trạng thái (Hợp lệ hoặc Không hợp lệ):", account.status);
 
-    if (newUsername && newPassword && newStatus) {
-        account.username = newUsername;
+    if (newPassword && newStatus) {
         account.password = newPassword;
         account.status = newStatus;
+
+        // Nếu tài khoản là nhân viên, cho phép sửa thông tin cá nhân
+        if (account.role === 'Nhân viên') {
+            const emp = employee.find(e => e.matk === account.id);
+            if (emp) {
+                emp.tennv = prompt("Tên nhân viên:", emp.tennv) || emp.tennv;
+                emp.sdt = prompt("Số điện thoại:", emp.sdt) || emp.sdt;
+                emp.email = prompt("Email:", emp.email) || emp.email;
+                emp.luong = prompt("Lương:", emp.luong) || emp.luong;
+            }
+        }
+
         saveData();
         renderAccounts();
     }
 }
+
 
 // Xóa tài khoản
 function deleteAccount(index) {
@@ -91,6 +196,7 @@ function renderFilteredAccounts(filteredAccounts) {
         container.appendChild(accountEl);
     });
 }
+
 
 // Hiển thị danh sách khuyến mãi
 function renderPromotions() {
@@ -206,6 +312,8 @@ function deletePromotion(index) {
 function saveData() {
     localStorage.setItem("accounts", JSON.stringify(accounts));
     localStorage.setItem("promotions", JSON.stringify(promotions));
+    localStorage.setItem("employee", JSON.stringify(employee));
+    localStorage.setItem("customer", JSON.stringify(customer));
 }
 
 // Chuyển đổi giữa các panel

@@ -17,6 +17,12 @@
             <div class="top_label">Quản lý Tài khoản</div>
             <input type="text" id="searchAccount" placeholder="Tìm kiếm theo tên tài khoản..." oninput="filterAccounts()" />
             <button onclick="addAccount()">Thêm Tài Khoản Nhân Viên</button>
+            <!-- Dropdown lọc loại tài khoản -->
+            <select id="accountTypeFilter" onchange="filterAccountsByType()">
+                <option value="">Tất cả</option>
+                <option value="Nhân viên">Nhân viên</option>
+                <option value="Khách hàng">Khách hàng</option>
+            </select>
             <div id="accounts_container"></div>
         </div>
 
