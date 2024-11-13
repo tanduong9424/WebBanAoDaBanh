@@ -3,6 +3,82 @@ let employee = JSON.parse(localStorage.getItem("employee")) || [];
 let customer = JSON.parse(localStorage.getItem("customer")) || [];
 let promotions = JSON.parse(localStorage.getItem("promotions")) || [];
 
+// Sử dụng password default nếu như chưa có thông tin trong local storage
+if (!localStorage.getItem("adminCredentials")) {
+    const defaultCredentials = {
+        username: "admin",
+        password: "admin"
+    };
+    localStorage.setItem("adminCredentials", JSON.stringify(defaultCredentials));
+}
+
+
+//Đổi pass admin
+function updateAdminPassword(newPassword) {
+    let storedCredentials = JSON.parse(localStorage.getItem("adminCredentials")) || {};
+    storedCredentials.password = newPassword;  // Update the password
+    localStorage.setItem("adminCredentials", JSON.stringify(storedCredentials));  // Save to localStorage
+    console.log("Updated admin credentials:", storedCredentials);  // Log to verify
+    alert("Password updated successfully!");
+}
+
+
+function changePassword() {
+    const newPassword = document.getElementById("newAdminPassword").value;
+    if (newPassword) {
+        updateAdminPassword(newPassword);  // Call update function to save the new password
+        document.getElementById("changePasswordForm").style.display = "none";  // Hide form after update
+    } else {
+        alert("Please enter a new password.");
+    }
+}
+
+
+//Đăng nhập
+function login() {
+    const username = document.getElementById("loginUsername").value;
+    const password = document.getElementById("loginPassword").value;
+
+    // Retrieve credentials from localStorage
+    const storedCredentials = JSON.parse(localStorage.getItem("adminCredentials")) || {};
+    console.log("Stored credentials at login:", storedCredentials);  // Log to verify credentials
+
+    // Check if entered credentials match the stored credentials
+    if (username === storedCredentials.username && password === storedCredentials.password) {
+        localStorage.setItem("isLoggedIn", "true");  // Set session as logged in
+        document.getElementById("loginPage").style.display = "none";  // Hide login form
+        document.getElementById("tab_menu").style.display = "block";  // Show admin dashboard
+        document.getElementById("main_content").style.display = "block";
+        document.getElementById("logoutButton").style.display = "block";  // Show logout button
+    } else {
+        alert("Invalid credentials");
+    }
+}
+
+window.onload = () => {
+    if (localStorage.getItem("isLoggedIn") === "true") {
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("tab_menu").style.display = "block";
+        document.getElementById("main_content").style.display = "block";
+        document.getElementById("logoutButton").style.display = "block";  // Show logout button
+        renderAccounts();
+        renderPromotions();
+    } else {
+        document.getElementById("loginPage").style.display = "flex";
+        document.getElementById("tab_menu").style.display = "none";
+        document.getElementById("main_content").style.display = "none";
+        document.getElementById("logoutButton").style.display = "none";  // Hide logout button
+    }
+};
+function logout() {
+    localStorage.removeItem("isLoggedIn");  // Clear the login session
+    location.reload();  // Reload the page to show the login screen
+}
+
+
+
+
+
 
 
 

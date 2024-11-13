@@ -7,6 +7,18 @@
     <title>Admin Dashboard</title>
 </head>
 <body>
+    <!--Đăng nhập cho admin-->
+    <div id="loginPage" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 5px 10px rgba(0,0,0,0.2); width: 300px;">
+            <h2>Admin Login</h2>
+            <label>Username:</label>
+            <input type="text" id="loginUsername" style="width: 100%; margin-bottom: 10px;">
+            <label>Password:</label>
+            <input type="password" id="loginPassword" style="width: 100%; margin-bottom: 10px;">
+            <button onclick="login()" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px;">Login</button>
+        </div>
+    </div>
+    
     <div id="tab_menu">
         <div><a href="#" onclick="showPanel('account', event)">Quản lý tài khoản</a></div>
         <div><a href="#" onclick="showPanel('promotion', event)">Quản lý khuyến mãi</a></div>
@@ -154,7 +166,8 @@
             </form>
         </div>
     </div>
-
+    <!--Log out-->
+    <button id="logoutButton" onclick="logout()" style="display: none;">Đăng xuất</button>
     
     <script src="admin.js"></script>
 </body>
