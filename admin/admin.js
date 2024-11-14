@@ -41,42 +41,44 @@ function login() {
 
     const storedCredentials = JSON.parse(localStorage.getItem("adminCredentials")) || {};
 
+    // Validate credentials
     if (username === storedCredentials.username && password === storedCredentials.password) {
-        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("isLoggedIn", "true");  // Set session as logged in
         document.getElementById("loginPage").style.display = "none";
         document.getElementById("tab_menu").style.display = "block";
         document.getElementById("main_content").style.display = "block";
         document.getElementById("logoutButton").style.display = "block";
     } else {
         alert("Invalid credentials");
+        localStorage.setItem("isLoggedIn", "false");  // Ensure isLoggedIn is false on failed login
     }
 }
 
 
 window.onload = () => {
-    if (localStorage.getItem("isLoggedIn") === "true") {
+    // Check if user is logged in; default to false if not set
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+        localStorage.setItem("isLoggedIn", "false");
+        document.getElementById("loginPage").style.display = "flex";  // Show login page
+        document.getElementById("tab_menu").style.display = "none";  // Hide dashboard content
+        document.getElementById("main_content").style.display = "none";
+        document.getElementById("logoutButton").style.display = "none";
+    } else {
+        // User is logged in, display dashboard content
         document.getElementById("loginPage").style.display = "none";
         document.getElementById("tab_menu").style.display = "block";
         document.getElementById("main_content").style.display = "block";
-        document.getElementById("logoutButton").style.display = "block";  // Show logout button
+        document.getElementById("logoutButton").style.display = "block";
         renderAccounts();
         renderPromotions();
-    } else {
-        document.getElementById("loginPage").style.display = "flex";
-        document.getElementById("tab_menu").style.display = "none";
-        document.getElementById("main_content").style.display = "none";
-        document.getElementById("logoutButton").style.display = "none";  // Hide logout button
     }
 };
+
+
 function logout() {
-    localStorage.removeItem("isLoggedIn");  // Clear the login session
-    location.reload();  // Reload the page to show the login screen
+    localStorage.setItem("isLoggedIn", "false");  // Reset login status
+    location.reload();  // Reload to show the login screen
 }
-
-
-
-
-
 
 
 
@@ -85,10 +87,13 @@ function renderAccounts() {
     const container = document.getElementById("accounts_container");
     container.innerHTML = '';
     accounts.forEach((account, index) => {
-        const accountEl = createAccountElement(account, index);
-        container.appendChild(accountEl);
+        if (!account.isHidden) {  // Only render accounts that are not hidden
+            const accountEl = createAccountElement(account, index);
+            container.appendChild(accountEl);
+        }
     });
 }
+
 
 //Lọc tài khoản
 function filterAccountsByType() {
@@ -148,10 +153,14 @@ function closeModal() {
 
 // Tạo phần tử hiển thị tài khoản
 function createAccountElement(account, index) {
-    // Chỉ hiển thị nút "Xem chi tiết" nếu tài khoản không phải là admin
-    const detailButton = account.role !== 'admin' 
-        ? `<button onclick="viewAccountDetails(${index})">Xem chi tiết</button>` 
-        : '';
+    // Only show the "Sửa" button if the account is admin; otherwise, show all buttons
+    const actionButtons = account.role === 'admin'
+        ? `<button onclick="editAccount(${index})">Sửa</button>`
+        : `
+            <button onclick="viewAccountDetails(${index})">Xem chi tiết</button>
+            <button onclick="editAccount(${index})">Sửa</button>
+            <button onclick="deleteAccount(${index})">Xóa</button>
+        `;
 
     const accountEl = document.createElement("div");
     accountEl.className = "account";
@@ -162,14 +171,13 @@ function createAccountElement(account, index) {
         <span>Loại: ${account.role}</span>
         <span>Trạng thái: ${account.status}</span>
         <div>
-            ${detailButton}
-            <button onclick="editAccount(${index})">Sửa</button>
-            <button onclick="deleteAccount(${index})">Xóa</button>
+            ${actionButtons}
         </div>
     `;
 
     return accountEl;
 }
+
 
 // Hiển thị form thêm tài khoản
 function showAddAccountForm() {
@@ -204,7 +212,8 @@ function saveAccount() {
         username: username,
         password: password,
         role: "Nhân viên",
-        status: status
+        status: status,
+        isHidden: false
     };
 
     accounts.push(newAccount);
@@ -217,7 +226,8 @@ function saveAccount() {
         tennv: name,
         sdt: phone,
         email: email,
-        luong: salary
+        luong: salary,
+        isHidden: false
     };
     employee.push(newEmployee);
 
@@ -403,12 +413,13 @@ function editAccount(index) {
 
 // Xóa tài khoản
 function deleteAccount(index) {
-    if (confirm("Bạn có chắc chắn muốn xóa tài khoản này?")) {
-        accounts.splice(index, 1);
+    if (confirm("Bạn có chắc chắn muốn ẩn tài khoản này?")) {
+        accounts[index].isHidden = true;  // Set isHidden to true instead of deleting
         saveData();
-        renderAccounts();
+        renderAccounts();  // Refresh the displayed list
     }
 }
+
 
 // Tìm kiếm tài khoản
 function filterAccounts() {
@@ -430,28 +441,72 @@ function renderFilteredAccounts(filteredAccounts) {
     });
 }
 
+//Hiển thị tài khoản đã ẩn
+function showHiddenAccounts() {
+    document.getElementById("account_panel").style.display = "none";  // Hide main accounts panel
+    document.getElementById("hiddenAccountsPanel").style.display = "flex";  // Show hidden accounts panel
+    renderHiddenAccounts();
+}
+
+function showMainAccounts() {
+    document.getElementById("account_panel").style.display = "block";  // Show main accounts panel
+    document.getElementById("hiddenAccountsPanel").style.display = "none";  // Hide hidden accounts panel
+}
+
+
+function renderHiddenAccounts() {
+    const container = document.getElementById("hiddenAccountsContainer");
+    container.innerHTML = '';  // Clear previous content
+
+    accounts.forEach((account, index) => {
+        if (account.isHidden) {  // Only show hidden accounts
+            const accountEl = document.createElement("div");
+            accountEl.className = "account";
+            accountEl.innerHTML = `
+                <span>Mã tài khoản: ${account.id}</span>
+                <span>Tên đăng nhập: ${account.username}</span>
+                <span>Loại: ${account.role}</span>
+                <span>Trạng thái: ${account.status}</span>
+                <div>
+                    <button onclick="restoreAccount(${index})">Khôi phục</button>
+                </div>
+            `;
+            //<button onclick="viewAccountDetails(${index})">Xem chi tiết</button>
+            container.appendChild(accountEl);
+        }
+    });
+}
+function restoreAccount(index) {
+    accounts[index].isHidden = false;  // Set isHidden to false to restore the account
+    saveData();
+    renderHiddenAccounts();  // Refresh the hidden accounts view
+    renderAccounts();  // Refresh the main accounts view to show the restored account
+}
+
 
 // Hiển thị danh sách khuyến mãi
 function renderPromotions() {
     const container = document.getElementById("promotions_container");
     container.innerHTML = '';
     promotions.forEach((promotion, index) => {
-        const promotionEl = document.createElement("div");
-        promotionEl.className = "promotion";
-        promotionEl.innerHTML = `
-            <span>Mã: ${promotion.id}</span>
-            <span>Cú pháp: ${promotion.code}</span>
-            <span>Ngày tạo: ${promotion.createdDate}</span>
-            <span>Ngày bắt đầu: ${promotion.startDate}</span>
-            <span>Ngày kết thúc: ${promotion.endDate}</span>
-            <span>Tổng tiền cần thiết: ${promotion.requiredAmount}</span>
-            <span>Phần trăm giảm: ${promotion.discountPercent}%</span>
-            <div>
-                <button onclick="editPromotion(${index})">Sửa</button>
-                <button onclick="deletePromotion(${index})">Xóa</button>
-            </div>
-        `;
-        container.appendChild(promotionEl);
+        if (!promotion.isHidden) {  // Only render promotions that are not hidden
+            const promotionEl = document.createElement("div");
+            promotionEl.className = "promotion";
+            promotionEl.innerHTML = `
+                <span>Mã: ${promotion.id}</span>
+                <span>Cú pháp: ${promotion.code}</span>
+                <span>Ngày tạo: ${promotion.createdDate}</span>
+                <span>Ngày bắt đầu: ${promotion.startDate}</span>
+                <span>Ngày kết thúc: ${promotion.endDate}</span>
+                <span>Tổng tiền cần thiết: ${promotion.requiredAmount}</span>
+                <span>Phần trăm giảm: ${promotion.discountPercent}%</span>
+                <div>
+                    <button onclick="editPromotion(${index})">Sửa</button>
+                    <button onclick="deletePromotion(${index})">Ẩn</button>
+                </div>
+            `;
+            container.appendChild(promotionEl);
+        }
     });
 }
 
@@ -559,7 +614,8 @@ document.getElementById("promotionFormContent").onsubmit = function(event) {
             startDate: startDate,
             endDate: endDate,
             requiredAmount: requiredAmount,
-            discountPercent: discountPercent
+            discountPercent: discountPercent,
+            isHidden: false
         };
         promotions.push(newPromotion);
     }
@@ -581,12 +637,13 @@ function editPromotion(index) {
 }
 // Xóa khuyến mãi
 function deletePromotion(index) {
-    if (confirm("Bạn có chắc chắn muốn xóa khuyến mãi này?")) {
-        promotions.splice(index, 1);
+    if (confirm("Bạn có chắc chắn muốn ẩn khuyến mãi này?")) {
+        promotions[index].isHidden = true;  // Set isHidden to true instead of deleting
         saveData();
-        renderPromotions();
+        renderPromotions();  // Refresh the displayed list
     }
 }
+
 
 // Lưu dữ liệu vào localStorage
 function saveData() {

@@ -9,6 +9,9 @@ html, body {
     font-family: Arial, sans-serif;
     color: #333;
 }
+#tab_menu, #main_content, #logoutButton {
+    display: none; /* Hide content by default */
+}
 
 #tab_menu {
     float: left;
@@ -303,4 +306,52 @@ html, body {
 
 #logoutButton:active {
     transform: scale(0.98); /* Slightly shrink on click */
+}
+/* Fullscreen overlay for hidden accounts panel */
+#hiddenAccountsPanel {
+    position: fixed;  /* Fixes the panel in place, like a modal */
+    top: 0;
+    left: 0;
+    width: 100vw;  /* Full viewport width */
+    height: 100vh;  /* Full viewport height */
+    background-color: rgba(255, 255, 255, 0.95);  /* Light overlay background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;  /* Ensure it appears above other content */
+    padding: 20px;
+}
+
+/* Style for the back button in the top corner */
+#backButton {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#backButton:hover {
+    background-color: #0056b3;
+}
+
+/* Centered style for each hidden account item */
+#hiddenAccountsContainer .account {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    transition: background-color 0.3s;
 }
