@@ -16,9 +16,9 @@ if (!localStorage.getItem("adminCredentials")) {
 //Đổi pass admin
 function updateAdminPassword(newPassword) {
     let storedCredentials = JSON.parse(localStorage.getItem("adminCredentials")) || {};
-    storedCredentials.password = newPassword;  // Update the password
-    localStorage.setItem("adminCredentials", JSON.stringify(storedCredentials));  // Save to localStorage
-    console.log("Updated admin credentials:", storedCredentials);  // Log to verify
+    storedCredentials.password = newPassword;
+    localStorage.setItem("adminCredentials", JSON.stringify(storedCredentials));
+    console.log("Updated admin credentials:", storedCredentials);
     alert("Password updated successfully!");
 }
 
@@ -39,21 +39,19 @@ function login() {
     const username = document.getElementById("loginUsername").value;
     const password = document.getElementById("loginPassword").value;
 
-    // Retrieve credentials from localStorage
     const storedCredentials = JSON.parse(localStorage.getItem("adminCredentials")) || {};
-    console.log("Stored credentials at login:", storedCredentials);  // Log to verify credentials
 
-    // Check if entered credentials match the stored credentials
     if (username === storedCredentials.username && password === storedCredentials.password) {
-        localStorage.setItem("isLoggedIn", "true");  // Set session as logged in
-        document.getElementById("loginPage").style.display = "none";  // Hide login form
-        document.getElementById("tab_menu").style.display = "block";  // Show admin dashboard
+        localStorage.setItem("isLoggedIn", "true");
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("tab_menu").style.display = "block";
         document.getElementById("main_content").style.display = "block";
-        document.getElementById("logoutButton").style.display = "block";  // Show logout button
+        document.getElementById("logoutButton").style.display = "block";
     } else {
         alert("Invalid credentials");
     }
 }
+
 
 window.onload = () => {
     if (localStorage.getItem("isLoggedIn") === "true") {
@@ -333,12 +331,25 @@ function updateAccount(index) {
 }
 
 function updateAdminAccount() {
-    const account = accounts[editAccountIndex];
-    account.password = document.getElementById("adminPassword").value;
+    const newPassword = document.getElementById("adminPassword").value;
+
+    // Update the password in adminCredentials in localStorage
+    updateAdminPassword(newPassword);
+
+    // Find the admin account in the accounts array
+    const adminAccount = accounts.find(account => account.role === "admin");
+    if (adminAccount) {
+        adminAccount.password = newPassword;  // Update the password in accounts array
+    }
+
+    // Save the updated accounts array to localStorage
     saveData();
     renderAccounts();
-    cancelForm();
+    alert("Admin password updated successfully.");
+    cancelForm();  // Close the form
 }
+
+
 
 function updateEmployeeAccount() {
     const account = accounts[editAccountIndex];
