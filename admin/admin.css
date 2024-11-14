@@ -355,3 +355,36 @@ html, body {
     margin: 10px 0;
     transition: background-color 0.3s;
 }
+/* Ẩn nút tăng/giảm ở trường lương, tổng tiền và phần trăm giảm */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}
+/* Giao diện khuyến mãi đã ẩn giống với tài khoản đã ẩn */
+.hidden-promotions-list {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.hidden-promotion-item {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    background-color: #fff;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.hidden-promotion-item div {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}

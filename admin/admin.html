@@ -35,7 +35,7 @@
                 <option value="Nhân viên">Nhân viên</option>
                 <option value="Khách hàng">Khách hàng</option>
             </select>
-            <button onclick="showHiddenAccounts()">Xem tài khoản đã ẩn</button>
+            <button onclick="showHiddenAccounts()">Xem tài khoản đã xóa</button>
             <div id="accounts_container"></div>
         </div>
 
@@ -47,6 +47,11 @@
             <label>
                 <input type="checkbox" id="activeOnly" onchange="filterPromotions()"> Chỉ hiển thị khuyến mãi đang hoạt động
             </label>
+            <button onclick="toggleHiddenPromotions()">Xem khuyến mãi đã xóa</button>
+            <div id="hiddenPromotionsContainer" style="display: none;">
+                <h3>Khuyến mãi đã ẩn</h3>
+                <div id="hiddenPromotionsList"></div>
+            </div>
             <div id="promotions_container"></div>
         </div>
     </div>
@@ -173,6 +178,14 @@
             </form>
         </div>
     </div>
+
+    <!-- Container hiển thị khuyến mãi đã ẩn, giống giao diện tài khoản đã ẩn -->
+    <div id="hiddenPromotionsContainer" style="display: none;">
+        <h3>Khuyến mãi đã ẩn</h3>
+        <div id="hiddenPromotionsList" class="hidden-promotions-list"></div>
+        <button onclick="toggleHiddenPromotions()">Đóng</button>
+    </div>
+
     <!--Log out-->
     <button id="logoutButton" onclick="logout()" style="display: none;">Đăng xuất</button>
     
