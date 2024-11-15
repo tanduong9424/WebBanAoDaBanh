@@ -22,20 +22,24 @@
     <div id="tab_menu">
         <div><a href="#" onclick="showPanel('account', event)">Quản lý tài khoản</a></div>
         <div><a href="#" onclick="showPanel('promotion', event)">Quản lý khuyến mãi</a></div>
+        <div><a href="#" onclick="showPanel('statistics', event)">Thống kê</a></div>
     </div>
     <div id="main_content">
         <!-- Quản lý tài khoản -->
         <div id="account_panel" style="display: block;">
             <div class="top_label">Quản lý Tài khoản</div>
-            <input type="text" id="searchAccount" placeholder="Tìm kiếm theo tên tài khoản..." oninput="filterAccounts()" />
+            <input type="text" id="searchAccount" placeholder="Tìm kiếm theo tên tài khoản..." oninput="applyFilters()" />
             <button onclick="addAccount()">Thêm Tài Khoản Nhân Viên</button>
             <!-- Dropdown lọc loại tài khoản -->
-            <select id="accountTypeFilter" onchange="filterAccountsByType()">
+            <select id="accountTypeFilter" onchange="applyFilters()">
                 <option value="">Tất cả</option>
                 <option value="Nhân viên">Nhân viên</option>
                 <option value="Khách hàng">Khách hàng</option>
             </select>
             <button onclick="showHiddenAccounts()">Xem tài khoản đã xóa</button>
+            <label>
+                <input type="checkbox" id="showLockedAccounts" onclick="applyFilters()"> Hiển thị tài khoản bị khóa
+            </label>
             <div id="accounts_container"></div>
         </div>
 
@@ -48,13 +52,26 @@
                 <input type="checkbox" id="activeOnly" onchange="filterPromotions()"> Chỉ hiển thị khuyến mãi đang hoạt động
             </label>
             <button onclick="toggleHiddenPromotions()">Xem khuyến mãi đã xóa</button>
-            <div id="hiddenPromotionsContainer" style="display: none;">
-                <h3>Khuyến mãi đã ẩn</h3>
-                <div id="hiddenPromotionsList"></div>
-            </div>
             <div id="promotions_container"></div>
         </div>
+        <!--Thống kê-->
+        <div id="statistics_panel" style="display: none;">
+            <h2>Thống kê tình hình kinh doanh</h2>
+            <div>
+                <label for="startDate">Từ ngày:</label>
+                <input type="date" id="startDate" onchange="validateDates()">
+                
+                <label for="endDate">Đến ngày:</label>
+                <input type="date" id="endDate" max="" onchange="validateDates()">
+                
+                <button onclick="generateStatistics()">Thống kê</button>
+            </div>
+            <div id="productStatistics"></div>
+            <div id="customerStatistics"></div>
+        </div>
+        
     </div>
+    
 
     <!-- Modal Popup ẩn -->
     <div id="detailModal" class="modal" style="display: none;">
@@ -64,11 +81,21 @@
         </div>
     </div>
     <!--Giao diện tài khoản đã ẩn-->
-    <div id="hiddenAccountsPanel" style="display: none;">
-        <button id="backButton" onclick="showMainAccounts()">Quay lại</button>
-        <div id="hiddenAccountsContainer"></div>
+    <div id="hiddenAccountsPanel" class="modal" style="display: none;">
+        <div class="pop-up">
+            <h3>Tài khoản đã xóa</h3>
+            <div id="hiddenAccountsContainer"></div>
+            <button id="backButton" onclick="showMainAccounts()">Quay lại</button>
+        </div>
     </div>
-    
+    <!--Giao diện khuyến mãi đã ẩn-->  
+    <div id="hiddenPromotionsContainer" class="modal" style="display: none;">
+        <div class="pop-up">
+            <h3>Khuyến mãi đã ẩn</h3>
+            <div id="hiddenPromotionsList"></div>
+            <button id="backButton" onclick="showMainPromotions()">Quay lại</button>
+        </div>
+    </div>
     <!-- Form thêm và sửa tài khoản -->
         <div id="accountForm" class="modal" style="display: none;">
             <div class="modal-content">

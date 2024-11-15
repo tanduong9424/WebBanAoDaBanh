@@ -102,21 +102,6 @@ html, body {
     color: white;
 }
 
-/* Kiểu cho các nút hành động trong tài khoản và khuyến mãi */
-.account button:first-child, .promotion button:first-child {
-    background-color: #28a745;
-    color: white;
-}
-
-.account button:nth-child(2), .promotion button:nth-child(2) {
-    background-color: #dc3545;
-    color: white;
-}
-
-.account button:last-child, .promotion button:last-child {
-    background-color: #007bff;
-    color: white;
-}
 
 /* Điều chỉnh bố cục khi màn hình hẹp */
 @media (max-width: 768px) {
@@ -195,7 +180,7 @@ html, body {
     border-radius: 8px;
     padding: 20px;
     width: 100%;
-    max-width: 400px; /* Độ rộng tối đa cho modal */
+    max-width:400px; /* Độ rộng tối đa cho modal */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Đổ bóng cho form */
     position: relative;
     max-height: 90vh; /* Chiều cao tối đa để tránh vượt quá màn hình */
@@ -270,6 +255,38 @@ html, body {
     margin-top: 10px;
 }
 
+/*Kiểu cho 2 bảng ẩn*/
+.pop-up {
+    background-color: #fefefe;
+    border-radius: 8px;
+    padding: 20px;
+    width: 100%;
+    max-width:1000px; /* Độ rộng tối đa cho modal */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Đổ bóng cho form */
+    position: relative;
+    max-height: 90vh; /* Chiều cao tối đa để tránh vượt quá màn hình */
+    overflow-y: auto; /* Cho phép cuộn dọc nếu nội dung quá cao */
+}
+.pop-up button {
+    padding: 10px 15px;
+    margin-top: 20px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.pop-up button:hover {
+    opacity: 0.9;
+}
+.pop-up button:last-child {
+    background-color: #dc3545;
+    color: #fff;
+    margin-top: 10px;
+}
+
 /* Kiểu cho nút đóng modal */
 .close {
     color: #aaa;
@@ -322,12 +339,24 @@ html, body {
     z-index: 1000;  /* Ensure it appears above other content */
     padding: 20px;
 }
+#hiddenPromotionsContainer {
+    position: fixed;  /* Fixes the panel in place, like a modal */
+    top: 0;
+    left: 0;
+    width: 100vw;  /* Full viewport width */
+    height: 100vh;  /* Full viewport height */
+    background-color: rgba(255, 255, 255, 0.95);  /* Light overlay background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;  /* Ensure it appears above other content */
+    padding: 20px;
+}
 
-/* Style for the back button in the top corner */
+/* Đặt nút ở cuối cùng trong div */
 #backButton {
-    position: absolute;
-    top: 20px;
-    left: 20px;
+    align-self: flex-end; /* Đặt nút ở cuối */
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
@@ -336,6 +365,7 @@ html, body {
     font-size: 1em;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-top: auto; /* Đẩy nút xuống cuối */
 }
 
 #backButton:hover {
@@ -355,6 +385,7 @@ html, body {
     margin: 10px 0;
     transition: background-color 0.3s;
 }
+
 /* Ẩn nút tăng/giảm ở trường lương, tổng tiền và phần trăm giảm */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
@@ -365,26 +396,230 @@ input[type="number"] {
     -moz-appearance: textfield; /* Firefox */
 }
 /* Giao diện khuyến mãi đã ẩn giống với tài khoản đã ẩn */
-.hidden-promotions-list {
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
+.hidden-promotions-list .promotion {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    align-items: center;
     background-color: #f9f9f9;
+    border: 1px solid #ddd;
     border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    transition: background-color 0.3s;
 }
 
 .hidden-promotion-item {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-    background-color: #fff;
+    gap: 10px;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
     padding: 10px;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 10px;
+    margin: 10px 0;
+    transition: background-color 0.3s;
 }
-
+/*
 .hidden-promotion-item div {
     display: flex;
     gap: 10px;
     margin-top: 5px;
+}*/
+/* Kiểu cho nút "Xem chi tiết" với màu xanh lá */
+button.view-detail {
+    background-color: #28a745; /* Màu xanh lá */
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button.view-detail:hover {
+    background-color: #218838; /* Màu xanh lá đậm hơn khi hover */
+}
+
+/* Kiểu cho nút "Sửa" với màu xanh dương */
+button.edit {
+    background-color: #007bff; /* Màu xanh dương */
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button.edit:hover {
+    background-color: #0069d9; /* Màu xanh dương đậm hơn khi hover */
+}
+
+/* Kiểu cho nút "Xóa" với màu đỏ */
+button.delete {
+    background-color: #dc3545; /* Màu đỏ */
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button.delete:hover {
+    background-color: #c82333; /* Màu đỏ đậm hơn khi hover */
+}
+
+/*Bảng top 5 khách hàng*/
+/* CSS cơ bản để làm bảng dễ nhìn và thẩm mỹ hơn */
+#customerStatistics {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+h3 {
+    text-align: center;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+/* Kiểu dáng cho tiêu đề bảng */
+.table-caption {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+    color: #007bff; /* Màu xanh nổi bật */
+    text-transform: uppercase; /* Viết hoa toàn bộ */
+    border-bottom: 2px solid #007bff; /* Đường gạch chân */
+    padding-bottom: 5px;
+}
+
+table th, table td {
+    padding: 12px;
+    /*text-align: left;*/
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+table td {
+    font-size: 14px;
+}
+
+table th, table td {
+    font-size: 16px;
+}
+
+table td {
+    font-weight: normal;
+    color: #555;
+}
+
+table th {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    table th, table td {
+        font-size: 14px;
+        padding: 8px;
+    }
+    
+    h3 {
+        font-size: 18px;
+    }
+}
+#productStatistics {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+h3 {
+    text-align: center;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+table td {
+    font-size: 14px;
+}
+
+table th, table td {
+    font-size: 16px;
+}
+
+table td {
+    font-weight: normal;
+    color: #555;
+}
+
+table th {
+    font-weight: bold;
+    font-size: 18px;
+}
+/* Responsive design */
+@media (max-width: 768px) {
+    table th, table td {
+        font-size: 14px;
+        padding: 8px;
+    }
+    
+    h3 {
+        font-size: 18px;
+    }
 }
