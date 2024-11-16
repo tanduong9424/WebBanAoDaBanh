@@ -623,3 +623,38 @@ table th {
         font-size: 18px;
     }
 }
+.order {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* Tăng số cột */
+    gap: 10px;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    transition: background-color 0.3s;
+}
+
+
+.order:hover {
+    background-color: #f0f0f0;
+}
+
+.order span {
+    font-weight: bold;
+    color: #555;
+}
+
+.order button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.order button:hover {
+    background-color: #007bff;
+    color: white;
+}

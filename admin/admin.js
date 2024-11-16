@@ -42,22 +42,73 @@ let accounts = [
     { masp: "SP1", tensp: "Burger", description: "Delicious burger", size: "M", price: 50000, stock: 100, team: "Local", national: "VN", date_added: "2024-11-10", image_url: "burger.jpg", status: "available" },
     { masp: "SP2", tensp: "Pizza", description: "Cheesy pizza", size: "L", price: 120000, stock: 50, team: "Local", national: "VN", date_added: "2024-11-10", image_url: "pizza.jpg", status: "available" },
     { masp: "SP3", tensp: "Pepsi", description: "Pessi", size: "L", price: 120000, stock: 50, team: "Local", national: "VN", date_added: "2024-11-10", image_url: "pizza.jpg", status: "available" },
+    { masp: "SP4", tensp: "Fries", description: "Crispy fries", size: "M", price: 30000, stock: 150, team: "Local", national: "VN", date_added: "2024-11-12", image_url: "fries.jpg", status: "available" },
+    { masp: "SP5", tensp: "Coke", description: "Refreshing coke", size: "M", price: 15000, stock: 200, team: "Local", national: "VN", date_added: "2024-11-12", image_url: "coke.jpg", status: "available" },
+    { masp: "SP6", tensp: "Chicken Wings", description: "Spicy chicken wings", size: "L", price: 80000, stock: 80, team: "Local", national: "VN", date_added: "2024-11-13", image_url: "wings.jpg", status: "available" },
+    { masp: "SP7", tensp: "Salad", description: "Healthy salad", size: "M", price: 40000, stock: 120, team: "Local", national: "VN", date_added: "2024-11-13", image_url: "salad.jpg", status: "available" },
+    { masp: "SP8", tensp: "Ice Cream", description: "Creamy dessert", size: "S", price: 25000, stock: 100, team: "Local", national: "VN", date_added: "2024-11-14", image_url: "icecream.jpg", status: "available" },
+
     // Add more as needed
   ];
   let orders = [
-    { madonhang: "DH1", makh: "KH1", thoigianmua: "2024-11-15", tongtien: 150000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
-    { madonhang: "DH2", makh: "KH1", thoigianmua: "2024-11-15", tongtien: 250000, makhuyenmai: "KM2", tthd: "đã giao thành công" },
-    { madonhang: "DH3", makh: "KH2", thoigianmua: "2024-11-14", tongtien: 300000, makhuyenmai: null, tthd: "đã giao thành công" },
-    { madonhang: "DH4", makh: "KH2", thoigianmua: "2024-11-14", tongtien: 180000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
+    { madonhang: "DH1", makh: "KH1", thoigianmua: "2024-11-1", tongtien: 150000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
+    { madonhang: "DH2", makh: "KH1", thoigianmua: "2024-11-1", tongtien: 50000, makhuyenmai: "KM2", tthd: "đã giao thành công" },
+    { madonhang: "DH3", makh: "KH2", thoigianmua: "2024-11-2", tongtien: 360000, makhuyenmai: null, tthd: "đã giao thành công" },
+    { madonhang: "DH4", makh: "KH2", thoigianmua: "2024-11-3", tongtien: 230000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
+    { madonhang: "DH5", makh: "KH3", thoigianmua: "2024-11-4", tongtien: 105000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
+    { madonhang: "DH6", makh: "KH4", thoigianmua: "2024-11-5", tongtien: 125000, makhuyenmai: null, tthd: "đã giao thành công" },
+    { madonhang: "DH7", makh: "KH5", thoigianmua: "2024-11-6", tongtien: 155000, makhuyenmai: "KM2", tthd: "đã giao thành công" },
+    { madonhang: "DH8", makh: "KH6", thoigianmua: "2024-11-6", tongtien: 165000, makhuyenmai: null, tthd: "đã giao thành công" },
+    { madonhang: "DH9", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
+    { madonhang: "DH10", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, makhuyenmai: "KM2", tthd: "đã giao thành công" },
+    { madonhang: "DH11", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: null, tthd: "đã giao thành công" },
+    { madonhang: "DH12", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao thành công" },
+    { madonhang: "DH13", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
+    { madonhang: "DH14", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "đã giao thành công" },
+
     // Add more to reach 20 orders
   ];
   let orderDetails = [
     { madonhang: 'DH1', masp: 'SP1', soluong: 2, dongia: 50000, thanhtien: 100000 },
     { madonhang: 'DH1', masp: 'SP2', soluong: 1, dongia: 50000, thanhtien: 50000 },
+
     { madonhang: 'DH2', masp: 'SP1', soluong: 1, dongia: 50000, thanhtien: 50000 },
+
     { madonhang: 'DH3', masp: 'SP2', soluong: 3, dongia: 120000, thanhtien: 360000 },
+
     { madonhang: 'DH4', masp: 'SP1', soluong: 1, dongia: 50000, thanhtien: 50000 },
     { madonhang: 'DH4', masp: 'SP3', soluong: 2, dongia: 90000, thanhtien: 180000 },
+
+    { madonhang: "DH5", masp: "SP4", soluong: 2, dongia: 30000, thanhtien: 60000 },
+    { madonhang: "DH5", masp: "SP5", soluong: 3, dongia: 15000, thanhtien: 45000 },
+
+    { madonhang: "DH6", masp: "SP6", soluong: 1, dongia: 80000, thanhtien: 80000 },
+    { madonhang: "DH6", masp: "SP7", soluong: 1, dongia: 40000, thanhtien: 40000 },
+
+    { madonhang: "DH7", masp: "SP8", soluong: 2, dongia: 25000, thanhtien: 50000 },
+    { madonhang: "DH7", masp: "SP1", soluong: 2, dongia: 50000, thanhtien: 100000 },
+
+    { madonhang: "DH8", masp: "SP2", soluong: 1, dongia: 120000, thanhtien: 120000 },
+    { madonhang: "DH8", masp: "SP3", soluong: 1, dongia: 45000, thanhtien: 45000 },
+
+    { madonhang: "DH9", masp: "SP4", soluong: 3, dongia: 30000, thanhtien: 90000 },
+    { madonhang: "DH9", masp: "SP5", soluong: 2, dongia: 15000, thanhtien: 30000 },
+
+    { madonhang: "DH10", masp: "SP6", soluong: 2, dongia: 80000, thanhtien: 160000 },
+    { madonhang: "DH10", masp: "SP7", soluong: 1, dongia: 40000, thanhtien: 40000 },
+
+    { madonhang: "DH11", masp: "SP8", soluong: 3, dongia: 25000, thanhtien: 75000 },
+    { madonhang: "DH11", masp: "SP1", soluong: 2, dongia: 50000, thanhtien: 100000 },
+
+    { madonhang: "DH12", masp: "SP2", soluong: 1, dongia: 120000, thanhtien: 120000 },
+    { madonhang: "DH12", masp: "SP3", soluong: 2, dongia: 45000, thanhtien: 90000 },
+
+    { madonhang: "DH13", masp: "SP4", soluong: 2, dongia: 30000, thanhtien: 60000 },
+    { madonhang: "DH13", masp: "SP6", soluong: 1, dongia: 80000, thanhtien: 80000 },
+
+    { madonhang: "DH14", masp: "SP7", soluong: 2, dongia: 40000, thanhtien: 80000 },
+    { madonhang: "DH14", masp: "SP8", soluong: 2, dongia: 25000, thanhtien: 50000 },
+
     // Add more details based on orders
   ];
             
@@ -819,21 +870,30 @@ function saveData() {
 // Chuyển đổi giữa các panel
 function showPanel(panelId, event) {
     event.preventDefault();
-    
-    // Hide all panels
-    document.getElementById("account_panel").style.display = "none";
-    document.getElementById("promotion_panel").style.display = "none";
-    document.getElementById("statistics_panel").style.display = "none";  // Hide the statistics panel
-    
-    // Show the selected panel
-    document.getElementById(`${panelId}_panel`).style.display = "block";
+
+    // Ẩn tất cả các panel
+    const panels = ['account_panel', 'promotion_panel', 'statistics_panel', 'orders_panel'];
+    panels.forEach(panel => {
+        const panelElement = document.getElementById(panel);
+        if (panelElement) {
+            panelElement.style.display = "none";
+        }
+    });
+
+    // Hiển thị panel được chọn
+    const selectedPanel = document.getElementById(`${panelId}_panel`);
+    if (selectedPanel) {
+        selectedPanel.style.display = "block";
+    }
 }
+
 
 
 // Khởi tạo dữ liệu và hiển thị
 window.onload = () => {
     applyFilters();
     renderPromotions();
+    renderOrders();
     setMaxDate();
 };
 
@@ -968,24 +1028,28 @@ function calculateProductStatistics(enrichedOrders) {
 
 function renderProductStatistics(topSellingProducts, worstSellingProducts) {
     const productStatsContainer = document.getElementById("productStatistics");
-
-    // Xóa nội dung cũ
     productStatsContainer.innerHTML = "";
 
-    // Xử lý trường hợp không có dữ liệu
-    if (topSellingProducts.length === 0 && worstSellingProducts.length === 0) {
-        productStatsContainer.innerHTML = "<p>Không có dữ liệu sản phẩm để hiển thị.</p>";
-        return;
-    }
+    // Tính tổng thu trên tất cả sản phẩm
+    const totalRevenue = topSellingProducts.reduce((sum, product) => sum + product.revenue, 0);
+
+    // Hiển thị tổng thu
+    const totalRevenueEl = document.createElement("div");
+    totalRevenueEl.style.fontWeight = "bold";
+    totalRevenueEl.style.margin = "10px 0";
+    totalRevenueEl.style.fontSize = "1.2em";
+    totalRevenueEl.textContent = `Tổng thu trên tất cả sản phẩm: ${totalRevenue} đồng`;
+    productStatsContainer.appendChild(totalRevenueEl);
 
     // Tạo bảng cho sản phẩm bán chạy nhất
-    const tableTop = createProductTable("Top 5 Sản Phẩm Bán Chạy Nhất", topSellingProducts);
+    const tableTop = createProductTableWithInvoices("Top 5 Sản Phẩm Bán Chạy Nhất", topSellingProducts);
     productStatsContainer.appendChild(tableTop);
 
     // Tạo bảng cho sản phẩm bán ít nhất
-    const tableWorst = createProductTable("Top 5 Sản Phẩm Bán Ít Nhất", worstSellingProducts);
+    const tableWorst = createProductTableWithInvoices("Top 5 Sản Phẩm Bán Ít Nhất", worstSellingProducts);
     productStatsContainer.appendChild(tableWorst);
 }
+
 
 function createProductTable(title, products) {
     const table = document.createElement("table");
@@ -1021,6 +1085,73 @@ function createProductTable(title, products) {
     table.prepend(caption); // Thêm caption vào đầu bảng
 
     return table;
+}
+function createProductTableWithInvoices(title, products) {
+    const table = document.createElement("table");
+
+    // Tạo tiêu đề
+    const caption = document.createElement("caption");
+    caption.className = "table-caption";
+    caption.textContent = title;
+
+    table.innerHTML = `
+        <thead>
+            <tr>
+                <th>Thứ tự</th>
+                <th>Mã sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng bán</th>
+                <th>Tổng tiền</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${products.map((product, index) => `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${product.masp}</td>
+                    <td>${product.tensp}</td>
+                    <td>${product.quantitySold}</td>
+                    <td>${product.revenue} đồng</td>
+                    <td>
+                        <button onclick="viewInvoices('${product.masp}')">Xem hóa đơn</button>
+                    </td>
+                </tr>
+            `).join("")}
+        </tbody>
+    `;
+
+    table.prepend(caption); // Thêm tiêu đề vào đầu bảng
+    return table;
+}
+function viewInvoices(masp) {
+    const invoices = orders.filter(order =>
+        orderDetails.some(detail => detail.masp === masp && detail.madonhang === order.madonhang)
+    );
+
+    if (invoices.length === 0) {
+        alert("Không tìm thấy hóa đơn nào liên quan đến sản phẩm này.");
+        return;
+    }
+
+    // Hiển thị danh sách hóa đơn
+    const invoiceList = invoices.map(order => `
+        <p>Hóa đơn: ${order.madonhang}</p>
+        <p>Khách hàng: ${order.makh}</p>
+        <p>Thời gian mua: ${order.thoigianmua}</p>
+        <p>Tổng tiền: ${order.tongtien} đồng</p>
+        <hr>
+    `).join("");
+
+    const modalContent = `
+        <h3>Hóa đơn liên quan đến sản phẩm: ${masp}</h3>
+        ${invoiceList}
+    `;
+
+    // Hiển thị modal
+    const modal = document.getElementById("detailModal");
+    document.getElementById("detailContent").innerHTML = modalContent;
+    modal.style.display = "block";
 }
 
 
@@ -1092,6 +1223,9 @@ function renderCustomerStatistics(topCustomers) {
 
 function setMaxDate() {
     const today = new Date().toISOString().split('T')[0];  // Format as YYYY-MM-DD
+    // Giới hạn ngày cho các trường liên quan
+    document.getElementById("orderFilterDateFrom").setAttribute("max", today);
+    document.getElementById("orderFilterDateTo").setAttribute("max", today);
     document.getElementById("endDate").setAttribute("max", today);
 }
 function validateDates() {
@@ -1118,3 +1252,136 @@ function validateDates() {
         return;
     }
 }
+// Hiển thị danh sách đơn hàng
+function renderOrders() {
+    const container = document.getElementById("orders_container");
+    container.innerHTML = ''; // Xóa nội dung cũ
+
+    orders.forEach(order => {
+        const promotionCode = order.makhuyenmai ? order.makhuyenmai : "Không"; // Kiểm tra mã khuyến mãi
+
+        const orderEl = document.createElement("div");
+        orderEl.className = "order";
+        orderEl.innerHTML = `
+            <span>Mã đơn hàng: ${order.madonhang}</span>
+            <span>Khách hàng: ${order.makh}</span>
+            <span>Ngày mua: ${order.thoigianmua}</span>
+            <span>Tổng tiền: ${order.tongtien} VND</span>
+            <span>Tình trạng: ${order.tthd}</span>
+            <span>Mã khuyến mãi: ${promotionCode}</span>
+            <button onclick="viewOrderDetails('${order.madonhang}')">Xem chi tiết</button>
+        `;
+        container.appendChild(orderEl);
+    });
+}
+
+
+
+// Lọc đơn hàng theo tình trạng và thời gian
+function filterOrders() {
+    const status = document.getElementById("orderFilterStatus").value;
+    const dateFrom = document.getElementById("orderFilterDateFrom").value;
+    const dateTo = document.getElementById("orderFilterDateTo").value;
+
+    const filteredOrders = orders.filter(order => {
+        const matchesStatus = status ? order.tthd === status : true;
+        const orderDate = new Date(order.thoigianmua);
+        const matchesDateFrom = dateFrom ? new Date(dateFrom) <= orderDate : true;
+        const matchesDateTo = dateTo ? orderDate <= new Date(dateTo) : true;
+
+        return matchesStatus && matchesDateFrom && matchesDateTo;
+    });
+
+    renderFilteredOrders(filteredOrders);
+}
+
+
+// Hiển thị danh sách đơn hàng đã lọc
+function renderFilteredOrders(filteredOrders) {
+    const container = document.getElementById("orders_container");
+    container.innerHTML = ''; // Xóa nội dung cũ
+
+    filteredOrders.forEach(order => {
+        const promotionCode = order.makhuyenmai ? order.makhuyenmai : "Không"; // Kiểm tra mã khuyến mãi
+
+        const orderEl = document.createElement("div");
+        orderEl.className = "order";
+        orderEl.innerHTML = `
+            <span>Mã đơn hàng: ${order.madonhang}</span>
+            <span>Khách hàng: ${order.makh}</span>
+            <span>Ngày mua: ${order.thoigianmua}</span>
+            <span>Tổng tiền: ${order.tongtien} VND</span>
+            <span>Tình trạng: ${order.tthd}</span>
+            <span>Mã khuyến mãi: ${promotionCode}</span>
+            <button onclick="viewOrderDetails('${order.madonhang}')">Xem chi tiết</button>
+        `;
+        container.appendChild(orderEl);
+    });
+}
+
+
+
+// Xem chi tiết đơn hàng
+function viewOrderDetails(madonhang) {
+    // Tìm đơn hàng trong danh sách gốc (orders)
+    const order = orders.find(o => o.madonhang === madonhang);
+    if (!order) {
+        alert("Không tìm thấy thông tin đơn hàng.");
+        return;
+    }
+
+    // Tìm chi tiết sản phẩm liên quan đến đơn hàng
+    const details = orderDetails.filter(detail => detail.madonhang === madonhang);
+
+    let detailContent = `
+        <h3>Chi tiết đơn hàng: ${order.madonhang}</h3>
+        <p><strong>Khách hàng:</strong> ${order.makh}</p>
+        <p><strong>Ngày mua:</strong> ${order.thoigianmua}</p>
+        <p><strong>Tổng tiền:</strong> ${order.tongtien} VND</p>
+        <p><strong>Tình trạng:</strong> ${order.tthd}</p>
+        <p><strong>Mã khuyến mãi:</strong> ${order.makhuyenmai ? order.makhuyenmai : "Không"}</p>
+        <hr>
+        <h4>Sản phẩm:</h4>
+        <ul>
+    `;
+
+    details.forEach(detail => {
+        const product = products.find(p => p.masp === detail.masp);
+        detailContent += `
+            <li>${product.tensp} - Số lượng: ${detail.soluong}, Đơn giá: ${detail.dongia} VND</li>
+        `;
+    });
+
+    detailContent += `</ul>`;
+    document.getElementById("detailContent").innerHTML = detailContent;
+    document.getElementById("detailModal").style.display = "block";
+}
+
+
+//Ràng buộc ngày cho quản lý đơn hàng
+function validateOrderDates() {
+    const startDateInput = document.getElementById("orderFilterDateFrom");
+    const endDateInput = document.getElementById("orderFilterDateTo");
+
+    const startDate = new Date(startDateInput.value);
+    const endDate = new Date(endDateInput.value);
+    const today = new Date();
+
+    // Kiểm tra nếu "Từ ngày" lớn hơn "Đến ngày"
+    if (startDateInput.value && endDateInput.value) {
+        if (startDate > endDate) {
+            alert("Ngày bắt đầu phải trước hoặc bằng ngày kết thúc.");
+            startDateInput.value = ""; // Xóa giá trị không hợp lệ
+            return;
+        }
+    }
+
+    // Kiểm tra nếu "Đến ngày" vượt quá hôm nay
+    if (endDateInput.value && endDate > today) {
+        alert("Ngày kết thúc không được vượt quá hôm nay.");
+        endDateInput.value = ""; // Xóa giá trị không hợp lệ
+        return;
+    }
+}
+
+

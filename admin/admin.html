@@ -22,6 +22,7 @@
     <div id="tab_menu">
         <div><a href="#" onclick="showPanel('account', event)">Quản lý tài khoản</a></div>
         <div><a href="#" onclick="showPanel('promotion', event)">Quản lý khuyến mãi</a></div>
+        <div><a href="#" onclick="showPanel('orders', event)">Quản lý đơn hàng</a></div> 
         <div><a href="#" onclick="showPanel('statistics', event)">Thống kê</a></div>
     </div>
     <div id="main_content">
@@ -53,6 +54,30 @@
             </label>
             <button onclick="toggleHiddenPromotions()">Xem khuyến mãi đã xóa</button>
             <div id="promotions_container"></div>
+        </div>
+        <!--Quản lý đơn hàng-->
+        <div id="orders_panel" style="display: none;">
+            <div class="top_label">Quản lý đơn hàng</div>
+            
+            <div>
+                <label for="orderFilterStatus">Tình trạng đơn hàng:</label>
+                <select id="orderFilterStatus" onchange="filterOrders()">
+                    <option value="">Tất cả</option>
+                    <option value="chưa xử lý">Chưa xử lý</option>
+                    <option value="đã xác nhận">Đã xác nhận</option>
+                    <option value="đã giao thành công">Đã giao thành công</option>
+                    <option value="đã huỷ">Đã huỷ</option>
+                </select>
+                
+                <label for="orderFilterDateFrom">Từ ngày:</label>
+                <input type="date" id="orderFilterDateFrom" onchange="validateOrderDates(); filterOrders();">
+                
+                <label for="orderFilterDateTo">Đến ngày:</label>
+                <input type="date" id="orderFilterDateTo" onchange="validateOrderDates(); filterOrders();">
+                              
+            </div>
+            
+            <div id="orders_container"></div>
         </div>
         <!--Thống kê-->
         <div id="statistics_panel" style="display: none;">
