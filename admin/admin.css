@@ -1,83 +1,293 @@
+/* Cấu hình cơ bản */
 * {
     box-sizing: border-box;
 }
 
 html, body {
     margin: 0;
-    background: lightgray;
+    background: #f3f3f3;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+#tab_menu, #main_content, #logoutButton {
+    display: none; /* Hide content by default */
 }
 
 #tab_menu {
     float: left;
     width: 15%;
-    height: 100%;
-    border-right: 1px solid black;
+    height: 100vh;
+    border-right: 1px solid #ccc;
+    background-color: #333;
+    color: white;
+    padding-top: 10px;
 }
 
 #tab_menu div {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #444;
 }
 
 #tab_menu a {
     text-decoration: none;
-    display: inline-block;
+    display: block;
     text-align: center;
-    padding: 5px 0px;
-    color: black;
+    padding: 10px 0;
+    color: white;
+    font-weight: bold;
     width: 100%;
+    transition: background 0.3s;
 }
 
 #tab_menu a:hover {
-    background: white;
+    background: #555;
 }
 
 #main_content {
     float: left;
     width: 85%;
-    height: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Phần tiêu đề */
 .top_label {
-    padding: 5px;
-    font-size: x-large;
+    padding: 10px;
+    font-size: 1.5em;
     font-weight: bolder;
+    border-bottom: 2px solid #ccc;
+    margin-bottom: 20px;
 }
 
+/* Container cho tài khoản và khuyến mãi */
 #accounts_container, #promotions_container {
     padding: 10px;
-    border-top: 2px solid black;
+    border-top: 2px solid #333;
 }
 
+/* Kiểu thẻ cho tài khoản và khuyến mãi */
 .account, .promotion {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
+    gap: 10px;
     align-items: center;
-    background-color: white;
-    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
     padding: 10px;
-    margin: 5px 0;
+    margin: 10px 0;
+    transition: background-color 0.3s;
 }
 
+.account:hover, .promotion:hover {
+    background-color: #f0f0f0;
+}
+
+.account span, .promotion span {
+    font-weight: bold;
+    color: #555;
+}
+
+.account button, .promotion button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.account button:hover, .promotion button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+
+/* Điều chỉnh bố cục khi màn hình hẹp */
+@media (max-width: 768px) {
+    #tab_menu {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid #ccc;
+    }
+
+    #main_content {
+        width: 100%;
+    }
+
+    .account, .promotion {
+        grid-template-columns: 1fr;
+    }
+}
+/* Tiêu đề cho các form Thêm Tài Khoản và Thêm Khuyến Mãi */
+#formTitle, #promotionFormTitle {
+    font-size: 1.8em;
+    font-weight: bold;
+    text-align: center;
+    color: #007bff; /* Màu xanh nổi bật */
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #007bff; /* Đường viền dưới để tạo điểm nhấn */
+}
+/* Kiểu cho nút thêm tài khoản và khuyến mãi */
+    button[onclick="addAccount()"], 
+    button[onclick="addPromotion()"] {
+        background-color: #28a745; /* Màu xanh nổi bật */
+        color: white;
+        font-size: 1em;
+        font-weight: bold;
+        padding: 10px 20px;
+        margin: 10px 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s; /* Hiệu ứng hover và nhấn */
+    }
+
+    /* Hiệu ứng hover cho nút */
+    button[onclick="addAccount()"]:hover, 
+    button[onclick="addPromotion()"]:hover {
+        background-color: #218838; /* Màu đậm hơn khi hover */
+    }
+
+    /* Hiệu ứng khi nhấn nút */
+    button[onclick="addAccount()"]:active, 
+    button[onclick="addPromotion()"]:active {
+        transform: scale(0.98); /* Giảm nhẹ kích thước khi nhấn */
+    }
+
+
+/* Kiểu cho form modal */
 .modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6); /* Nền mờ tối */
+    z-index: 1000;
+    overflow: auto; /* Cho phép cuộn khi nội dung vượt quá màn hình */
+    padding: 20px; /* Đệm xung quanh để tránh sát viền */
 }
 
 .modal-content {
     background-color: #fefefe;
-    margin: 10% auto;
+    border-radius: 8px;
     padding: 20px;
-    border: 1px solid #888;
-    width: 50%;
+    width: 100%;
+    max-width:400px; /* Độ rộng tối đa cho modal */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Đổ bóng cho form */
+    position: relative;
+    max-height: 90vh; /* Chiều cao tối đa để tránh vượt quá màn hình */
+    overflow-y: auto; /* Cho phép cuộn dọc nếu nội dung quá cao */
 }
 
+/* Tiêu đề của modal */
+.modal-content h3 {
+    margin-top: 0;
+    font-size: 1.5em;
+    text-align: center;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+/* Kiểu cho các label và input trong form */
+.modal-content label {
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-top: 15px;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="password"],
+.modal-content input[type="email"],
+.modal-content input[type="number"],
+.modal-content select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #333;
+    box-sizing: border-box;
+}
+
+.modal-content input:focus,
+.modal-content select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Kiểu cho các nút trong form */
+.modal-content button {
+    padding: 10px 15px;
+    margin-top: 20px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-content button:hover {
+    opacity: 0.9;
+}
+
+/* Kiểu cho nút Lưu */
+.modal-content button:first-child {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Kiểu cho nút Hủy */
+.modal-content button:last-child {
+    background-color: #dc3545;
+    color: #fff;
+    margin-top: 10px;
+}
+
+/*Kiểu cho 2 bảng ẩn*/
+.pop-up {
+    background-color: #fefefe;
+    border-radius: 8px;
+    padding: 20px;
+    width: 100%;
+    max-width:1000px; /* Độ rộng tối đa cho modal */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Đổ bóng cho form */
+    position: relative;
+    max-height: 90vh; /* Chiều cao tối đa để tránh vượt quá màn hình */
+    overflow-y: auto; /* Cho phép cuộn dọc nếu nội dung quá cao */
+}
+.pop-up button {
+    padding: 10px 15px;
+    margin-top: 20px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.pop-up button:hover {
+    opacity: 0.9;
+}
+.pop-up button:last-child {
+    background-color: #dc3545;
+    color: #fff;
+    margin-top: 10px;
+}
+
+/* Kiểu cho nút đóng modal */
 .close {
     color: #aaa;
     float: right;
@@ -89,4 +299,362 @@ html, body {
     color: #000;
     text-decoration: none;
     cursor: pointer;
+}
+/* Logout button styling */
+#logoutButton {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    background-color: #dc3545; /* Red color */
+    color: white;
+    font-size: 0.9em;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+#logoutButton:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+#logoutButton:active {
+    transform: scale(0.98); /* Slightly shrink on click */
+}
+/* Fullscreen overlay for hidden accounts panel */
+#hiddenAccountsPanel {
+    position: fixed;  /* Fixes the panel in place, like a modal */
+    top: 0;
+    left: 0;
+    width: 100vw;  /* Full viewport width */
+    height: 100vh;  /* Full viewport height */
+    background-color: rgba(255, 255, 255, 0.95);  /* Light overlay background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;  /* Ensure it appears above other content */
+    padding: 20px;
+}
+#hiddenPromotionsContainer {
+    position: fixed;  /* Fixes the panel in place, like a modal */
+    top: 0;
+    left: 0;
+    width: 100vw;  /* Full viewport width */
+    height: 100vh;  /* Full viewport height */
+    background-color: rgba(255, 255, 255, 0.95);  /* Light overlay background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;  /* Ensure it appears above other content */
+    padding: 20px;
+}
+
+/* Đặt nút ở cuối cùng trong div */
+#backButton {
+    align-self: flex-end; /* Đặt nút ở cuối */
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: auto; /* Đẩy nút xuống cuối */
+}
+
+#backButton:hover {
+    background-color: #0056b3;
+}
+
+/* Centered style for each hidden account item */
+#hiddenAccountsContainer .account {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    transition: background-color 0.3s;
+}
+
+/* Ẩn nút tăng/giảm ở trường lương, tổng tiền và phần trăm giảm */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}
+/* Giao diện khuyến mãi đã ẩn giống với tài khoản đã ẩn */
+.hidden-promotions-list .promotion {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    transition: background-color 0.3s;
+}
+
+.hidden-promotion-item {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    transition: background-color 0.3s;
+}
+/*
+.hidden-promotion-item div {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}*/
+/* Kiểu cho nút "Xem chi tiết" với màu xanh lá */
+button.view-detail {
+    background-color: #28a745; /* Màu xanh lá */
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button.view-detail:hover {
+    background-color: #218838; /* Màu xanh lá đậm hơn khi hover */
+}
+
+/* Kiểu cho nút "Sửa" với màu xanh dương */
+button.edit {
+    background-color: #007bff; /* Màu xanh dương */
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button.edit:hover {
+    background-color: #0069d9; /* Màu xanh dương đậm hơn khi hover */
+}
+
+/* Kiểu cho nút "Xóa" với màu đỏ */
+button.delete {
+    background-color: #dc3545; /* Màu đỏ */
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button.delete:hover {
+    background-color: #c82333; /* Màu đỏ đậm hơn khi hover */
+}
+
+/*Bảng top 5 khách hàng*/
+/* CSS cơ bản để làm bảng dễ nhìn và thẩm mỹ hơn */
+#customerStatistics {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+h3 {
+    text-align: center;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+/* Kiểu dáng cho tiêu đề bảng */
+.table-caption {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+    color: #007bff; /* Màu xanh nổi bật */
+    text-transform: uppercase; /* Viết hoa toàn bộ */
+    border-bottom: 2px solid #007bff; /* Đường gạch chân */
+    padding-bottom: 5px;
+}
+
+table th, table td {
+    padding: 12px;
+    /*text-align: left;*/
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+table td {
+    font-size: 14px;
+}
+
+table th, table td {
+    font-size: 16px;
+}
+
+table td {
+    font-weight: normal;
+    color: #555;
+}
+
+table th {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    table th, table td {
+        font-size: 14px;
+        padding: 8px;
+    }
+    
+    h3 {
+        font-size: 18px;
+    }
+}
+#productStatistics {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+h3 {
+    text-align: center;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+table td {
+    font-size: 14px;
+}
+
+table th, table td {
+    font-size: 16px;
+}
+
+table td {
+    font-weight: normal;
+    color: #555;
+}
+
+table th {
+    font-weight: bold;
+    font-size: 18px;
+}
+/* Responsive design */
+@media (max-width: 768px) {
+    table th, table td {
+        font-size: 14px;
+        padding: 8px;
+    }
+    
+    h3 {
+        font-size: 18px;
+    }
+}
+.order {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* Tăng số cột */
+    gap: 10px;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    transition: background-color 0.3s;
+}
+
+
+.order:hover {
+    background-color: #f0f0f0;
+}
+
+.order span {
+    font-weight: bold;
+    color: #555;
+}
+
+.order button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.order button:hover {
+    background-color: #007bff;
+    color: white;
 }

@@ -7,22 +7,40 @@
     <title>Admin Dashboard</title>
 </head>
 <body>
+    <!--Đăng nhập cho admin-->
+    <div id="loginPage" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 5px 10px rgba(0,0,0,0.2); width: 300px;">
+            <h2>Admin Login</h2>
+            <label>Username:</label>
+            <input type="text" id="loginUsername" style="width: 100%; margin-bottom: 10px;">
+            <label>Password:</label>
+            <input type="password" id="loginPassword" style="width: 100%; margin-bottom: 10px;">
+            <button onclick="login()" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px;">Login</button>
+        </div>
+    </div>
+    
     <div id="tab_menu">
         <div><a href="#" onclick="showPanel('account', event)">Quản lý tài khoản</a></div>
         <div><a href="#" onclick="showPanel('promotion', event)">Quản lý khuyến mãi</a></div>
+        <div><a href="#" onclick="showPanel('orders', event)">Quản lý đơn hàng</a></div> 
+        <div><a href="#" onclick="showPanel('statistics', event)">Thống kê</a></div>
     </div>
     <div id="main_content">
         <!-- Quản lý tài khoản -->
         <div id="account_panel" style="display: block;">
             <div class="top_label">Quản lý Tài khoản</div>
-            <input type="text" id="searchAccount" placeholder="Tìm kiếm theo tên tài khoản..." oninput="filterAccounts()" />
+            <input type="text" id="searchAccount" placeholder="Tìm kiếm theo tên tài khoản..." oninput="applyFilters()" />
             <button onclick="addAccount()">Thêm Tài Khoản Nhân Viên</button>
             <!-- Dropdown lọc loại tài khoản -->
-            <select id="accountTypeFilter" onchange="filterAccountsByType()">
+            <select id="accountTypeFilter" onchange="applyFilters()">
                 <option value="">Tất cả</option>
                 <option value="Nhân viên">Nhân viên</option>
                 <option value="Khách hàng">Khách hàng</option>
             </select>
+            <button onclick="showHiddenAccounts()">Xem tài khoản đã xóa</button>
+            <label>
+                <input type="checkbox" id="showLockedAccounts" onclick="applyFilters()"> Hiển thị tài khoản bị khóa
+            </label>
             <div id="accounts_container"></div>
         </div>
 
@@ -34,9 +52,51 @@
             <label>
                 <input type="checkbox" id="activeOnly" onchange="filterPromotions()"> Chỉ hiển thị khuyến mãi đang hoạt động
             </label>
+            <button onclick="toggleHiddenPromotions()">Xem khuyến mãi đã xóa</button>
             <div id="promotions_container"></div>
         </div>
+        <!--Quản lý đơn hàng-->
+        <div id="orders_panel" style="display: none;">
+            <div class="top_label">Quản lý đơn hàng</div>
+            
+            <div>
+                <label for="orderFilterStatus">Tình trạng đơn hàng:</label>
+                <select id="orderFilterStatus" onchange="filterOrders()">
+                    <option value="">Tất cả</option>
+                    <option value="chưa xử lý">Chưa xử lý</option>
+                    <option value="đã xác nhận">Đã xác nhận</option>
+                    <option value="đã giao thành công">Đã giao thành công</option>
+                    <option value="đã huỷ">Đã huỷ</option>
+                </select>
+                
+                <label for="orderFilterDateFrom">Từ ngày:</label>
+                <input type="date" id="orderFilterDateFrom" onchange="validateOrderDates(); filterOrders();">
+                
+                <label for="orderFilterDateTo">Đến ngày:</label>
+                <input type="date" id="orderFilterDateTo" onchange="validateOrderDates(); filterOrders();">
+                              
+            </div>
+            
+            <div id="orders_container"></div>
+        </div>
+        <!--Thống kê-->
+        <div id="statistics_panel" style="display: none;">
+            <h2>Thống kê tình hình kinh doanh</h2>
+            <div>
+                <label for="startDate">Từ ngày:</label>
+                <input type="date" id="startDate" onchange="validateDates()">
+                
+                <label for="endDate">Đến ngày:</label>
+                <input type="date" id="endDate" max="" onchange="validateDates()">
+                
+                <button onclick="generateStatistics()">Thống kê</button>
+            </div>
+            <div id="productStatistics"></div>
+            <div id="customerStatistics"></div>
+        </div>
+        
     </div>
+    
 
     <!-- Modal Popup ẩn -->
     <div id="detailModal" class="modal" style="display: none;">
@@ -45,6 +105,141 @@
             <div id="detailContent"></div>
         </div>
     </div>
+    <!--Giao diện tài khoản đã ẩn-->
+    <div id="hiddenAccountsPanel" class="modal" style="display: none;">
+        <div class="pop-up">
+            <h3>Tài khoản đã xóa</h3>
+            <div id="hiddenAccountsContainer"></div>
+            <button id="backButton" onclick="showMainAccounts()">Quay lại</button>
+        </div>
+    </div>
+    <!--Giao diện khuyến mãi đã ẩn-->  
+    <div id="hiddenPromotionsContainer" class="modal" style="display: none;">
+        <div class="pop-up">
+            <h3>Khuyến mãi đã ẩn</h3>
+            <div id="hiddenPromotionsList"></div>
+            <button id="backButton" onclick="showMainPromotions()">Quay lại</button>
+        </div>
+    </div>
+    <!-- Form thêm và sửa tài khoản -->
+        <div id="accountForm" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h3 id="formTitle">Thêm Tài Khoản Nhân Viên</h3>
+                <label>Tên đăng nhập:</label>
+                <input type="text" id="username" /><br />
+                <label>Mật khẩu:</label>
+                <input type="password" id="password" /><br />
+                <label>Tên nhân viên:</label>
+                <input type="text" id="name" /><br />
+                <label>Số điện thoại:</label>
+                <input type="text" id="phone" /><br />
+                <label>Email:</label>
+                <input type="email" id="email" /><br />
+                <label>Lương:</label>
+                <input type="number" id="salary" /><br />
+                <label>Trạng thái:</label>
+                <select id="status">
+                    <option value="Hợp lệ">Hợp lệ</option>
+                    <option value="Không hợp lệ">Không hợp lệ</option>
+                </select><br />
+                <button onclick="saveAccount()">Lưu</button>
+                <button onclick="cancelForm()">Hủy</button>
+            </div>    
+        </div>
+    
+    <!-- Form sửa tài khoản Admin -->
+    <div id="editAdminForm" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Sửa Tài Khoản Admin</h3>
+            <label>Mật khẩu:</label>
+            <input type="password" id="adminPassword" /><br />
+            <button onclick="updateAdminAccount()">Lưu</button>
+            <button onclick="cancelForm()">Hủy</button>
+        </div>
+    </div>
+
+    <!-- Form sửa tài khoản Nhân viên -->
+    <div id="editEmployeeForm" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Sửa Tài Khoản Nhân Viên</h3>
+            <label>Tên đăng nhập:</label>
+            <input type="text" id="empUsername" readonly /><br />
+            <label>Mật khẩu:</label>
+            <input type="password" id="empPassword" /><br />
+            <label>Tên nhân viên:</label>
+            <input type="text" id="empName" /><br />
+            <label>Số điện thoại:</label>
+            <input type="text" id="empPhone" /><br />
+            <label>Email:</label>
+            <input type="email" id="empEmail" /><br />
+            <label>Lương:</label>
+            <input type="number" id="empSalary" /><br />
+            <label>Trạng thái:</label>
+            <select id="empStatus">
+                <option value="Hợp lệ">Hợp lệ</option>
+                <option value="Không hợp lệ">Không hợp lệ</option>
+            </select><br />
+            <button onclick="updateEmployeeAccount()">Lưu</button>
+            <button onclick="cancelForm()">Hủy</button>
+        </div>
+    </div>
+
+    <!-- Form sửa tài khoản Khách hàng -->
+    <div id="editCustomerForm" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Sửa Tài Khoản Khách Hàng</h3>
+            <label>Tên đăng nhập:</label>
+            <input type="text" id="custUsername" readonly /><br />
+            <label>Mật khẩu:</label>
+            <input type="password" id="custPassword" /><br />
+            <label>Tên khách hàng:</label>
+            <input type="text" id="custName" /><br />
+            <label>Số điện thoại:</label>
+            <input type="text" id="custPhone" /><br />
+            <label>Email:</label>
+            <input type="email" id="custEmail" /><br />
+            <label>Địa chỉ:</label>
+            <input type="text" id="custAddress" /><br />
+            <button onclick="updateCustomerAccount()">Lưu</button>
+            <button onclick="cancelForm()">Hủy</button>
+        </div>
+    </div>
+
+    <!-- Form thêm/sửa khuyến mãi -->
+    <div id="promotionForm" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3 id="promotionFormTitle">Thêm khuyến mãi</h3>
+            <form id="promotionFormContent">
+                <label for="promotionCode">Cú pháp khuyến mãi:</label>
+                <input type="text" id="promotionCode" required>
+
+                <label for="startDate">Ngày bắt đầu:</label>
+                <input type="date" id="startDate" required>
+
+                <label for="endDate">Ngày kết thúc:</label>
+                <input type="date" id="endDate" required>
+
+                <label for="requiredAmount">Tổng tiền cần thiết:</label>
+                <input type="number" id="requiredAmount" required>
+
+                <label for="discountPercent">Phần trăm giảm:</label>
+                <input type="number" id="discountPercent" required>
+
+                <button type="submit">Lưu</button>
+                <button type="button" onclick="closePromotionForm()">Hủy</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Container hiển thị khuyến mãi đã ẩn, giống giao diện tài khoản đã ẩn -->
+    <div id="hiddenPromotionsContainer" style="display: none;">
+        <h3>Khuyến mãi đã ẩn</h3>
+        <div id="hiddenPromotionsList" class="hidden-promotions-list"></div>
+        <button onclick="toggleHiddenPromotions()">Đóng</button>
+    </div>
+
+    <!--Log out-->
+    <button id="logoutButton" onclick="logout()" style="display: none;">Đăng xuất</button>
     
     <script src="admin.js"></script>
 </body>
