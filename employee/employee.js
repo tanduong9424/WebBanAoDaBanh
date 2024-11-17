@@ -783,6 +783,7 @@ function updateOrderStatus(madonhang) {
     saveData();
     filterAndSortOrders();
 }
+
 function viewOrderDetails(madonhang) {
     // Tìm thông tin đơn hàng
     const order = orders.find(donHang => donHang.madonhang === madonhang);
@@ -805,7 +806,24 @@ function viewOrderDetails(madonhang) {
     const thoigianmua = new Date(order.thoigianmua);
     const formattedDate = thoigianmua.toLocaleDateString('vi-VN');
 
-    // Tạo nội dung HTML
+    // Tạo nội dung HTML cho sản phẩm
+    const productRows = orderProducts.map(orderProduct => {
+        const product = products.find(p => p.masp === orderProduct.masp);
+        if (product) {
+            return `
+                <div class="product-row">
+                    <div class="product-cell">${product.tensp}</div>
+                    <div class="product-cell">${orderProduct.dongia.toLocaleString('vi-VN')}</div>
+                    <div class="product-cell">${orderProduct.soluong}</div>
+                    <div class="product-cell">${orderProduct.thanhtien.toLocaleString('vi-VN')}</div>
+                </div>
+            `;
+        } else {
+            return ''; // Nếu không tìm thấy sản phẩm, bỏ qua
+        }
+    }).join('');
+
+    // Tạo nội dung HTML cho đơn hàng
     const detailOrder = document.getElementById("detailOrder");
     detailOrder.innerHTML = `
         <h3>Mã đơn hàng: ${order.madonhang}</h3>
@@ -827,22 +845,17 @@ function viewOrderDetails(madonhang) {
                 <div class="product-cell">Số lượng</div>
                 <div class="product-cell">Thành tiền</div>
             </div>
-            ${orderProducts.map(product => `
-                <div class="product-row">
-                    <div class="product-cell">${product.masp}</div>
-                    <div class="product-cell">${product.dongia.toLocaleString('vi-VN')}</div>
-                    <div class="product-cell">${product.soluong}</div>
-                    <div class="product-cell">${product.thanhtien.toLocaleString('vi-VN')}</div>
-                </div>
-            `).join('')}
+            ${productRows}
         </div>
         <h4 class="total">
             Tổng tiền: <span>${order.tongtien.toLocaleString('vi-VN')}</span>
         </h4>
     `;
+
     // Hiển thị modal chứa chi tiết sản phẩm
     document.getElementById("detailOrderModal").style.display = "block";
 }
+
 
 function updateBackgroundColor(selectElement) {
     const colorMap = {
