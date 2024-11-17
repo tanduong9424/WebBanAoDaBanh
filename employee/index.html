@@ -11,7 +11,7 @@
 <body>
     <div>
         <div id="tab_menu">
-            <div><a href="">Thông tin nhân viên</a></div>
+            <!-- <div><a href="">Thông tin nhân viên</a></div> -->
             <div><a href="" onclick="showPanel('products', event)">Sản phẩm</a></div>
             <div><a href="" onclick="showPanel('orders', event)">Đơn hàng</a></div>
         </div>
@@ -90,15 +90,15 @@
                 <div style="margin-left: 5px;">
                     <div>
                         <label for="Status">Phân loại theo: </label>   
-                        <input type="radio" name="radioStatus" id="Status" value="all">tất cả
-                        <input type="radio" name="radioStatus" id="Status" value="pending" checked>chưa xử lý
-                        <input type="radio" name="radioStatus" id="Status" value="confirm">đã xác nhận
-                        <input type="radio" name="radioStatus" id="Status" value="cancel">đã hủy
-                        <input type="radio" name="radioStatus" id="Status" value="shipped">đã giao
+                        <input type="radio" name="radioStatus" id="Status" onchange="filterAndSortOrders()" value="all">tất cả
+                        <input type="radio" name="radioStatus" id="Status" onchange="filterAndSortOrders()" value="chưa xử lý" checked>chưa xử lý
+                        <input type="radio" name="radioStatus" id="Status" onchange="filterAndSortOrders()" value="xác nhận">đã xác nhận
+                        <input type="radio" name="radioStatus" id="Status" onchange="filterAndSortOrders()" value="đã hủy">đã hủy
+                        <input type="radio" name="radioStatus" id="Status" onchange="filterAndSortOrders()" value="đã giao">đã giao
                     </div>
                     <div>
                         <label for="">Sắp xếp theo:</label>   
-                        <select name="selectOrder" id="Order">
+                        <select name="selectSort" id="Sort" onchange="filterAndSortOrders()">
                             <option selected value="latest">Mới nhất</option>
                             <option value="oldest">Cũ nhất</option>
                             <option value="highestTotal">Tổng tiền cao nhất</option>
@@ -116,15 +116,15 @@
                                     <td>Mã khách hàng</td>
                                     <td>Thời gian mua</td>
                                     <td>Tổng tiền</td>
-                                    <td>Mã khuyến mãi</td>
-                                    <td>Trạng thái hóa đơn</td>
+                                    <!-- <td>Mã khuyến mãi</td> -->
+                                    <td>Trạng thái đơn hàng</td>
                                     <td>Chi tiết</td>
                                 </tr>
                             </thead>
                         </table>
                     </div>
-                    <div style="overflow-x: scroll; height: 95%;">
-                        <table>
+                    <div style="overflow-y: scroll; height: 95%;">
+                        <table id="order-table">
                             <tbody id="order-list">
                                 <!-- Dữ liệu sẽ được điền vào đây -->
                             </tbody>
@@ -143,6 +143,16 @@
             </div>
         </div>
     </div>
+    
+    <div id="detailOrderModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="detailOrder">
+               
+            </div> 
+        </div>
+    </div>
+
     <div id="addProductForm" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>

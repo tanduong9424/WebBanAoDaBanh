@@ -13,8 +13,8 @@ let orders = [
     { madonhang: "DH8", makh: "KH6", thoigianmua: "2024-11-6", tongtien: 165000, makhuyenmai: null, tthd: "đã giao" },
     { madonhang: "DH9", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, makhuyenmai: "KM1", tthd: "đã giao" },
     { madonhang: "DH10", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, makhuyenmai: "KM2", tthd: "đã giao" },
-    { madonhang: "DH11", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: null, tthd: "đã giao" },
-    { madonhang: "DH12", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH11", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: null, tthd: "chưa xử lý" },
+    { madonhang: "DH12", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "chưa xử lý" },
     { madonhang: "DH13", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "đã giao" },
     { madonhang: "DH14", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "đã giao" },
     { madonhang: "DH15", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao" },
@@ -70,7 +70,15 @@ let orderDetails = [
 
     // Add more details based on orders
 ];
-
+let customer = [
+    { makh: "KH1", matk: "TK4", tenkh: "Pham Van C", sdt: "0901234567", email: "c@gmail.com", diachi: "Ha Noi" },
+    { makh: "KH2", matk: "TK5", tenkh: "Tran Thi D", sdt: "0912345678", email: "d@gmail.com", diachi: "Ho Chi Minh" },
+    { makh: "KH3", matk: "TK6", tenkh: "Hoang Van E", sdt: "0923456789", email: "e@gmail.com", diachi: "Da Nang" },
+    { makh: "KH4", matk: "TK7", tenkh: "Nguyen Thi F", sdt: "0934567890", email: "f@gmail.com", diachi: "Hai Phong" },
+    { makh: "KH5", matk: "TK8", tenkh: "Le Van G", sdt: "0945678901", email: "g@gmail.com", diachi: "Can Tho" },
+    { makh: "KH6", matk: "TK9", tenkh: "Nguyen Thi H", sdt: "0956789012", email: "h@gmail.com", diachi: "Vung Tau" },
+    { makh: "KH7", matk: "TK10", tenkh: "Pham Van I", sdt: "0967890123", email: "i@gmail.com", diachi: "Hue" }
+];
 
 function resetProductFilter(){
     document.getElementById("allRadio").checked=true;
@@ -108,7 +116,8 @@ function toggleFilterCategory() {
 
 // Khởi chạy
 renderProducts(products);
-renderOrders(orders);
+filterAndSortOrders();
+//renderOrders(orders);
 
 // Hàm để lọc và sắp xếp sản phẩm
 function applyFilters() {
@@ -177,7 +186,7 @@ function renderProducts(filteredProducts) {
             productEl.className = "product";
             productEl.innerHTML = `
                 <div><strong>${product.tensp}</strong></div>
-                <div>${product.price} VND</div>
+                <div>${product.price.toLocaleString()} VND</div>
                 <div><img src="${product.image_url}" alt=""></div>
                 <div>
                     <button onclick="showEditProductForm('${product.masp}')">Sửa</button>
@@ -465,7 +474,7 @@ function showProductDetails(masp) {
                 <div style="flex: 40%">
                     <div>
                         <p><strong>Mã sản phẩm:</strong> ${product.masp}</p>
-                        <p><strong>Giá:</strong> ${product.price} VND</p>
+                        <p><strong>Giá:</strong> ${product.price.toLocaleString()} VND</p>
                         <p><strong>Mô tả:</strong> ${product.description.replace(/\n/g, '<br>')}</p>
                         <p><strong>Size:</strong> ${product.size}</p>
                         <p><strong>Stock:</strong> ${product.stock}</p>
@@ -680,10 +689,39 @@ async function editProduct(masp) {
     }
 }
 
+//lọc đơn hàng
+function filterAndSortOrders() {
+    // Lấy giá trị được chọn từ radio buttons (trạng thái đơn hàng)
+    // Lấy giá trị được chọn từ radio buttons (trạng thái đơn hàng)
+const status = document.querySelector('input[name="radioStatus"]:checked').value;
+
+    // Lấy giá trị được chọn từ dropdown (sắp xếp đơn hàng)
+    const sortOrder = document.getElementById("Sort").value;
+
+    // Lọc danh sách đơn hàng dựa trên trạng thái
+    let filteredOrders = orders.filter(order => (status === "all") || (status === order.tthd));
+    //console.log(filteredOrders);
+    // Sắp xếp danh sách đơn hàng dựa trên tiêu chí
+    filteredOrders.sort((a, b) => {
+        if (sortOrder === "latest") {
+            return new Date(b.thoigianmua) - new Date(a.thoigianmua); // Mới nhất
+        } else if (sortOrder === "oldest") {
+            return new Date(a.thoigianmua) - new Date(b.thoigianmua); // Cũ nhất
+        } else if (sortOrder === "highestTotal") {
+            return b.tongtien - a.tongtien; // Tổng tiền cao nhất
+        } else if (sortOrder === "lowestTotal") {
+            return a.tongtien - b.tongtien; // Tổng tiền thấp nhất
+        }
+    });
+
+    // Hiển thị kết quả lọc và sắp xếp
+    renderOrders(filteredOrders);
+}
 // Hiển thị các đơn hàng
 function renderOrders(filteredOrders) {
     const orderList = document.getElementById('order-list');
-    orders.forEach((order, index) => {
+    orderList.innerHTML = ''; //xóa nội dung cũ
+    filteredOrders.forEach(order => {
         // Định dạng lại date_added
         const dateOrdered = new Date(order.thoigianmua);
         const formattedDate = dateOrdered.toLocaleDateString('vi-VN', {
@@ -698,47 +736,131 @@ function renderOrders(filteredOrders) {
                 <td>${order.makh}</td>
                 <td>${formattedDate}</td>
                 <td>${order.tongtien.toLocaleString()} VND</td>
-                <td>${order.makhuyenmai || 'Không có'}</td>
+                
                 <td>
-                    <select name="selectStatus" id="Status-${order.madonhang}">
+                    <select name="selectStatus" id="Status-${order.madonhang}" class="status-select" onchange="updateOrderStatus('${order.madonhang}')" style="font-weight: bold;">
                         <option value="chưa xử lý">chưa xử lý</option>
                         <option value="xác nhận">xác nhận</option>
                         <option value="đã giao">đã giao</option>
                         <option value="đã hủy">đã hủy</option>
                     </select>
                 </td>
-                <td><button onclick="viewDetails('${order.madonhang}')">Xem chi tiết</button></td>
+                <td><button onclick="viewOrderDetails('${order.madonhang}')">Xem chi tiết</button></td>
             </tr>
         `;
         //orderList.innerHTML += row;
         orderList.insertAdjacentHTML("beforeend", row);
         
         document.getElementById(`Status-${order.madonhang}`).value = order.tthd;
+
+        document.querySelectorAll('.status-select').forEach(select => {
+            updateBackgroundColor(select);
+        });
     });
 }
-function viewDetails(madonhang) {
-    alert(`Xem chi tiết đơn hàng: ${madonhang}`);
 
+function updateOrderStatus(madonhang) {
+    // Lấy đối tượng select của đơn hàng
+    const selectElement = document.getElementById(`Status-${madonhang}`);
+    
+    // Lấy giá trị mới của trạng thái
+    const newStatus = selectElement.value;
+    
+    // Cập nhật trạng thái trong danh sách orders (hoặc cơ sở dữ liệu nếu cần)
+    const orderIndex = orders.findIndex(order => order.madonhang === madonhang);
+    if (orderIndex !== -1) {
+        // Cập nhật trạng thái của đơn hàng trong mảng orders
+        orders[orderIndex].tthd = newStatus;
+        
+        // Nếu bạn cần cập nhật giao diện hoặc cơ sở dữ liệu, làm ở đây
+        console.log(`Đã cập nhật trạng thái đơn hàng ${madonhang} thành: ${newStatus}`);
+    } else {
+        console.log(`Không tìm thấy đơn hàng với mã ${madonhang}`);
+    }
+    
+    // (Tùy chọn) Cập nhật lại màu nền của select
+    updateBackgroundColor(selectElement);
+    saveData();
+    filterAndSortOrders();
 }
-// Thêm đơn hàng mới
-function addOrder() {
-    const newOrder = {
-        madonhang: `DH${Date.now()}`,
-        makh: "KH001",
-        thoigianmua: new Date().toISOString(),
-        tongtien: 500000,
-        makhuyenmai: "",
-        tthd: "Chờ xác nhận"
+function viewOrderDetails(madonhang) {
+    // Tìm thông tin đơn hàng
+    const order = orders.find(donHang => donHang.madonhang === madonhang);
+    if (!order) {
+        console.error("Không tìm thấy đơn hàng.");
+        return;
+    }
+
+    // Tìm thông tin khách hàng
+    const customerInfo = customer.find(kh => kh.makh === order.makh);
+    if (!customerInfo) {
+        console.error("Không tìm thấy thông tin khách hàng.");
+        return;
+    }
+
+    // Tìm thông tin sản phẩm liên quan đến đơn hàng
+    const orderProducts = orderDetails.filter(detail => detail.madonhang === madonhang);
+
+    // Định dạng lại ngày mua
+    const thoigianmua = new Date(order.thoigianmua);
+    const formattedDate = thoigianmua.toLocaleDateString('vi-VN');
+
+    // Tạo nội dung HTML
+    const detailOrder = document.getElementById("detailOrder");
+    detailOrder.innerHTML = `
+        <h3>Mã đơn hàng: ${order.madonhang}</h3>
+        <div>
+            <div><strong>Khách hàng:</strong></div>
+            <div>Tên: ${customerInfo.tenkh}</div>
+            <div>Số điện thoại: ${customerInfo.sdt}</div>
+            <div>Email: ${customerInfo.email}</div>
+            <div>Địa chỉ: ${customerInfo.diachi}</div>
+        </div>
+        <div style="margin: 20px 0px; display: flex;">
+            <div><strong>Thời gian mua:</strong></div>
+            <div style="margin-left: 10px">${formattedDate}</div>
+        </div>
+        <div>
+            <div class="product-header">
+                <div class="product-cell">Sản phẩm</div>
+                <div class="product-cell">Đơn giá</div>
+                <div class="product-cell">Số lượng</div>
+                <div class="product-cell">Thành tiền</div>
+            </div>
+            ${orderProducts.map(product => `
+                <div class="product-row">
+                    <div class="product-cell">${product.masp}</div>
+                    <div class="product-cell">${product.dongia.toLocaleString('vi-VN')}</div>
+                    <div class="product-cell">${product.soluong}</div>
+                    <div class="product-cell">${product.thanhtien.toLocaleString('vi-VN')}</div>
+                </div>
+            `).join('')}
+        </div>
+        <h4 class="total">
+            Tổng tiền: <span>${order.tongtien.toLocaleString('vi-VN')}</span>
+        </h4>
+    `;
+    // Hiển thị modal chứa chi tiết sản phẩm
+    document.getElementById("detailOrderModal").style.display = "block";
+}
+
+function updateBackgroundColor(selectElement) {
+    const colorMap = {
+        "chưa xử lý": "lightgray",
+        "xác nhận": "lightgreen",
+        "đã giao": "lightblue",
+        "đã hủy": "lightcoral"
     };
-    orders.push(newOrder);
-    //saveData();
-    renderOrders();
+
+    // Cập nhật màu nền theo giá trị hiện tại
+    selectElement.style.backgroundColor = colorMap[selectElement.value] || "white";
 }
+
 
 // Lưu dữ liệu vào localStorage
 function saveData() {
     localStorage.setItem("products", JSON.stringify(products));
-    //localStorage.setItem("orders", JSON.stringify(orders));
+    localStorage.setItem("orders", JSON.stringify(orders));
 }
 // Chuyển đổi panel giữa sản phẩm và đơn hàng
 function showPanel(panelId, event) {
@@ -752,5 +874,7 @@ function closeModal() {
     document.getElementById("detailModal").style.display = "none";
     document.getElementById("addProductForm").style.display = "none";
     document.getElementById("editProductForm").style.display = "none";
+    document.getElementById("detailOrderModal").style.display = "none";
 }
 
+saveData();

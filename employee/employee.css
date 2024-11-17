@@ -161,6 +161,40 @@ tr:nth-child(even) {
 tr:nth-child(odd) {
     background-color: #ffffff; /* Màu nền cho hàng lẻ */
 }
+thead td:nth-child(1),
+tbody td:nth-child(1) {
+    width: 10%; /* Mã đơn hàng */
+}
+
+thead td:nth-child(2),
+tbody td:nth-child(2) {
+    width: 10%; /* Mã khách hàng */
+}
+
+thead td:nth-child(3),
+tbody td:nth-child(3) {
+    width: 15%; /* Thời gian mua */
+}
+
+thead td:nth-child(4),
+tbody td:nth-child(4) {
+    width: 20%; /* Tổng tiền */
+}
+
+/* thead td:nth-child(5),
+tbody td:nth-child(5) {
+    width: 10%;  Mã khuyến mãi
+} */
+
+thead td:nth-child(5),
+tbody td:nth-child(5) {
+    width: 30%; /* Trạng thái hóa đơn */
+}
+
+thead td:nth-child(6),
+tbody td:nth-child(6) {
+    width: 15%; /* Chi tiết */
+}
 
 /* button {
     padding: 5px 10px;
@@ -187,6 +221,35 @@ button:hover {
     width: 60%;
     text-align: left;
     
+}
+
+/*cho chi tiết đơn hàng*/
+.product-header, .product-row {
+    display: flex;
+
+    padding: 8px 0;
+}
+
+.product-header {
+    border-bottom: 2px solid #333;
+    font-weight: bold;
+    background-color: #f0f0f0;
+}
+
+.product-row {
+    border-bottom: 1px solid #ddd;
+}
+
+.product-cell {
+    flex: 1;
+    text-align: left;
+    padding: 0 8px;
+}
+
+.total span {
+    color: #d9534f;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 /* Cấu hình cho modal */
@@ -224,5 +287,5 @@ button:hover {
     color: #000;
     text-decoration: none;
     cursor: pointer;
-  }
+}
 
