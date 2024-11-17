@@ -42,10 +42,6 @@ html, body {
     font-weight: bolder;
 }
 
-#product_panel{
-    border: 5px solid purple;
-    height: 100%;
-}
 #products_container{
     height: 91%;
     overflow: scroll;
@@ -124,7 +120,60 @@ html, body {
     object-fit: cover;         /* Để ảnh vừa khung, tự cắt khi vượt quá khung */
 }
 
-/*cho thêm sản phẩm*/
+#orders_container{
+/*     border-top: 3px solid black;
+    margin-top: 10px;
+    overflow: scroll;
+    height: 100%; */
+    margin-top: 5px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Đảm bảo các cột có kích thước cố định */
+}
+
+tbody {
+    display: block;
+     /* Bạn có thể thay đổi chiều cao tối đa tùy ý */
+}
+table, th, td {
+    border: 1px solid darkblue;
+}
+tr {
+    width: 100%;
+    display: table;
+    table-layout: fixed; /* Đảm bảo các cột trong tbody cũng có cùng kích thước */
+}
+td {
+    text-align: center;
+    padding: 8px;
+}
+
+thead tr:first-child {
+    background-color: lightgreen;
+    font-weight: bold;
+    
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* Màu nền cho hàng chẵn */
+}
+tr:nth-child(odd) {
+    background-color: #ffffff; /* Màu nền cho hàng lẻ */
+}
+
+/* button {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #45a049;
+} */
+/*cho form thêm sản phẩm*/
 .container{
     display: flex;
     padding: 3px;
@@ -134,7 +183,6 @@ html, body {
     width: 30%;
     text-align: right;
 }
-
 .container .item2{
     width: 60%;
     text-align: left;

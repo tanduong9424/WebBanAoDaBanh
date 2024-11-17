@@ -3,29 +3,82 @@ let products = JSON.parse(localStorage.getItem("products")) || [];
 
 // Dữ liệu mẫu cho đơn hàng
 let orders = [
-    {
-        madonhang: "DH001",
-        makh: "KH001",
-        thoigianmua: "2024-03-01T12:00:00Z",
-        tongtien: 450000,
-        makhuyenmai: "SALE20",
-        tthd: "Đã xác nhận"
-    },
-    {
-        madonhang: "DH002",
-        makh: "KH002",
-        thoigianmua: "2024-03-05T15:30:00Z",
-        tongtien: 300000,
-        makhuyenmai: "",
-        tthd: "Chờ xác nhận"
-    }
+    { madonhang: "DH1", makh: "KH1", thoigianmua: "2024-11-16T04:21:54.645Z", tongtien: 150000, makhuyenmai: "KM1", tthd: "đã giao" },
+    { madonhang: "DH2", makh: "KH1", thoigianmua: "2024-11-1", tongtien: 50000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH3", makh: "KH2", thoigianmua: "2024-11-2", tongtien: 360000, makhuyenmai: null, tthd: "đã hủy" },
+    { madonhang: "DH4", makh: "KH2", thoigianmua: "2024-11-3", tongtien: 230000, makhuyenmai: "KM1", tthd: "chưa xử lý" },
+    { madonhang: "DH5", makh: "KH3", thoigianmua: "2024-11-4", tongtien: 105000, makhuyenmai: "KM1", tthd: "xác nhận" },
+    { madonhang: "DH6", makh: "KH4", thoigianmua: "2024-11-5", tongtien: 125000, makhuyenmai: null, tthd: "đã giao" },
+    { madonhang: "DH7", makh: "KH5", thoigianmua: "2024-11-6", tongtien: 155000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH8", makh: "KH6", thoigianmua: "2024-11-6", tongtien: 165000, makhuyenmai: null, tthd: "đã giao" },
+    { madonhang: "DH9", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, makhuyenmai: "KM1", tthd: "đã giao" },
+    { madonhang: "DH10", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH11", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: null, tthd: "đã giao" },
+    { madonhang: "DH12", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH13", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "đã giao" },
+    { madonhang: "DH14", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "đã giao" },
+    { madonhang: "DH15", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH16", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "đã giao" },
+    { madonhang: "DH17", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "đã giao" },
+    { madonhang: "DH18", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, makhuyenmai: "KM1", tthd: "đã giao" },
+    { madonhang: "DH19", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH20", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: "", tthd: "đã giao" },
+    { madonhang: "DH21", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao" },
+
+    // Add more to reach 20 orders
 ];
-function resetButton(){
+let orderDetails = [
+    { madonhang: 'DH1', masp: 'SP1', soluong: 2, dongia: 50000, thanhtien: 100000 },
+    { madonhang: 'DH1', masp: 'SP2', soluong: 1, dongia: 50000, thanhtien: 50000 },
+
+    { madonhang: 'DH2', masp: 'SP1', soluong: 1, dongia: 50000, thanhtien: 50000 },
+
+    { madonhang: 'DH3', masp: 'SP2', soluong: 3, dongia: 120000, thanhtien: 360000 },
+
+    { madonhang: 'DH4', masp: 'SP1', soluong: 1, dongia: 50000, thanhtien: 50000 },
+    { madonhang: 'DH4', masp: 'SP3', soluong: 2, dongia: 90000, thanhtien: 180000 },
+
+    { madonhang: "DH5", masp: "SP4", soluong: 2, dongia: 30000, thanhtien: 60000 },
+    { madonhang: "DH5", masp: "SP5", soluong: 3, dongia: 15000, thanhtien: 45000 },
+
+    { madonhang: "DH6", masp: "SP6", soluong: 1, dongia: 80000, thanhtien: 80000 },
+    { madonhang: "DH6", masp: "SP7", soluong: 1, dongia: 40000, thanhtien: 40000 },
+
+    { madonhang: "DH7", masp: "SP8", soluong: 2, dongia: 25000, thanhtien: 50000 },
+    { madonhang: "DH7", masp: "SP1", soluong: 2, dongia: 50000, thanhtien: 100000 },
+
+    { madonhang: "DH8", masp: "SP2", soluong: 1, dongia: 120000, thanhtien: 120000 },
+    { madonhang: "DH8", masp: "SP3", soluong: 1, dongia: 45000, thanhtien: 45000 },
+
+    { madonhang: "DH9", masp: "SP4", soluong: 3, dongia: 30000, thanhtien: 90000 },
+    { madonhang: "DH9", masp: "SP5", soluong: 2, dongia: 15000, thanhtien: 30000 },
+
+    { madonhang: "DH10", masp: "SP6", soluong: 2, dongia: 80000, thanhtien: 160000 },
+    { madonhang: "DH10", masp: "SP7", soluong: 1, dongia: 40000, thanhtien: 40000 },
+
+    { madonhang: "DH11", masp: "SP8", soluong: 3, dongia: 25000, thanhtien: 75000 },
+    { madonhang: "DH11", masp: "SP1", soluong: 2, dongia: 50000, thanhtien: 100000 },
+
+    { madonhang: "DH12", masp: "SP2", soluong: 1, dongia: 120000, thanhtien: 120000 },
+    { madonhang: "DH12", masp: "SP3", soluong: 2, dongia: 45000, thanhtien: 90000 },
+
+    { madonhang: "DH13", masp: "SP4", soluong: 2, dongia: 30000, thanhtien: 60000 },
+    { madonhang: "DH13", masp: "SP6", soluong: 1, dongia: 80000, thanhtien: 80000 },
+
+    { madonhang: "DH14", masp: "SP7", soluong: 2, dongia: 40000, thanhtien: 80000 },
+    { madonhang: "DH14", masp: "SP8", soluong: 2, dongia: 25000, thanhtien: 50000 },
+
+    // Add more details based on orders
+];
+
+
+function resetProductFilter(){
     document.getElementById("allRadio").checked=true;
     document.getElementById("searchInput").value="";
     document.getElementById("sizeFilter").value="";
     document.getElementById("sortOption").value="";
-
+    document.getElementById("nationalFilter").style.display="none";
+    document.getElementById("teamFilter").style.display="none";
     renderProducts(products);
 }
 function toggleFilterCategory() {
@@ -55,7 +108,7 @@ function toggleFilterCategory() {
 
 // Khởi chạy
 renderProducts(products);
-//renderOrders();
+renderOrders(orders);
 
 // Hàm để lọc và sắp xếp sản phẩm
 function applyFilters() {
@@ -236,7 +289,7 @@ async function addProduct() {
 
         // Ẩn form thêm sản phẩm sau khi hoàn thành
         document.getElementById("addProductForm").style.display = "none";
-        resetButton();
+        resetProductFilter();
     }
 }
 
@@ -628,21 +681,45 @@ async function editProduct(masp) {
 }
 
 // Hiển thị các đơn hàng
-function renderOrders() {
-    const container = document.getElementById("orders_container");
-    container.innerHTML = '';
+function renderOrders(filteredOrders) {
+    const orderList = document.getElementById('order-list');
     orders.forEach((order, index) => {
-        const orderEl = document.createElement("div");
-        orderEl.className = "order";
-        orderEl.innerHTML = `
-            <div><strong>Mã đơn hàng:</strong> ${order.madonhang} - ${order.tongtien} VND</div>
-            <button onclick="editOrder(${index})">Sửa</button>
-            <button onclick="deleteOrder(${index})">Xóa</button>
+        // Định dạng lại date_added
+        const dateOrdered = new Date(order.thoigianmua);
+        const formattedDate = dateOrdered.toLocaleDateString('vi-VN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+        
+        const row = `
+            <tr>
+                <td>${order.madonhang}</td>
+                <td>${order.makh}</td>
+                <td>${formattedDate}</td>
+                <td>${order.tongtien.toLocaleString()} VND</td>
+                <td>${order.makhuyenmai || 'Không có'}</td>
+                <td>
+                    <select name="selectStatus" id="Status-${order.madonhang}">
+                        <option value="chưa xử lý">chưa xử lý</option>
+                        <option value="xác nhận">xác nhận</option>
+                        <option value="đã giao">đã giao</option>
+                        <option value="đã hủy">đã hủy</option>
+                    </select>
+                </td>
+                <td><button onclick="viewDetails('${order.madonhang}')">Xem chi tiết</button></td>
+            </tr>
         `;
-        container.appendChild(orderEl);
+        //orderList.innerHTML += row;
+        orderList.insertAdjacentHTML("beforeend", row);
+        
+        document.getElementById(`Status-${order.madonhang}`).value = order.tthd;
     });
 }
+function viewDetails(madonhang) {
+    alert(`Xem chi tiết đơn hàng: ${madonhang}`);
 
+}
 // Thêm đơn hàng mới
 function addOrder() {
     const newOrder = {
