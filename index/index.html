@@ -1,0 +1,496 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+        <title>Football Kit</title>
+        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+
+    <script>
+        
+    </script>
+
+    <body>
+        <header><!--Header-->
+            <div class="header-top">
+                <div class="container">
+                    <div class="header-top-left">
+                        <div class="header-logo">
+                            <a href="">
+                                <img src="../img/logo.png" class="header-logo-img" onclick=hienthitrangchu();> 
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="header-top-center">
+                        <form action="" class="form-search">
+                            <span class="search-btn"><i class="fa fa-search"></i></span>
+                            <input type="text" class="form-search-input" placeholder="Nhập tên sản phẩm..."
+                                oninput="searchProducts()">
+                            <button class="filter-btn" onclick="ThemDieuKienSearch()"; ><i class="fa fa-caret-down"></i></button>
+                        </form>
+                    </div>
+
+                    <div class="header-top-right">
+                        <ul class="header-top-right-list">
+                            <li class="header-top-right-item open" onclick="openCart()">
+                                <div class="cart-icon-menu">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span class="count-product-cart">0</span>
+                                </div>
+                                <span class="text-cart">Giỏ hàng</span>
+                            </li>
+
+                            <li class="header-top-right-item dropdown open">
+                                <i class="fas fa-user-circle"></i>
+                                <div class="auth-container">
+                                    <span class="text-tk">Tài khoản <i class="fa fa-caret-down"></i></span>
+                                </div>
+                                <ul class="header-top-right-menu">
+                                    <li><a id="login" href="javascript:;"><i class="fa fa-user"></i> Đăng nhập</a></li>
+                                    <li><a id="signup" href="javascript:;"><i class="fa fa-user-plus"></i> Đăng ký</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <nav class="nav-header"><!--Nav dưới header-->
+            <div class="container">
+                <div id="menuMobile" onclick="showMenuMobile()"><i class="fa fa-bars"></i></div>
+                <ul id="menu-list" class="menu-list">
+                    <li onclick=hienthisanpham();>
+                        <a href="javascript:;" class="menu-link">Sản Phẩm</a>
+                    </li>
+                    <li  onclick="showCategory('LALIGA')">
+                        <a href="javascript:;" class="menu-link">Lịch Sử Mua Hàng</a>
+                    </li>
+                    <li onclick="showCategory('Ligue 1')">
+                        <a href="javascript:;" class="menu-link">Chính sách của chúng tôi</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="advanced-search"><!--Tìm kiếm mở rộng-->
+            <div class="container">
+                <div class="advanced-search-category"><!--tìm theo thể loại-->
+                    <span>Phân loại </span>
+                    <select name="" id="advanced-search-category-select" onchange="searchProducts()">
+                        <option>Tất cả</option>
+                        <option>Câu lạc bộ</option>
+                        <option>Quốc gia</option>
+                    </select>
+                    <span>Lựa chọn </span>
+                    <select name="" id="advanced-search-category-select" onchange="searchProducts()">
+                        <option>Tất cả</option>
+                        <option>Câu lạc bộ</option>
+                        <option>Quốc gia</option>
+                    </select>
+                </div>
+                <div class="advanced-search-price"><!--tìm theo giá-->
+                    <span>Giá từ</span>
+                    <input type="number" placeholder="tối thiểu" id="min-price" onchange="searchProducts()">
+                    <span>đến</span>
+                    <input type="number" placeholder="tối đa" id="max-price" onchange="searchProducts()">
+                    <button id="advanced-search-price-btn"><i class="fa fa-search"></i></button>
+                </div>
+                <div class="advanced-search-control">
+                    <!--sắp xếp tăng-->
+                    <button id="sort-ascending" onclick="searchProducts(1)"><i class="fa fa-arrow-up"></i></button>
+                    <!--sắp xếp giảm-->
+                    <button id="sort-descending" onclick="searchProducts(2)"><i class="fa fa-arrow-down"></i></button>
+                    <!--reset giá trị tìm kiếm-->
+                    <button id="reset-search" onclick="searchProducts(0)"><i class="fa fa-refresh"></i></button>
+                    <!--đóng tìm kiếm nâng cao-->
+                    <button onclick="closeSearchAdvanced()"><i class="fa fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <main class="main-wrapper">
+            <div class="modal-product">
+                <div class="left" id="idleft">
+                    <div class="leftmenu" onclick="hienthitrangchu();">Trang Chủ</div>
+                    <div class="leftmenu" onclick="hienthisanpham();">Sản Phẩm</div>
+                    <div class="leftmenu" onclick="hienthitrangchu();">Câu Lạc Bộ</div>
+                    <div class="leftmenu" onclick="hienthisanpham();">Đội tuyển quốc gia</div>
+                    <div class="leftmenu" onclick="hienthitrangchu();">Giới thiệu</div>
+                </div>
+                <div class="main" id="product">
+                    <div class="contentmenu" id="sp1">
+                        <img class="imgplayer" src="../img/5.jpg">
+                        <div style="border-bottom: 1px solid black;">Tên sản phẩm: Goat Antony</div>
+                        <div style="border-bottom: 1px solid black;">Mã sản phẩm: 21MU</div>
+                        <div style="border-bottom: 1px solid black;">Giá sản phẩm: 150.000đ</div>
+                        <div style="margin: 8px;">
+                            <span>Mua</span>
+                            <span>Chi tiết</span>
+                        </div>
+                    </div>
+                    <div class="contentmenu" id="sp2">
+                        <img class="imgplayer" src="../img/12.png" >
+                        <div style="border-bottom: 1px solid black;">Tên sản phẩm: Goat Rô</div>
+                        <div style="border-bottom: 1px solid black;">Mã sản phẩm: 7MU</div>
+                        <div style="border-bottom: 1px solid black;">Giá sản phẩm: 150.000đ</div>
+                        <div style="margin: 8px;">
+                            <span>Mua</span>
+                            <span>Chi tiết</span>
+                        </div>
+                    </div>
+                    <div class="contentmenu" id="sp3">
+                        <img class="imgplayer" src="../img/10.jpg" >
+                        <div style="border-bottom: 1px solid black;">Tên sản phẩm: Goat Si</div>
+                        <div style="border-bottom: 1px solid black;">Mã sản phẩm: 7Si</div>
+                        <div style="border-bottom: 1px solid black;">Giá sản phẩm: 150.000đ</div>
+                        <div style="margin: 8px;">
+                            <span>Mua</span>
+                            <span>Chi tiet</span>
+                        </div></div>
+                    <div class="contentmenu" id="sp4">
+                        <img class="imgplayer" src="../img/2.jpg">
+                        <div style="border-bottom: 1px solid black;">Tên sản phẩm: MC</div>
+                        <div style="border-bottom: 1px solid black;">Mã sản phẩm: MC 2024</div>
+                        <div style="border-bottom: 1px solid black;">Giá sản phẩm: 150.000đ</div>
+                        <div style="margin: 8px;">
+                            <span>Mua</span>
+                            <span>Chi tiết</span>
+                        </div>
+                    </div>
+                    <div class="contentmenu" id="sp5">
+                        <img class="imgplayer" src="../img/3.jpg">
+                        <div style="border-bottom: 1px solid black;">Tên sản phẩm: Liver</div>
+                        <div style="border-bottom: 1px solid black;">Mã sản phẩm: LV</div>
+                        <div style="border-bottom: 1px solid black;">Giá sản phẩm: 150.000đ</div>
+                        <div style="margin: 8px;">
+                            <span>Mua</span>
+                            <span>Chi tiết</span>
+                        </div>
+                    </div>
+                    <div class="contentmenu" id="sp6">
+                        <img class="imgplayer" src="../img/4.jpg">
+                        <div style="border-bottom: 1px solid black;">Tên sản phẩm: Man U away</div>
+                        <div style="border-bottom: 1px solid black;">Mã sản phẩm: MU</div>
+                        <div style="border-bottom: 1px solid black;">Giá sản phẩm: 150.000đ</div>
+                        <div style="margin: 8px;">
+                            <span>Mua</span>
+                            <span>Chi tiết</span>
+                        </div>
+                    </div>
+                    <div class="contentmenu" id="sp7">
+                        <img class="imgplayer" src="../img/7.jpg">
+                        <div style="border-bottom: 1px solid black;">Tên sản phẩm: Liver</div>
+                        <div style="border-bottom: 1px solid black;">Mã sản phẩm: LV</div>
+                        <div style="border-bottom: 1px solid black;">Giá sản phẩm: 150.000đ</div>
+                        <div style="margin: 8px;">
+                            <span>Mua</span>
+                            <span>Chi tiết</span>
+                        </div>
+                    </div>
+                    <div class="contentmenu" id="sp8">
+                        <img class="imgplayer" src="../img/11.png">
+                        <div style="border-bottom: 1px solid black;">Tên sản phẩm: Man U away</div>
+                        <div style="border-bottom: 1px solid black;">Mã sản phẩm: MU</div>
+                        <div style="border-bottom: 1px solid black;">Giá sản phẩm: 150.000đ</div>
+                        <div style="margin: 8px;">
+                            <span>Mua</span>
+                            <span>Chi tiết</span>
+                        </div>
+                    </div>
+                </div>
+    
+                <div style="clear:both"></div>
+            </div>
+        </main>
+
+        
+
+        <div class="modal signup-login"><!--Đăng nhập, Đăng kí-->
+        </div>
+
+        <div class="modal-cart"><!--Giỏ hàng-->
+            <div class="cart-container">
+                <div class="cart-header">
+                    <h3 class="cart-header-title"><i class="fa fa-shopping-cart"></i> Giỏ hàng</h3>
+                    <button class="cart-close" onclick="closeCart()"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="cart-body">
+                    <div class="gio-hang-trong">
+                        <i class="fa fa-shopping-basket"></i>
+                        <p>Không có sản phẩm nào trong giỏ hàng của bạn</p>
+                    </div>
+                    <ul class="cart-list"></ul>
+                </div>
+                <div class="cart-footer">
+                    <div class="cart-total-price">
+                        <p class="text-tt">Tổng tiền:</p>
+                        <p class="text-price">0đ</p>
+                    </div>
+                    <div class="cart-footer-payment">
+                        <button class="them-sach"><i class="fa fa-plus"></i> Mua tiếp</button>
+                        <button class="thanh-toan disabled">Thanh toán</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-detail-order">
+            <div class="modal-container mdl-cnt">
+                <h3 class="modal-container-title">Thông tin đơn hàng</h3>
+                <button class="form-close" onclick="closeModal()"><i class="fa fa-times"></i></button>
+                <div class="detail-order-content">
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer"><!--Footer-->
+            
+            <div class="widget-area">
+                <div class="container">
+                    <div class="widget-row">
+                        <div class="widget-row-col-1">
+                            <h3 class="widget-title">Châm ngôn hành nghề</h3>
+                            <div class="widget-row-col-content">
+                                <p>FootBall Kit trao niềm tin nhận tài lộc, đem đến cho khách hàng những mẫu áo/quần tuyệt nhất.</p>
+                            </div>
+                            <div class="widget-social">
+                                <div class="widget-social-item">
+                                    <a href="https://facebook.com" target="_blank">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                </div>
+                                <div class="widget-social-item">
+                                    <a href="https://youtube.com/@MixiGaming3con" target="_blank">
+                                        <i class="fa fa-youtube"></i>
+                                    </a>
+                                </div>
+                                <div class="widget-social-item">
+                                    <a href="https://linkedin.com" target="_blank">
+                                        <i class="fa fa-linkedin"></i>
+                                    </a>
+                                </div>
+                                <div class="widget-social-item">
+                                    <a href="https://instagram.com" target="_blank">
+                                        <i class="fa fa-instagram"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-row-col">
+                            <h3 class="widget-title">Dịch vụ</h3>
+                            <ul class="widget-contact">
+                                <li class="widget-contact-item">
+                                    <a href="">
+                                        <span>Điều khoản sử dụng</span>
+                                    </a>
+                                </li>
+                                <li class="widget-contact-item">
+                                    <a href="">
+                                        <span>Chính sách bảo mật thông tin</span>
+                                    </a>
+                                </li>
+                                <li class="widget-contact-item">
+                                    <a href="">
+                                        <span>Chính sách bảo mật thanh toán</span>
+                                    </a>
+                                </li>
+                                <li class="widget-contact-item">
+                                    <a href="">
+                                        <span>Giới thiệu về chúng tôi</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="widget-row-col-2">
+                            <h3 class="widget-title">Liên hệ</h3>
+                            <div class="contact">
+                                <div class="contact-item">
+                                    <div class="contact-item-icon">
+                                        <i class="fa fa-map-marker"></i>
+                                    </div>
+                                    <div class="contact-content">
+                                        <span>273 An Dương Vương, Phường 3, Quận 5, TP Hồ Chí Minh</span>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <div class="contact-item-icon">
+                                        <i class="fa fa-phone"></i>
+                                    </div>
+                                    <div class="contact-content contact-item-phone">
+                                        <span>0987654321</span>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <div class="contact-item-icon">
+                                        <i class="fa fa-envelope"></i>
+                                    </div>
+                                    <div class="contact-content conatct-item-email">
+                                        <span>footballkit@gmail.com</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <div class="copyright-wrap"><!--Thanh bản quyền dưới footer-->
+            <div class="container">
+                <div class="copyright-content">
+                    <p>Copyright 2023 Football Kit. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="checkout-page"><!--Xác nhận đơn hàng-->
+            <div class="checkout-header">
+                <div class="checkout-return">
+                    <button onclick="closecheckout()"><i class="fa fa-chevron-left"></i></button>
+                </div>
+                <h2 class="checkout-title">Thanh toán</h2>
+            </div>
+            <main class="checkout-section container">
+                <div class="checkout-col-left">
+                    <div class="checkout-row">
+                        <div class="checkout-col-title">
+                            Thông tin đơn hàng
+                        </div>
+                        <div class="checkout-col-content">
+                            <div class="content-group">
+                                <p class="checkout-content-label">Hình thức giao nhận</p>
+                                <div class="checkout-type-order">
+                                    <button class="type-order-btn active" id="giaotannoi">
+                                        <i class="fa-duotone fa-moped"></i>
+                                        Giao tận nơi
+                                    </button>
+                                    <button class="type-order-btn" id="tudenlay">
+                                        <i class="fa-duotone fa-box-heart"></i>
+                                        Tự đến lấy
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="content-group">
+                                <p class="checkout-content-label">Ngày giao hàng</p>
+                                <div class="date-order">
+                                </div>
+                            </div>
+                            <div class="content-group chk-ship" id="giaotannoi-group">
+                                <p class="checkout-content-label">Thời gian giao hàng</p>
+                                <div class="delivery-time">
+                                    <input type="radio" name="giaongay" id="giaongay" class="radio">
+                                    <label for="giaongay">Giao ngay khi xong</label>
+                                </div>
+                                <div class="delivery-time">
+                                    <input type="radio" name="giaongay" id="deliverytime" class="radio">
+                                    <label for="deliverytime">Giao vào giờ</label>
+                                    <select class="choise-time">
+                                        <option data-hours="08" value="08:00" selected="selected">08:00 - 09:00</option>
+
+                                        <option data-hours="09" value="09:00">09:00 - 10:00</option>
+
+                                        <option data-hours="10" value="10:00"> 10:00 - 11:00</option>
+
+                                        <option data-hours="11" value="11:00"> 11:00 - 12:00</option>
+
+                                        <option data-hours="12" value="12:00"> 12:00 - 13:00</option>
+
+                                        <option data-hours="13" value="13:00"> 13:00 - 14:00</option>
+
+                                        <option data-hours="14" value="14:00"> 14:00 - 15:00</option>
+
+                                        <option data-hours="15" value="15:00"> 15:00 - 16:00</option>
+
+                                        <option data-hours="16" value="16:00"> 16:00 - 17:00</option>
+
+                                        <option data-hours="17" value="17:00"> 17:00 - 18:00</option>
+
+                                        <option data-hours="18" value="18:00"> 18:00 - 19:00</option>
+
+                                        <option data-hours="19" value="19:00"> 19:00 - 20:00</option>
+
+                                        <option data-hours="20" value="20:00"> 20:00 - 21:00</option>
+
+                                        <option data-hours="21" value="21:00"> 21:00 - 22:00</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="content-group" id="tudenlay-group">
+                                <p class="checkout-content-label">Lấy hàng tại chi nhánh</p>
+                                <div class="delivery-time">
+                                    <input type="radio" name="chinhanh" id="chinhanh-1" class="radio">
+                                    <label for="chinhanh-1">273 An Dương Vương, Phường 3, Quận 5</label>
+                                </div>
+                                <div class="delivery-time">
+                                    <input type="radio" name="chinhanh" id="chinhanh-2" class="radio">
+                                    <label for="chinhanh-2">TPHCM, Nguyễn Trãi, Quận 5</label>
+                                </div>
+                            </div>
+                            <div class="content-group">
+                                <p class="checkout-content-label">Ghi chú đơn hàng</p>
+                                <textarea type="text" class="note-order" placeholder="Nhập ghi chú"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="checkout-row">
+                        <div class="checkout-col-title">
+                            Thông tin người nhận
+                        </div>
+                        <div class="checkout-col-content">
+                            <div class="content-group">
+                                <form action="" class="info-nhan-hang">
+                                    <div class="form-group">
+                                        <input id="tennguoinhan" name="tennguoinhan" type="text"
+                                            placeholder="Tên người nhận" class="form-control">
+                                        <span class="form-message"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="sdtnhan" name="sdtnhan" type="text" placeholder="Số điện thoại nhận hàng"
+                                            class="form-control">
+                                        <span class="form-message"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="diachinhan" name="diachinhan" type="text" placeholder="Địa chỉ nhận hàng"
+                                            class="form-control chk-ship">
+                                        <span class="form-message"></span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout-col-right">
+                    <p class="checkout-content-label">Đơn hàng</p>
+                    <div class="bill-total" id="list-order-checkout">
+                    </div>
+                    <div class="bill-payment">
+                        <div class="total-bill-order">
+                        </div>
+                        <div class="policy-note">
+                            Bằng việc bấm vào nút “Đặt hàng”, tôi đồng ý với
+                            <a href="#" target="_blank">chính sách hoạt động</a>
+                            của chúng tôi.
+                        </div>
+                    </div>
+                    <div class="total-checkout">
+                        <div class="text">Tổng tiền</div>
+                        <div class="price-bill">
+                            <div class="price-final" id="checkout-cart-price-final">0</div>
+                        </div>
+                    </div>
+                    <button class="complete-checkout-btn">Đặt hàng</button>
+                </div>
+            </main>
+        </div>
+        
+
+
+        <script src="index.js"></script>
+    </body>
+</html>
