@@ -21,7 +21,6 @@
     
     <div id="tab_menu">
         <div><a href="#" onclick="showPanel('account', event)">Quản lý tài khoản</a></div>
-        <div><a href="#" onclick="showPanel('promotion', event)">Quản lý khuyến mãi</a></div>
         <div><a href="#" onclick="showPanel('orders', event)">Quản lý đơn hàng</a></div> 
         <div><a href="#" onclick="showPanel('statistics', event)">Thống kê</a></div>
     </div>
@@ -44,17 +43,6 @@
             <div id="accounts_container"></div>
         </div>
 
-        <!-- Quản lý Khuyến mãi -->
-        <div id="promotion_panel" style="display: none;">
-            <div class="top_label">Quản lý Khuyến mãi</div>
-            <input type="text" id="searchPromotion" placeholder="Tìm kiếm khuyến mãi..." oninput="filterPromotions()" />
-            <button onclick="addPromotion()">Thêm Khuyến Mãi</button>
-            <label>
-                <input type="checkbox" id="activeOnly" onchange="filterPromotions()"> Chỉ hiển thị khuyến mãi đang hoạt động
-            </label>
-            <button onclick="toggleHiddenPromotions()">Xem khuyến mãi đã xóa</button>
-            <div id="promotions_container"></div>
-        </div>
         <!--Quản lý đơn hàng-->
         <div id="orders_panel" style="display: none;">
             <div class="top_label">Quản lý đơn hàng</div>
@@ -113,14 +101,7 @@
             <button id="backButton" onclick="showMainAccounts()">Quay lại</button>
         </div>
     </div>
-    <!--Giao diện khuyến mãi đã ẩn-->  
-    <div id="hiddenPromotionsContainer" class="modal" style="display: none;">
-        <div class="pop-up">
-            <h3>Khuyến mãi đã ẩn</h3>
-            <div id="hiddenPromotionsList"></div>
-            <button id="backButton" onclick="showMainPromotions()">Quay lại</button>
-        </div>
-    </div>
+
     <!-- Form thêm và sửa tài khoản -->
         <div id="accountForm" class="modal" style="display: none;">
             <div class="modal-content">
@@ -205,38 +186,7 @@
         </div>
     </div>
 
-    <!-- Form thêm/sửa khuyến mãi -->
-    <div id="promotionForm" class="modal" style="display: none;">
-        <div class="modal-content">
-            <h3 id="promotionFormTitle">Thêm khuyến mãi</h3>
-            <form id="promotionFormContent">
-                <label for="promotionCode">Cú pháp khuyến mãi:</label>
-                <input type="text" id="promotionCode" required>
 
-                <label for="startDate">Ngày bắt đầu:</label>
-                <input type="date" id="startDate" required>
-
-                <label for="endDate">Ngày kết thúc:</label>
-                <input type="date" id="endDate" required>
-
-                <label for="requiredAmount">Tổng tiền cần thiết:</label>
-                <input type="number" id="requiredAmount" required>
-
-                <label for="discountPercent">Phần trăm giảm:</label>
-                <input type="number" id="discountPercent" required>
-
-                <button type="submit">Lưu</button>
-                <button type="button" onclick="closePromotionForm()">Hủy</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Container hiển thị khuyến mãi đã ẩn, giống giao diện tài khoản đã ẩn -->
-    <div id="hiddenPromotionsContainer" style="display: none;">
-        <h3>Khuyến mãi đã ẩn</h3>
-        <div id="hiddenPromotionsList" class="hidden-promotions-list"></div>
-        <button onclick="toggleHiddenPromotions()">Đóng</button>
-    </div>
 
     <!--Log out-->
     <button id="logoutButton" onclick="logout()" style="display: none;">Đăng xuất</button>

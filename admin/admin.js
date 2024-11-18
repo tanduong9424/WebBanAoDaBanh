@@ -1,7 +1,6 @@
 /*let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
 let employee = JSON.parse(localStorage.getItem("employee")) || [];
 let customer = JSON.parse(localStorage.getItem("customer")) || [];
-let promotions = JSON.parse(localStorage.getItem("promotions")) || [];
 let products = JSON.parse(localStorage.getItem("products")) || [];
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
 let orderDetails = JSON.parse(localStorage.getItem("orderDetails")) || [];
@@ -32,11 +31,6 @@ let accounts = [
     { makh: "KH5", matk: "TK8", tenkh: "Le Van G", sdt: "0945678901", email: "g@gmail.com", diachi: "Can Tho" },
     { makh: "KH6", matk: "TK9", tenkh: "Nguyen Thi H", sdt: "0956789012", email: "h@gmail.com", diachi: "Vung Tau" },
     { makh: "KH7", matk: "TK10", tenkh: "Pham Van I", sdt: "0967890123", email: "i@gmail.com", diachi: "Hue" }
-  ];
-  let promotions = [
-    { id: "KM1", code: "DISCOUNT10", createdDate: "2024-11-01", startDate: "2024-11-02", endDate: "2024-11-30", requiredAmount: 100000, discountPercent: 10 },
-    { id: "KM2", code: "DISCOUNT15", createdDate: "2024-11-01", startDate: "2024-11-05", endDate: "2024-11-20", requiredAmount: 200000, discountPercent: 15 },
-    // Add more as needed
   ];
   let products = [
     { masp: "SP1", tensp: "Burger", description: "Delicious burger", size: "M", price: 50000, stock: 100, team: "Local", national: "VN", date_added: "2024-11-10", image_url: "burger.jpg", status: "available" },
@@ -191,7 +185,6 @@ window.onload = () => {
         document.getElementById("main_content").style.display = "block";
         document.getElementById("logoutButton").style.display = "block";
         renderAccounts();
-        renderPromotions();
     }
 };
 
@@ -282,7 +275,7 @@ function closeModal() {
 
 
 // Tạo phần tử hiển thị tài khoản
-// Cập nhật nút trong hàm tạo phần tử tài khoản hoặc khuyến mãi
+// Cập nhật nút trong hàm tạo phần tử tài khoản
 function createAccountElement(account, originalIndex) {
     const actionButtons = account.role === 'admin'
         ? `<button class="edit" onclick="editAccount(${originalIndex})">Sửa</button>`
@@ -621,55 +614,7 @@ function showMainAccounts() {
     document.getElementById("account_panel").style.display = "block";  // Show main accounts panel
     document.getElementById("hiddenAccountsPanel").style.display = "none";  // Hide hidden accounts panel
 }
-// Hiển thị các khuyến mãi đã ẩn với giao diện giống tài khoản đã ẩn
-function showHiddenPromotions() {
-    document.getElementById("promotion_panel").style.display = "none";  // Hide main promotions panel
-    const hiddenPromotionsList = document.getElementById("hiddenPromotionsList");
-    hiddenPromotionsList.innerHTML = "";
-    
-    // Lọc các khuyến mãi đã ẩn
-    const hiddenPromotions = promotions.filter(promotion => promotion.isHidden);
-    hiddenPromotions.forEach((promotion) => {
-        const promotionEl = document.createElement("div");
-        promotionEl.className = "hidden-promotion-item";
-        promotionEl.innerHTML = `
-            <span>Mã khuyến mãi: ${promotion.id}</span>
-            <span>Cú pháp: ${promotion.code}</span>
-            <span>Ngày tạo: ${promotion.createdDate}</span>
-            <span>Ngày bắt đầu: ${promotion.startDate}</span>
-            <span>Ngày kết thúc: ${promotion.endDate}</span>
-            <span>Tổng tiền cần thiết: ${promotion.requiredAmount} đồng</span>
-            <span>Phần trăm giảm: ${promotion.discountPercent}%</span>
-            <div>
-                <button onclick="restorePromotion('${promotion.id}')">Khôi phục</button>
-            </div>
-        `;
-        hiddenPromotionsList.appendChild(promotionEl);
-    });
-}
 
-// Khôi phục khuyến mãi đã ẩn
-function restorePromotion(id) {
-    const promotion = promotions.find(promo => promo.id === id);
-    if (promotion) {
-        promotion.isHidden = false;
-        saveData();
-        showHiddenPromotions();
-        renderPromotions();
-    }
-}
-// Hàm bật tắt hiển thị khuyến mãi đã ẩn
-function toggleHiddenPromotions() {
-    const hiddenPromotionsContainer = document.getElementById("hiddenPromotionsContainer");
-    hiddenPromotionsContainer.style.display = hiddenPromotionsContainer.style.display === "none" ? "flex" : "none";
-    if (hiddenPromotionsContainer.style.display === "flex") {
-        showHiddenPromotions();
-    }
-}
-function showMainPromotions() {
-    document.getElementById("promotion_panel").style.display = "block";  // Show main accounts panel
-    document.getElementById("hiddenPromotionsContainer").style.display = "none";  // Hide hidden accounts panel
-}
 
 function renderHiddenAccounts() {
     const container = document.getElementById("hiddenAccountsContainer");
@@ -701,182 +646,11 @@ function restoreAccount(index) {
 }
 
 
-// Hiển thị danh sách khuyến mãi
-function renderPromotions() {
-    const container = document.getElementById("promotions_container");
-    container.innerHTML = '';
-    promotions.forEach((promotion, index) => {
-        if (!promotion.isHidden) {
-            const promotionEl = document.createElement("div");
-            promotionEl.className = "promotion";
-            promotionEl.innerHTML = `
-                <span>Mã: ${promotion.id}</span>
-                <span>Cú pháp: ${promotion.code}</span>
-                <span>Ngày tạo: ${promotion.createdDate}</span>
-                <span>Ngày bắt đầu: ${promotion.startDate}</span>
-                <span>Ngày kết thúc: ${promotion.endDate}</span>
-                <span>Tổng tiền cần thiết: ${promotion.requiredAmount}</span>
-                <span>Phần trăm giảm: ${promotion.discountPercent}%</span>
-                <div>
-                    <button class="edit" onclick="editPromotion(${index})">Sửa</button>
-                    <button class="delete" onclick="deletePromotion(${index})">Xóa</button>
-                </div>
-            `;
-            container.appendChild(promotionEl);
-        }
-    });
-}
-
-// Lọc khuyến mãi theo thời gian và tìm kiếm
-function filterPromotions() {
-    const searchQuery = document.getElementById("searchPromotion").value.toLowerCase();
-    const activeOnly = document.getElementById("activeOnly").checked;
-    const currentDate = new Date();
-
-    const filteredPromotions = promotions.filter(promotion => {
-        const matchesSearch = promotion.code.toLowerCase().includes(searchQuery);
-
-        // Kiểm tra xem khuyến mãi có đang hoạt động không
-        const startDate = new Date(promotion.startDate);
-        const endDate = new Date(promotion.endDate);
-         // Kiểm tra khuyến mãi đang hoạt động
-         const isActive = !activeOnly || isSameDayOrInRange(currentDate, startDate, endDate);
-        //const isActive = !activeOnly || (currentDate >= startDate && endDate >= currentDate);
-
-        return matchesSearch && isActive;
-    });
-
-    renderFilteredPromotions(filteredPromotions);
-}
-
-// Hiển thị các khuyến mãi sau khi lọc
-function renderFilteredPromotions(filteredPromotions) {
-    const container = document.getElementById("promotions_container");
-    container.innerHTML = '';
-    filteredPromotions.forEach(promotion => {
-        const originalIndex = promotions.findIndex(p => p.id === promotion.id);
-        const promotionEl = document.createElement("div");
-        promotionEl.className = "promotion";
-        promotionEl.innerHTML = `
-            <span>Mã: ${promotion.id}</span>
-            <span>Cú pháp: ${promotion.code}</span>
-            <span>Ngày tạo: ${promotion.createdDate}</span>
-            <span>Ngày bắt đầu: ${promotion.startDate}</span>
-            <span>Ngày kết thúc: ${promotion.endDate}</span>
-            <span>Tổng tiền cần thiết: ${promotion.requiredAmount}</span>
-            <span>Phần trăm giảm: ${promotion.discountPercent}%</span>
-            <div>
-                <button class="edit" onclick="editPromotion(${originalIndex})">Sửa</button>
-                <button class="delete" onclick="deletePromotion(${originalIndex})">Xóa</button>
-            </div>
-        `;
-        container.appendChild(promotionEl);
-    });
-}
-
-// Hiển thị form thêm/sửa khuyến mãi
-function openPromotionForm(isEdit, index) {
-    const form = document.getElementById("promotionForm");
-    const title = document.getElementById("promotionFormTitle");
-    const formContent = document.getElementById("promotionFormContent");
-
-    if (isEdit) {
-        title.textContent = "Sửa khuyến mãi";
-        const promotion = promotions[index];
-        document.getElementById("promotionCode").value = promotion.code;
-        document.getElementById("startDate").value = promotion.startDate;
-        document.getElementById("endDate").value = promotion.endDate;
-        document.getElementById("requiredAmount").value = promotion.requiredAmount;
-        document.getElementById("discountPercent").value = promotion.discountPercent;
-    } else {
-        title.textContent = "Thêm khuyến mãi";
-        formContent.reset();
-    }
-
-    form.style.display = "block";
-}
-
-// Đóng form khuyến mãi
-function closePromotionForm() {
-    document.getElementById("promotionForm").style.display = "none";
-}
-
-// Xác thực và thêm/sửa khuyến mãi
-document.getElementById("promotionFormContent").onsubmit = function(event) {
-    event.preventDefault();
-
-    const code = document.getElementById("promotionCode").value.trim();
-    const startDate = document.getElementById("startDate").value; // Giá trị ngày bắt đầu
-    const endDate = document.getElementById("endDate").value; // Giá trị ngày kết thúc
-
-    if (!startDate || !endDate) {
-        alert("Ngày bắt đầu và ngày kết thúc là bắt buộc!");
-        return;
-    }
-
-    if (new Date(startDate) > new Date(endDate)) {
-        alert("Ngày kết thúc phải sau hoặc bằng ngày bắt đầu!");
-        return;
-    }
-
-    if (isPromotionEdit) {
-        const promotion = promotions[promotionEditIndex];
-        promotion.startDate = startDate;
-        promotion.endDate = endDate;
-        promotion.code = code;
-        promotion.requiredAmount = requiredAmount;
-        promotion.discountPercent = discountPercent;
-    } else {
-        const promotionId = `KM${promotions.length + 1}`;
-        promotions.push({
-            id: promotionId,
-            code: code,
-            createdDate: new Date().toISOString().split('T')[0],
-            startDate: startDate,
-            endDate: endDate,
-            requiredAmount: requiredAmount,
-            discountPercent: discountPercent
-        });
-    }
-    saveData();
-    renderPromotions();
-    closePromotionForm();
-};
-
-
-
-function addPromotion() {
-    isPromotionEdit = false;
-    openPromotionForm(false);  // Hiển thị form thêm khuyến mãi
-}
-
-function editPromotion(index) {
-    isPromotionEdit = true;
-    promotionEditIndex = index;
-    const promotion = promotions[index];
-    document.getElementById("promotionCode").value = promotion.code;
-    document.getElementById("startDate").value = promotion.startDate;
-    document.getElementById("endDate").value = promotion.endDate;
-    document.getElementById("requiredAmount").value = promotion.requiredAmount;
-    document.getElementById("discountPercent").value = promotion.discountPercent;
-    document.getElementById("promotionForm").style.display = "block";
-}
-
-// Xóa khuyến mãi
-function deletePromotion(index) {
-    if (confirm("Bạn có chắc chắn muốn xóa khuyến mãi này?")) {
-        promotions[index].isHidden = true;  // Set isHidden to true instead of deleting
-        saveData();
-        renderPromotions();  // Refresh the displayed list
-    }
-}
-
 
 
 // Lưu dữ liệu vào localStorage
 function saveData() {
     localStorage.setItem("accounts", JSON.stringify(accounts));
-    localStorage.setItem("promotions", JSON.stringify(promotions));
     localStorage.setItem("employee", JSON.stringify(employee));
     localStorage.setItem("customer", JSON.stringify(customer));
 }
@@ -886,7 +660,7 @@ function showPanel(panelId, event) {
     event.preventDefault();
 
     // Ẩn tất cả các panel
-    const panels = ['account_panel', 'promotion_panel', 'statistics_panel', 'orders_panel'];
+    const panels = ['account_panel', 'statistics_panel', 'orders_panel'];
     panels.forEach(panel => {
         const panelElement = document.getElementById(panel);
         if (panelElement) {
@@ -906,7 +680,6 @@ function showPanel(panelId, event) {
 // Khởi tạo dữ liệu và hiển thị
 window.onload = () => {
     applyFilters();
-    renderPromotions();
     renderOrders();
     setMaxDate();
 };
@@ -916,10 +689,6 @@ function isUniqueUsername(username) {
     return !accounts.some(account => account.username === username);
 }
 
-// Kiểm tra cú pháp khuyến mãi duy nhất
-function isUniquePromotionCode(code) {
-    return !promotions.some(promotion => promotion.code === code);
-}
 
 // Kiểm tra tính hợp lệ của số điện thoại
 function isValidPhone(phone) {
@@ -930,10 +699,7 @@ function isValidPhone(phone) {
 function isValidEmail(email) {
     return email.includes('@');
 }
-// Kiểm tra cú pháp khuyến mãi duy nhất (trừ khi giữ nguyên cú pháp cũ)
-function isUniquePromotionCode(code, currentCode = null) {
-    return !promotions.some(promotion => promotion.code === code && promotion.code !== currentCode);
-}
+
 // Hàm để kiểm tra nếu currentDate nằm trong khoảng từ startDate đến endDate
 function isSameDayOrInRange(date, startDate, endDate) {
     // Đặt giờ phút giây của cả ba ngày về 0 để so sánh chỉ phần ngày
@@ -1272,7 +1038,6 @@ function renderOrders() {
     container.innerHTML = ''; // Xóa nội dung cũ
 
     orders.forEach(order => {
-        const promotionCode = order.makhuyenmai ? order.makhuyenmai : "Không"; // Kiểm tra mã khuyến mãi
 
         const orderEl = document.createElement("div");
         orderEl.className = "order";
@@ -1282,7 +1047,6 @@ function renderOrders() {
             <span>Ngày mua: ${order.thoigianmua}</span>
             <span>Tổng tiền: ${order.tongtien} VND</span>
             <span>Tình trạng: ${order.tthd}</span>
-            <span>Mã khuyến mãi: ${promotionCode}</span>
             <button onclick="viewOrderDetails('${order.madonhang}')">Xem chi tiết</button>
         `;
         container.appendChild(orderEl);
@@ -1316,7 +1080,6 @@ function renderFilteredOrders(filteredOrders) {
     container.innerHTML = ''; // Xóa nội dung cũ
 
     filteredOrders.forEach(order => {
-        const promotionCode = order.makhuyenmai ? order.makhuyenmai : "Không"; // Kiểm tra mã khuyến mãi
 
         const orderEl = document.createElement("div");
         orderEl.className = "order";
@@ -1326,7 +1089,6 @@ function renderFilteredOrders(filteredOrders) {
             <span>Ngày mua: ${order.thoigianmua}</span>
             <span>Tổng tiền: ${order.tongtien} VND</span>
             <span>Tình trạng: ${order.tthd}</span>
-            <span>Mã khuyến mãi: ${promotionCode}</span>
             <button onclick="viewOrderDetails('${order.madonhang}')">Xem chi tiết</button>
         `;
         container.appendChild(orderEl);
@@ -1353,7 +1115,6 @@ function viewOrderDetails(madonhang) {
         <p><strong>Ngày mua:</strong> ${order.thoigianmua}</p>
         <p><strong>Tổng tiền:</strong> ${order.tongtien} VND</p>
         <p><strong>Tình trạng:</strong> ${order.tthd}</p>
-        <p><strong>Mã khuyến mãi:</strong> ${order.makhuyenmai ? order.makhuyenmai : "Không"}</p>
         <hr>
         <h4>Sản phẩm:</h4>
         <ul>
