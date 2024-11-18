@@ -185,7 +185,21 @@
             <button onclick="cancelForm()">Hủy</button>
         </div>
     </div>
-
+    <!-- Modal sửa hóa đơn -->
+    <div id="editOrderModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Sửa tình trạng hóa đơn</h3>
+            <label for="orderStatus">Tình trạng:</label>
+            <select id="orderStatus">
+                <option value="chưa xử lý">Chưa xử lý</option>
+                <option value="đã xác nhận">Đã xác nhận</option>
+                <option value="đã giao thành công">Đã giao thành công</option>
+                <option value="đã huỷ">Đã hủy</option>
+            </select>
+            <button onclick="saveOrderChanges()">Lưu</button>
+            <button onclick="closeEditOrderModal()">Hủy</button>
+        </div>
+    </div>
 
 
     <!--Log out-->

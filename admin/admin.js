@@ -57,8 +57,8 @@ let accounts = [
     { madonhang: "DH10", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, makhuyenmai: "KM2", tthd: "đã giao thành công" },
     { madonhang: "DH11", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: null, tthd: "đã giao thành công" },
     { madonhang: "DH12", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao thành công" },
-    { madonhang: "DH13", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
-    { madonhang: "DH14", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "đã giao thành công" },
+    { madonhang: "DH13", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "chưa xử lý" },
+    { madonhang: "DH14", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "chưa xử lý" },
 
     // Add more to reach 20 orders
   ];
@@ -1047,12 +1047,88 @@ function renderOrders() {
             <span>Ngày mua: ${order.thoigianmua}</span>
             <span>Tổng tiền: ${order.tongtien} VND</span>
             <span>Tình trạng: ${order.tthd}</span>
-            <button onclick="viewOrderDetails('${order.madonhang}')">Xem chi tiết</button>
+            <button class="view-detail" onclick="viewOrderDetails('${order.madonhang}')">Xem chi tiết</button>
+            <button class="edit" onclick="editOrder('${order.madonhang}')">Sửa</button>
         `;
         container.appendChild(orderEl);
     });
 }
 
+let editOrderIndex = -1;
+
+function editOrder(orderId) {
+    const order = orders.find(o => o.madonhang === orderId);
+
+    if (!order) {
+        alert("Không tìm thấy đơn hàng!");
+        return;
+    }
+
+    editOrderIndex = orders.indexOf(order);
+    document.getElementById("orderStatus").value = order.tthd;
+
+    // Cập nhật tùy chọn trạng thái dựa trên trạng thái hiện tại
+    const statusSelect = document.getElementById("orderStatus");
+    statusSelect.innerHTML = ""; // Xóa các tùy chọn cũ
+
+    if (order.tthd === "chưa xử lý") {
+        statusSelect.innerHTML = `
+            <option value="chưa xử lý">Chưa xử lý</option>
+            <option value="đã hủy">Đã hủy</option>
+            <option value="đã xác nhận">Đã xác nhận</option>
+        `;
+    } else if (order.tthd === "đã xác nhận") {
+        statusSelect.innerHTML = `
+            <option value="đã xác nhận">Đã xác nhận</option>
+            <option value="đã giao thành công">Đã giao thành công</option>
+        `;
+    } else {
+        // Nếu là "đã hủy" hoặc "đã giao thành công", không hiển thị các tùy chọn khác
+        statusSelect.innerHTML = `<option value="${order.tthd}">${order.tthd}</option>`;
+    }
+
+    // Hiển thị modal sửa đơn hàng
+    document.getElementById("editOrderModal").style.display = "block";
+}
+
+
+
+function saveOrderChanges() {
+    const newStatus = document.getElementById("orderStatus").value;
+    const order = orders[editOrderIndex];
+
+    // Ràng buộc thay đổi trạng thái
+    if (order.tthd === "chưa xử lý" && !(newStatus === "đã hủy" || newStatus === "đã xác nhận")) {
+        alert("Trạng thái 'chưa xử lý' chỉ có thể chuyển sang 'đã hủy' hoặc 'đã xác nhận'!");
+        return;
+    }
+
+    if (order.tthd === "đã hủy" || order.tthd === "đã giao thành công") {
+        alert(`Trạng thái '${order.tthd}' không thể thay đổi!`);
+        return;
+    }
+
+    if (order.tthd === "đã xác nhận" && newStatus !== "đã giao thành công") {
+        alert("Trạng thái 'đã xác nhận' chỉ có thể chuyển sang 'đã giao thành công'!");
+        return;
+    }
+
+    // Cập nhật trạng thái nếu hợp lệ
+    order.tthd = newStatus;
+
+    // Lưu thay đổi và đóng modal
+    saveData();
+    renderOrders();
+    closeEditOrderModal();
+}
+
+function closeEditOrderModal() {
+    // Ẩn modal sửa đơn hàng
+    document.getElementById("editOrderModal").style.display = "none";
+
+    // Xóa trạng thái tạm thời
+    editOrderIndex = -1; 
+}
 
 
 // Lọc đơn hàng theo tình trạng và thời gian
@@ -1089,7 +1165,8 @@ function renderFilteredOrders(filteredOrders) {
             <span>Ngày mua: ${order.thoigianmua}</span>
             <span>Tổng tiền: ${order.tongtien} VND</span>
             <span>Tình trạng: ${order.tthd}</span>
-            <button onclick="viewOrderDetails('${order.madonhang}')">Xem chi tiết</button>
+            <button class="view-detail" onclick="viewOrderDetails('${order.madonhang}')">Xem chi tiết</button>
+            <button class="edit" onclick="editOrder('${order.madonhang}')">Sửa</button>            
         `;
         container.appendChild(orderEl);
     });
