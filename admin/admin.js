@@ -222,17 +222,18 @@ function applyFilters() {
     const selectedType = document.getElementById("accountTypeFilter").value;
     const showLocked = document.getElementById("showLockedAccounts").checked;
 
-    // Filter accounts based on all criteria
+    // Lọc tài khoản
     const filteredAccounts = accounts.filter(account => {
         const matchesSearch = account.username.toLowerCase().includes(searchQuery);
         const matchesType = selectedType ? account.role === selectedType : true;
         const matchesStatus = showLocked ? account.status === "Không hợp lệ" : true;
-        
-        return matchesSearch && matchesType && matchesStatus && !account.isHidden;  // Exclude hidden accounts
+
+        return matchesSearch && matchesType && matchesStatus && !account.isHidden;
     });
 
     renderFilteredAccounts(filteredAccounts);
 }
+
 
 
 //Xem thông tin chi tiết của tài khoản
@@ -282,14 +283,13 @@ function closeModal() {
 
 // Tạo phần tử hiển thị tài khoản
 // Cập nhật nút trong hàm tạo phần tử tài khoản hoặc khuyến mãi
-function createAccountElement(account, index) {
-    // Only show the "Sửa" button if the account is admin; otherwise, show all buttons
+function createAccountElement(account, originalIndex) {
     const actionButtons = account.role === 'admin'
-        ? `<button class="edit" onclick="editAccount(${index})">Sửa</button>`
+        ? `<button class="edit" onclick="editAccount(${originalIndex})">Sửa</button>`
         : `
-            <button class="view-detail" onclick="viewAccountDetails(${index})">Xem chi tiết</button>
-            <button class="edit" onclick="editAccount(${index})">Sửa</button>
-            <button class="delete" onclick="deleteAccount(${index})">Xóa</button>
+            <button class="view-detail" onclick="viewAccountDetails(${originalIndex})">Xem chi tiết</button>
+            <button class="edit" onclick="editAccount(${originalIndex})">Sửa</button>
+            <button class="delete" onclick="deleteAccount(${originalIndex})">Xóa</button>
         `;
 
     const accountEl = document.createElement("div");
@@ -297,7 +297,6 @@ function createAccountElement(account, index) {
     accountEl.innerHTML = `
         <span>Mã tài khoản: ${account.id}</span>
         <span>Tên đăng nhập: ${account.username}</span>
-        <span>Mật khẩu: ${account.password}</span>
         <span>Loại: ${account.role}</span>
         <span>Trạng thái: ${account.status}</span>
         <div>
@@ -307,6 +306,7 @@ function createAccountElement(account, index) {
 
     return accountEl;
 }
+
 
 
 
@@ -582,7 +582,8 @@ function deleteAccount(index) {
     if (confirm("Bạn có chắc chắn muốn xóa tài khoản này?")) {
         accounts[index].isHidden = true;  // Set isHidden to true instead of deleting
         saveData();
-        renderAccounts();  // Refresh the displayed list
+        applyFilters(); // Hiển thị danh sách tài khoản đã lọc lại
+        //renderAccounts();  // Refresh the displayed list
     }
 }
 
@@ -591,13 +592,15 @@ function deleteAccount(index) {
 // Cập nhật hàm renderFilteredAccounts để hiển thị danh sách đã lọc
 function renderFilteredAccounts(filteredAccounts) {
     const container = document.getElementById("accounts_container");
-    container.innerHTML = '';  // Clear previous results
+    container.innerHTML = ''; // Xóa nội dung trước đó
 
-    filteredAccounts.forEach((account, index) => {
-        const accountEl = createAccountElement(account, index);
+    filteredAccounts.forEach((account, filteredIndex) => {
+        const originalIndex = accounts.findIndex(acc => acc.id === account.id);
+        const accountEl = createAccountElement(account, originalIndex); // Truyền chỉ số gốc
         container.appendChild(accountEl);
     });
 }
+
 
 function filterLockedAccounts() {
     const showLocked = document.getElementById("showLockedAccounts").checked;
@@ -703,7 +706,7 @@ function renderPromotions() {
     const container = document.getElementById("promotions_container");
     container.innerHTML = '';
     promotions.forEach((promotion, index) => {
-        if (!promotion.isHidden) {  // Only render promotions that are not hidden
+        if (!promotion.isHidden) {
             const promotionEl = document.createElement("div");
             promotionEl.className = "promotion";
             promotionEl.innerHTML = `
@@ -723,8 +726,6 @@ function renderPromotions() {
         }
     });
 }
-
-
 
 // Lọc khuyến mãi theo thời gian và tìm kiếm
 function filterPromotions() {
@@ -804,38 +805,44 @@ function closePromotionForm() {
 document.getElementById("promotionFormContent").onsubmit = function(event) {
     event.preventDefault();
 
-    const code = document.getElementById("promotionCode").value;
-    const startDate = document.getElementById("startDate").value;
-    const endDate = document.getElementById("endDate").value;
-    const requiredAmount = document.getElementById("requiredAmount").value;
-    const discountPercent = document.getElementById("discountPercent").value;
+    const code = document.getElementById("promotionCode").value.trim();
+    const startDate = document.getElementById("startDate").value; // Giá trị ngày bắt đầu
+    const endDate = document.getElementById("endDate").value; // Giá trị ngày kết thúc
 
-    // Kiểm tra trùng cú pháp với giá trị hiện tại khi sửa
-    const currentCode = isPromotionEdit ? promotions[promotionEditIndex].code : null;
-    if (!isUniquePromotionCode(code, currentCode)) {
-        alert("Cú pháp khuyến mãi đã tồn tại!");
+    if (!startDate || !endDate) {
+        alert("Ngày bắt đầu và ngày kết thúc là bắt buộc!");
         return;
     }
 
     if (new Date(startDate) > new Date(endDate)) {
-        alert("Ngày kết thúc phải trùng hoặc sau ngày bắt đầu!");
+        alert("Ngày kết thúc phải sau hoặc bằng ngày bắt đầu!");
         return;
     }
 
     if (isPromotionEdit) {
-        // Sửa khuyến mãi
         const promotion = promotions[promotionEditIndex];
-        Object.assign(promotion, { code, startDate, endDate, requiredAmount, discountPercent });
+        promotion.startDate = startDate;
+        promotion.endDate = endDate;
+        promotion.code = code;
+        promotion.requiredAmount = requiredAmount;
+        promotion.discountPercent = discountPercent;
     } else {
-        // Thêm khuyến mãi mới
         const promotionId = `KM${promotions.length + 1}`;
-        promotions.push({ id: promotionId, code, createdDate: new Date().toISOString().split('T')[0], startDate, endDate, requiredAmount, discountPercent });
+        promotions.push({
+            id: promotionId,
+            code: code,
+            createdDate: new Date().toISOString().split('T')[0],
+            startDate: startDate,
+            endDate: endDate,
+            requiredAmount: requiredAmount,
+            discountPercent: discountPercent
+        });
     }
-
     saveData();
     renderPromotions();
     closePromotionForm();
 };
+
 
 
 function addPromotion() {
@@ -846,8 +853,15 @@ function addPromotion() {
 function editPromotion(index) {
     isPromotionEdit = true;
     promotionEditIndex = index;
-    openPromotionForm(true, index);  // Hiển thị form sửa khuyến mãi
+    const promotion = promotions[index];
+    document.getElementById("promotionCode").value = promotion.code;
+    document.getElementById("startDate").value = promotion.startDate;
+    document.getElementById("endDate").value = promotion.endDate;
+    document.getElementById("requiredAmount").value = promotion.requiredAmount;
+    document.getElementById("discountPercent").value = promotion.discountPercent;
+    document.getElementById("promotionForm").style.display = "block";
 }
+
 // Xóa khuyến mãi
 function deletePromotion(index) {
     if (confirm("Bạn có chắc chắn muốn xóa khuyến mãi này?")) {
