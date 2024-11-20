@@ -45,7 +45,7 @@ let accounts = [
     // Add more as needed
   ];
   let orders = [
-    { madonhang: "DH1", makh: "KH1", thoigianmua: "2024-11-1", tongtien: 150000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
+    { madonhang: "DH1", makh: "KH1", thoigianmua: "2024-11-16T04:21:54.645Z", tongtien: 150000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
     { madonhang: "DH2", makh: "KH1", thoigianmua: "2024-11-1", tongtien: 50000, makhuyenmai: "KM2", tthd: "đã giao thành công" },
     { madonhang: "DH3", makh: "KH2", thoigianmua: "2024-11-2", tongtien: 360000, makhuyenmai: null, tthd: "đã giao thành công" },
     { madonhang: "DH4", makh: "KH2", thoigianmua: "2024-11-3", tongtien: 230000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
@@ -62,6 +62,9 @@ let accounts = [
 
     // Add more to reach 20 orders
   ];
+/*  orders.forEach(order => {
+    order.thoigianmua = formatDateVietnam(order.thoigianmua);
+});*/
   let orderDetails = [
     { madonhang: 'DH1', masp: 'SP1', soluong: 2, dongia: 50000, thanhtien: 100000 },
     { madonhang: 'DH1', masp: 'SP2', soluong: 1, dongia: 50000, thanhtien: 50000 },
@@ -108,7 +111,13 @@ let accounts = [
             
   
   
+//Định dạng giờ
+function formatDateVietnam(dateString) {
+    const date = new Date(dateString);
+    if (isNaN(date)) return "Ngày không hợp lệ";
 
+    return date.toLocaleDateString("vi-VN"); // Định dạng ngày kiểu Việt Nam
+}
 
 // Sử dụng password default nếu như chưa có thông tin trong local storage
 if (!localStorage.getItem("adminCredentials")) {
@@ -918,7 +927,7 @@ function viewInvoices(masp) {
     const invoiceList = invoices.map(order => `
         <p>Hóa đơn: ${order.madonhang}</p>
         <p>Khách hàng: ${order.makh}</p>
-        <p>Thời gian mua: ${order.thoigianmua}</p>
+        <p>Thời gian mua: ${new Date(order.thoigianmua).toLocaleDateString("vi-VN")}</p>
         <p>Tổng tiền: ${order.tongtien} đồng</p>
         <hr>
     `).join("");
@@ -1044,7 +1053,7 @@ function renderOrders() {
         orderEl.innerHTML = `
             <span>Mã đơn hàng: ${order.madonhang}</span>
             <span>Khách hàng: ${order.makh}</span>
-            <span>Ngày mua: ${order.thoigianmua}</span>
+            <span>Ngày mua: ${new Date(order.thoigianmua).toLocaleDateString("vi-VN")}</span>
             <span>Tổng tiền: ${order.tongtien} VND</span>
             <span>Tình trạng: ${order.tthd}</span>
             <button class="view-detail" onclick="viewOrderDetails('${order.madonhang}')">Xem chi tiết</button>
@@ -1162,7 +1171,7 @@ function renderFilteredOrders(filteredOrders) {
         orderEl.innerHTML = `
             <span>Mã đơn hàng: ${order.madonhang}</span>
             <span>Khách hàng: ${order.makh}</span>
-            <span>Ngày mua: ${order.thoigianmua}</span>
+            <span>Ngày mua: ${new Date(order.thoigianmua).toLocaleDateString("vi-VN")}</span>
             <span>Tổng tiền: ${order.tongtien} VND</span>
             <span>Tình trạng: ${order.tthd}</span>
             <button class="view-detail" onclick="viewOrderDetails('${order.madonhang}')">Xem chi tiết</button>
@@ -1189,7 +1198,7 @@ function viewOrderDetails(madonhang) {
     let detailContent = `
         <h3>Chi tiết đơn hàng: ${order.madonhang}</h3>
         <p><strong>Khách hàng:</strong> ${order.makh}</p>
-        <p><strong>Ngày mua:</strong> ${order.thoigianmua}</p>
+        <p><strong>Ngày mua:</strong> ${new Date(order.thoigianmua).toLocaleDateString("vi-VN")}</p>
         <p><strong>Tổng tiền:</strong> ${order.tongtien} VND</p>
         <p><strong>Tình trạng:</strong> ${order.tthd}</p>
         <hr>
