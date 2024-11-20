@@ -60,14 +60,14 @@ html, body {
     margin-bottom: 20px;
 }
 
-/* Container cho tài khoản và khuyến mãi */
-#accounts_container, #promotions_container {
+/* Container cho tài khoản*/
+#accounts_container {
     padding: 10px;
     border-top: 2px solid #333;
 }
 
-/* Kiểu thẻ cho tài khoản và khuyến mãi */
-.account, .promotion {
+/* Kiểu thẻ cho tài khoản*/
+.account {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 10px;
@@ -80,16 +80,16 @@ html, body {
     transition: background-color 0.3s;
 }
 
-.account:hover, .promotion:hover {
+.account:hover{
     background-color: #f0f0f0;
 }
 
-.account span, .promotion span {
+.account span{
     font-weight: bold;
     color: #555;
 }
 
-.account button, .promotion button {
+.account button{
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
@@ -97,7 +97,7 @@ html, body {
     transition: background-color 0.3s;
 }
 
-.account button:hover, .promotion button:hover {
+.account button:hover {
     background-color: #007bff;
     color: white;
 }
@@ -117,12 +117,12 @@ html, body {
         width: 100%;
     }
 
-    .account, .promotion {
+    .account{
         grid-template-columns: 1fr;
     }
 }
-/* Tiêu đề cho các form Thêm Tài Khoản và Thêm Khuyến Mãi */
-#formTitle, #promotionFormTitle {
+/* Tiêu đề cho các form Thêm Tài Khoản*/
+#formTitle {
     font-size: 1.8em;
     font-weight: bold;
     text-align: center;
@@ -131,9 +131,8 @@ html, body {
     padding-bottom: 10px;
     border-bottom: 2px solid #007bff; /* Đường viền dưới để tạo điểm nhấn */
 }
-/* Kiểu cho nút thêm tài khoản và khuyến mãi */
-    button[onclick="addAccount()"], 
-    button[onclick="addPromotion()"] {
+/* Kiểu cho nút thêm tài khoản */
+    button[onclick="addAccount()"] {
         background-color: #28a745; /* Màu xanh nổi bật */
         color: white;
         font-size: 1em;
@@ -147,14 +146,12 @@ html, body {
     }
 
     /* Hiệu ứng hover cho nút */
-    button[onclick="addAccount()"]:hover, 
-    button[onclick="addPromotion()"]:hover {
+    button[onclick="addAccount()"]:hover {
         background-color: #218838; /* Màu đậm hơn khi hover */
     }
 
     /* Hiệu ứng khi nhấn nút */
-    button[onclick="addAccount()"]:active, 
-    button[onclick="addPromotion()"]:active {
+    button[onclick="addAccount()"]:active {
         transform: scale(0.98); /* Giảm nhẹ kích thước khi nhấn */
     }
 
@@ -339,20 +336,6 @@ html, body {
     z-index: 1000;  /* Ensure it appears above other content */
     padding: 20px;
 }
-#hiddenPromotionsContainer {
-    position: fixed;  /* Fixes the panel in place, like a modal */
-    top: 0;
-    left: 0;
-    width: 100vw;  /* Full viewport width */
-    height: 100vh;  /* Full viewport height */
-    background-color: rgba(255, 255, 255, 0.95);  /* Light overlay background */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;  /* Ensure it appears above other content */
-    padding: 20px;
-}
 
 /* Đặt nút ở cuối cùng trong div */
 #backButton {
@@ -395,38 +378,7 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield; /* Firefox */
 }
-/* Giao diện khuyến mãi đã ẩn giống với tài khoản đã ẩn */
-.hidden-promotions-list .promotion {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
-    align-items: center;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px 0;
-    transition: background-color 0.3s;
-}
 
-.hidden-promotion-item {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
-    align-items: center;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px 0;
-    transition: background-color 0.3s;
-}
-/*
-.hidden-promotion-item div {
-    display: flex;
-    gap: 10px;
-    margin-top: 5px;
-}*/
 /* Kiểu cho nút "Xem chi tiết" với màu xanh lá */
 button.view-detail {
     background-color: #28a745; /* Màu xanh lá */
