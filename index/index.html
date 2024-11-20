@@ -4,15 +4,14 @@
         <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
         <title>Football Kit</title>
         <link rel="stylesheet" href="index.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+        <link rel="stylesheet" href="form.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        
     </head>
 
-    <script>
-        
-    </script>
-
     <body>
+
         <header><!--Header-->
             <div class="header-top">
                 <div class="container">
@@ -61,15 +60,14 @@
 
         <nav class="nav-header"><!--Nav dưới header-->
             <div class="container">
-                <div id="menuMobile" onclick="showMenuMobile()"><i class="fa fa-bars"></i></div>
                 <ul id="menu-list" class="menu-list">
-                    <li onclick=hienthisanpham();>
+                    <li onclick=showPage(1);>
                         <a href="javascript:;" class="menu-link">Sản Phẩm</a>
                     </li>
                     <li  onclick="showCategory('LALIGA')">
                         <a href="javascript:;" class="menu-link">Lịch Sử Mua Hàng</a>
                     </li>
-                    <li onclick="showCategory('Ligue 1')">
+                    <li onclick=hienthichinhsach();>
                         <a href="javascript:;" class="menu-link">Chính sách của chúng tôi</a>
                     </li>
                 </ul>
@@ -112,106 +110,127 @@
             </div>
         </div>
 
-        <main class="main-wrapper">
-            <div class="modal-product">
-                <div class="left" id="idleft">
-                    <div class="leftmenu" onclick="hienthitrangchu();">Trang Chủ</div>
-                    <div class="leftmenu" onclick="hienthisanpham();">Sản Phẩm</div>
-                    <div class="leftmenu" onclick="hienthitrangchu();">Câu Lạc Bộ</div>
-                    <div class="leftmenu" onclick="hienthisanpham();">Đội tuyển quốc gia</div>
-                    <div class="leftmenu" onclick="hienthitrangchu();">Giới thiệu</div>
+        <main class="main-wrapper"> <!--sản phẩm-->
+            <div class="container">
+                <div class="main-content">
+                    <div class="category">
+                        <div class="category-content">
+                            <button>QUỐC GIA</button>
+                            <i class="fas fa-caret-down"></i>
+                        </div>
+                        
+                        <ul class="category-nation">
+                            <li><a href="#">Anh</a><i class="fas fa-times"></i></li>
+                            <li><a href="#">Pháp</a><i class="fas fa-times"></i></li>
+                            <li><a href="#">Bồ Đào Nha</a><i class="fas fa-times"></i></li>
+                            <li><a href="#">Agentina</a><i class="fas fa-times"></i></li>
+                            <li><a href="#">Việt Nam</a><i class="fas fa-times"></i></li>
+                        </ul>
+                        <div class="category-content">
+                            <button>CÂU LẠC BỘ</button>
+                            <i class="fas fa-caret-down"></i>
+                        </div>
+                        <ul class="category-club">
+                            <li><a href="#">Manchester United</a><i class="fas fa-times"></i></li>
+                            <li><a href="#">Manchester City</a><i class="fas fa-times"></i></li>
+                            <li><a href="#">Barcelona</a><i class="fas fa-times"></i></li>
+                            <li><a href="#">Real Marid</a><i class="fas fa-times"></i></li>
+                            <li><a href="#">Al-Nassr</a><i class="fas fa-times"></i></li>
+                        </ul>
+                        <div class="category-content">
+                            <button>GIÁ BÁN</button>
+                            <i class="fas fa-caret-down"></i>
+                        </div>
+                        <ul class="category-price">
+                            <li><a href="#">&lt 200k</a><i class="fa-solid fa-xmark"></i></li>
+                            <li><a href="#">200k - 299k</a><i class="fa-solid fa-xmark"></i></li>
+                            <li><a href="#">300k - 399k</a><i class="fa-solid fa-xmark"></i></li>
+                            <li><a href="#">400k - 499k</a><i class="fa-solid fa-xmark"></i></li>
+                            <li><a href="#">&gt 500k</a><i class="fa-solid fa-xmark"></i></li>
+                        </ul>
+        
+                    </div>
+                    <div class="product-list"></div><!--container chứa sản phẩm , gọi ra bằng js-->
                 </div>
-                <div class="main" id="product">
-                    <div class="contentmenu" id="sp1">
-                        <img class="imgplayer" src="../img/5.jpg">
-                        <div style="border-bottom: 1px solid black;">Tên sản phẩm: Goat Antony</div>
-                        <div style="border-bottom: 1px solid black;">Mã sản phẩm: 21MU</div>
-                        <div style="border-bottom: 1px solid black;">Giá sản phẩm: 150.000đ</div>
-                        <div style="margin: 8px;">
-                            <span>Mua</span>
-                            <span>Chi tiết</span>
-                        </div>
+                
+                <div class="pagination">
+                    <div class="pagination-btn">
+                        <button onclick="showPage(1)" class="active">1</button>
+                        <button onclick="showPage(2)">2</button>
+                        <button onclick="showPage(3)">3</button>
                     </div>
-                    <div class="contentmenu" id="sp2">
-                        <img class="imgplayer" src="../img/12.png" >
-                        <div style="border-bottom: 1px solid black;">Tên sản phẩm: Goat Rô</div>
-                        <div style="border-bottom: 1px solid black;">Mã sản phẩm: 7MU</div>
-                        <div style="border-bottom: 1px solid black;">Giá sản phẩm: 150.000đ</div>
-                        <div style="margin: 8px;">
-                            <span>Mua</span>
-                            <span>Chi tiết</span>
-                        </div>
-                    </div>
-                    <div class="contentmenu" id="sp3">
-                        <img class="imgplayer" src="../img/10.jpg" >
-                        <div style="border-bottom: 1px solid black;">Tên sản phẩm: Goat Si</div>
-                        <div style="border-bottom: 1px solid black;">Mã sản phẩm: 7Si</div>
-                        <div style="border-bottom: 1px solid black;">Giá sản phẩm: 150.000đ</div>
-                        <div style="margin: 8px;">
-                            <span>Mua</span>
-                            <span>Chi tiet</span>
-                        </div></div>
-                    <div class="contentmenu" id="sp4">
-                        <img class="imgplayer" src="../img/2.jpg">
-                        <div style="border-bottom: 1px solid black;">Tên sản phẩm: MC</div>
-                        <div style="border-bottom: 1px solid black;">Mã sản phẩm: MC 2024</div>
-                        <div style="border-bottom: 1px solid black;">Giá sản phẩm: 150.000đ</div>
-                        <div style="margin: 8px;">
-                            <span>Mua</span>
-                            <span>Chi tiết</span>
-                        </div>
-                    </div>
-                    <div class="contentmenu" id="sp5">
-                        <img class="imgplayer" src="../img/3.jpg">
-                        <div style="border-bottom: 1px solid black;">Tên sản phẩm: Liver</div>
-                        <div style="border-bottom: 1px solid black;">Mã sản phẩm: LV</div>
-                        <div style="border-bottom: 1px solid black;">Giá sản phẩm: 150.000đ</div>
-                        <div style="margin: 8px;">
-                            <span>Mua</span>
-                            <span>Chi tiết</span>
-                        </div>
-                    </div>
-                    <div class="contentmenu" id="sp6">
-                        <img class="imgplayer" src="../img/4.jpg">
-                        <div style="border-bottom: 1px solid black;">Tên sản phẩm: Man U away</div>
-                        <div style="border-bottom: 1px solid black;">Mã sản phẩm: MU</div>
-                        <div style="border-bottom: 1px solid black;">Giá sản phẩm: 150.000đ</div>
-                        <div style="margin: 8px;">
-                            <span>Mua</span>
-                            <span>Chi tiết</span>
-                        </div>
-                    </div>
-                    <div class="contentmenu" id="sp7">
-                        <img class="imgplayer" src="../img/7.jpg">
-                        <div style="border-bottom: 1px solid black;">Tên sản phẩm: Liver</div>
-                        <div style="border-bottom: 1px solid black;">Mã sản phẩm: LV</div>
-                        <div style="border-bottom: 1px solid black;">Giá sản phẩm: 150.000đ</div>
-                        <div style="margin: 8px;">
-                            <span>Mua</span>
-                            <span>Chi tiết</span>
-                        </div>
-                    </div>
-                    <div class="contentmenu" id="sp8">
-                        <img class="imgplayer" src="../img/11.png">
-                        <div style="border-bottom: 1px solid black;">Tên sản phẩm: Man U away</div>
-                        <div style="border-bottom: 1px solid black;">Mã sản phẩm: MU</div>
-                        <div style="border-bottom: 1px solid black;">Giá sản phẩm: 150.000đ</div>
-                        <div style="margin: 8px;">
-                            <span>Mua</span>
-                            <span>Chi tiết</span>
-                        </div>
-                    </div>
+                    <div class="product-detail" style="display: none;"></div> <!-- hiển thị chi tiết sản phẩm -->
                 </div>
-    
-                <div style="clear:both"></div>
             </div>
         </main>
 
-        
-
-        <div class="modal signup-login"><!--Đăng nhập, Đăng kí-->
+        <div id="user" class="modal"><!--form đki +đăng nhập-->
+            <div id="login">
+                <form name="loginform" id="form-1">
+                    <button type="button" class="close" onclick="closeform()">+</button>
+                    <h2>ĐĂNG NHẬP</h2>
+                    <div class="login-info">
+                        <div class="form-group">
+                            <label for="mail2">Email:</label>
+                            <input type="email" id="mail2" required>
+                            <span id="form-message"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Mật khẩu:</label>
+                            <input type="password" id="password" required>
+                            <span id="form-message"></span>
+                        </div>
+                        <button type="submit" id="btnlogin">ĐĂNG NHẬP</button>
+                        <p>Bạn chưa có tài khoản?<a href="#" onclick="showSignup()">Đăng ký</a></p>
+                    </div>
+                </form>
+            </div>
+            <div id="signup">
+                <form name="signupform" >
+                    <h2>ĐĂNG KÝ</h2>
+                    <button type="button" class="close" onclick="closeform()">+</button>
+                    <div class="signup-info">
+                        <div class="col">   
+                            <div class="form-group">
+                                <label for="fullname">Họ và tên:</label>
+                                <input type="text" id="fullname" required>
+                                <span id="form-message"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Địa chỉ:</label>
+                                <input type="text" id="address" required>
+                                <span id="form-message"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Số điện thoại:</label>
+                                <input type="tel" id="phone" required>
+                                <span id="form-message"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="mail">Email:</label>
+                                <input type="email" id="mail" required>
+                                <span id="form-message"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="password1">Mật khẩu:</label>
+                                <input type="password" id="password1" required>
+                                <span id="form-message"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="password2">Nhập lại mật khẩu:</label>
+                                <input type="password" id="password2" required>
+                                <span id="form-message"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="btnsignup">ĐĂNG KÝ</button>
+                    <p>Bạn đã có tài khoản?<a href="#" onclick="showLogin()">Đăng nhập</a></p>
+                </form>
+            </div>
         </div>
-
+        
         <div class="modal-cart"><!--Giỏ hàng-->
             <div class="cart-container">
                 <div class="cart-header">
@@ -238,17 +257,7 @@
             </div>
         </div>
 
-        <div class="modal-detail-order">
-            <div class="modal-container mdl-cnt">
-                <h3 class="modal-container-title">Thông tin đơn hàng</h3>
-                <button class="form-close" onclick="closeModal()"><i class="fa fa-times"></i></button>
-                <div class="detail-order-content">
-                </div>
-            </div>
-        </div>
-
         <footer class="footer"><!--Footer-->
-            
             <div class="widget-area">
                 <div class="container">
                     <div class="widget-row">
@@ -347,150 +356,13 @@
             </div>
         </div>
 
-
-        <div class="checkout-page"><!--Xác nhận đơn hàng-->
-            <div class="checkout-header">
-                <div class="checkout-return">
-                    <button onclick="closecheckout()"><i class="fa fa-chevron-left"></i></button>
-                </div>
-                <h2 class="checkout-title">Thanh toán</h2>
-            </div>
-            <main class="checkout-section container">
-                <div class="checkout-col-left">
-                    <div class="checkout-row">
-                        <div class="checkout-col-title">
-                            Thông tin đơn hàng
-                        </div>
-                        <div class="checkout-col-content">
-                            <div class="content-group">
-                                <p class="checkout-content-label">Hình thức giao nhận</p>
-                                <div class="checkout-type-order">
-                                    <button class="type-order-btn active" id="giaotannoi">
-                                        <i class="fa-duotone fa-moped"></i>
-                                        Giao tận nơi
-                                    </button>
-                                    <button class="type-order-btn" id="tudenlay">
-                                        <i class="fa-duotone fa-box-heart"></i>
-                                        Tự đến lấy
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="content-group">
-                                <p class="checkout-content-label">Ngày giao hàng</p>
-                                <div class="date-order">
-                                </div>
-                            </div>
-                            <div class="content-group chk-ship" id="giaotannoi-group">
-                                <p class="checkout-content-label">Thời gian giao hàng</p>
-                                <div class="delivery-time">
-                                    <input type="radio" name="giaongay" id="giaongay" class="radio">
-                                    <label for="giaongay">Giao ngay khi xong</label>
-                                </div>
-                                <div class="delivery-time">
-                                    <input type="radio" name="giaongay" id="deliverytime" class="radio">
-                                    <label for="deliverytime">Giao vào giờ</label>
-                                    <select class="choise-time">
-                                        <option data-hours="08" value="08:00" selected="selected">08:00 - 09:00</option>
-
-                                        <option data-hours="09" value="09:00">09:00 - 10:00</option>
-
-                                        <option data-hours="10" value="10:00"> 10:00 - 11:00</option>
-
-                                        <option data-hours="11" value="11:00"> 11:00 - 12:00</option>
-
-                                        <option data-hours="12" value="12:00"> 12:00 - 13:00</option>
-
-                                        <option data-hours="13" value="13:00"> 13:00 - 14:00</option>
-
-                                        <option data-hours="14" value="14:00"> 14:00 - 15:00</option>
-
-                                        <option data-hours="15" value="15:00"> 15:00 - 16:00</option>
-
-                                        <option data-hours="16" value="16:00"> 16:00 - 17:00</option>
-
-                                        <option data-hours="17" value="17:00"> 17:00 - 18:00</option>
-
-                                        <option data-hours="18" value="18:00"> 18:00 - 19:00</option>
-
-                                        <option data-hours="19" value="19:00"> 19:00 - 20:00</option>
-
-                                        <option data-hours="20" value="20:00"> 20:00 - 21:00</option>
-
-                                        <option data-hours="21" value="21:00"> 21:00 - 22:00</option>
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="content-group" id="tudenlay-group">
-                                <p class="checkout-content-label">Lấy hàng tại chi nhánh</p>
-                                <div class="delivery-time">
-                                    <input type="radio" name="chinhanh" id="chinhanh-1" class="radio">
-                                    <label for="chinhanh-1">273 An Dương Vương, Phường 3, Quận 5</label>
-                                </div>
-                                <div class="delivery-time">
-                                    <input type="radio" name="chinhanh" id="chinhanh-2" class="radio">
-                                    <label for="chinhanh-2">TPHCM, Nguyễn Trãi, Quận 5</label>
-                                </div>
-                            </div>
-                            <div class="content-group">
-                                <p class="checkout-content-label">Ghi chú đơn hàng</p>
-                                <textarea type="text" class="note-order" placeholder="Nhập ghi chú"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="checkout-row">
-                        <div class="checkout-col-title">
-                            Thông tin người nhận
-                        </div>
-                        <div class="checkout-col-content">
-                            <div class="content-group">
-                                <form action="" class="info-nhan-hang">
-                                    <div class="form-group">
-                                        <input id="tennguoinhan" name="tennguoinhan" type="text"
-                                            placeholder="Tên người nhận" class="form-control">
-                                        <span class="form-message"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <input id="sdtnhan" name="sdtnhan" type="text" placeholder="Số điện thoại nhận hàng"
-                                            class="form-control">
-                                        <span class="form-message"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <input id="diachinhan" name="diachinhan" type="text" placeholder="Địa chỉ nhận hàng"
-                                            class="form-control chk-ship">
-                                        <span class="form-message"></span>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="checkout-col-right">
-                    <p class="checkout-content-label">Đơn hàng</p>
-                    <div class="bill-total" id="list-order-checkout">
-                    </div>
-                    <div class="bill-payment">
-                        <div class="total-bill-order">
-                        </div>
-                        <div class="policy-note">
-                            Bằng việc bấm vào nút “Đặt hàng”, tôi đồng ý với
-                            <a href="#" target="_blank">chính sách hoạt động</a>
-                            của chúng tôi.
-                        </div>
-                    </div>
-                    <div class="total-checkout">
-                        <div class="text">Tổng tiền</div>
-                        <div class="price-bill">
-                            <div class="price-final" id="checkout-cart-price-final">0</div>
-                        </div>
-                    </div>
-                    <button class="complete-checkout-btn">Đặt hàng</button>
-                </div>
-            </main>
-        </div>
-        
-
-
+        <script src="form.js"></script>
         <script src="index.js"></script>
+        <script src="data.js"></script>
+    <script>
+        // Gọi hàm showPage ngay khi tải xong file HTML
+        showPage(1);
+    </script>
+
     </body>
 </html>
