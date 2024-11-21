@@ -45,26 +45,30 @@ let accounts = [
     // Add more as needed
   ];
   let orders = [
-    { madonhang: "DH1", makh: "KH1", thoigianmua: "2024-11-16T04:21:54.645Z", tongtien: 150000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
-    { madonhang: "DH2", makh: "KH1", thoigianmua: "2024-11-1", tongtien: 50000, makhuyenmai: "KM2", tthd: "đã giao thành công" },
-    { madonhang: "DH3", makh: "KH2", thoigianmua: "2024-11-2", tongtien: 360000, makhuyenmai: null, tthd: "đã giao thành công" },
-    { madonhang: "DH4", makh: "KH2", thoigianmua: "2024-11-3", tongtien: 230000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
-    { madonhang: "DH5", makh: "KH3", thoigianmua: "2024-11-4", tongtien: 105000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
-    { madonhang: "DH6", makh: "KH4", thoigianmua: "2024-11-5", tongtien: 125000, makhuyenmai: null, tthd: "đã giao thành công" },
-    { madonhang: "DH7", makh: "KH5", thoigianmua: "2024-11-6", tongtien: 155000, makhuyenmai: "KM2", tthd: "đã giao thành công" },
-    { madonhang: "DH8", makh: "KH6", thoigianmua: "2024-11-6", tongtien: 165000, makhuyenmai: null, tthd: "đã giao thành công" },
-    { madonhang: "DH9", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
-    { madonhang: "DH10", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, makhuyenmai: "KM2", tthd: "đã giao thành công" },
-    { madonhang: "DH11", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: null, tthd: "đã giao thành công" },
-    { madonhang: "DH12", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao thành công" },
-    { madonhang: "DH13", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "chưa xử lý" },
-    { madonhang: "DH14", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "chưa xử lý" },
+    { madonhang: "DH1", makh: "KH1", thoigianmua: "2024-11-16T04:21:54.645Z", tongtien: 150000, makhuyenmai: "KM1", tthd: "đã giao" },
+    { madonhang: "DH2", makh: "KH1", thoigianmua: "2024-11-1", tongtien: 50000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH3", makh: "KH2", thoigianmua: "2024-11-2", tongtien: 360000, makhuyenmai: null, tthd: "đã hủy" },
+    { madonhang: "DH4", makh: "KH2", thoigianmua: "2024-11-3", tongtien: 230000, makhuyenmai: "KM1", tthd: "chưa xử lý" },
+    { madonhang: "DH5", makh: "KH3", thoigianmua: "2024-11-4", tongtien: 105000, makhuyenmai: "KM1", tthd: "xác nhận" },
+    { madonhang: "DH6", makh: "KH4", thoigianmua: "2024-11-5", tongtien: 125000, makhuyenmai: null, tthd: "đã giao" },
+    { madonhang: "DH7", makh: "KH5", thoigianmua: "2024-11-6", tongtien: 155000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH8", makh: "KH6", thoigianmua: "2024-11-6", tongtien: 165000, makhuyenmai: null, tthd: "đã giao" },
+    { madonhang: "DH9", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, makhuyenmai: "KM1", tthd: "đã giao" },
+    { madonhang: "DH10", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH11", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: null, tthd: "chưa xử lý" },
+    { madonhang: "DH12", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "chưa xử lý" },
+    { madonhang: "DH13", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "đã giao" },
+    { madonhang: "DH14", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "đã giao" },
+    { madonhang: "DH15", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH16", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "đã giao" },
+    { madonhang: "DH17", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "đã giao" },
+    { madonhang: "DH18", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, makhuyenmai: "KM1", tthd: "đã giao" },
+    { madonhang: "DH19", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH20", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: "", tthd: "đã giao" },
+    { madonhang: "DH21", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao" },
 
     // Add more to reach 20 orders
-  ];
-/*  orders.forEach(order => {
-    order.thoigianmua = formatDateVietnam(order.thoigianmua);
-});*/
+];
   let orderDetails = [
     { madonhang: 'DH1', masp: 'SP1', soluong: 2, dongia: 50000, thanhtien: 100000 },
     { madonhang: 'DH1', masp: 'SP2', soluong: 1, dongia: 50000, thanhtien: 50000 },
@@ -748,7 +752,7 @@ function generateStatistics() {
     // Filter orders within the specified time range and successfully delivered orders
     const filteredOrders = orders.filter(orders => {
         const orderDate = new Date(orders.thoigianmua);
-        return orderDate >= startDate && orderDate <= endDate && orders.tthd === 'đã giao thành công';
+        return orderDate >= startDate && orderDate <= endDate && orders.tthd === 'đã giao';
     });
     if (filteredOrders.length === 0) {
         alert("Không có đơn hàng nào trong khoảng thời gian này.");
@@ -1084,12 +1088,12 @@ function editOrder(orderId) {
         statusSelect.innerHTML = `
             <option value="chưa xử lý">Chưa xử lý</option>
             <option value="đã hủy">Đã hủy</option>
-            <option value="đã xác nhận">Đã xác nhận</option>
+            <option value="xác nhận">Xác nhận</option>
         `;
-    } else if (order.tthd === "đã xác nhận") {
+    } else if (order.tthd === "xác nhận") {
         statusSelect.innerHTML = `
-            <option value="đã xác nhận">Đã xác nhận</option>
-            <option value="đã giao thành công">Đã giao thành công</option>
+            <option value="xác nhận">Xác nhận</option>
+            <option value="đã giao">Đã giao</option>
         `;
     } else {
         // Nếu là "đã hủy" hoặc "đã giao thành công", không hiển thị các tùy chọn khác
@@ -1107,18 +1111,18 @@ function saveOrderChanges() {
     const order = orders[editOrderIndex];
 
     // Ràng buộc thay đổi trạng thái
-    if (order.tthd === "chưa xử lý" && !(newStatus === "đã hủy" || newStatus === "đã xác nhận")) {
-        alert("Trạng thái 'chưa xử lý' chỉ có thể chuyển sang 'đã hủy' hoặc 'đã xác nhận'!");
+    if (order.tthd === "chưa xử lý" && !(newStatus === "đã hủy" || newStatus === "xác nhận")) {
+        alert("Trạng thái 'chưa xử lý' chỉ có thể chuyển sang 'đã hủy' hoặc 'xác nhận'!");
         return;
     }
 
-    if (order.tthd === "đã hủy" || order.tthd === "đã giao thành công") {
+    if (order.tthd === "đã hủy" || order.tthd === "đã giao") {
         alert(`Trạng thái '${order.tthd}' không thể thay đổi!`);
         return;
     }
 
-    if (order.tthd === "đã xác nhận" && newStatus !== "đã giao thành công") {
-        alert("Trạng thái 'đã xác nhận' chỉ có thể chuyển sang 'đã giao thành công'!");
+    if (order.tthd === "xác nhận" && newStatus !== "đã giao") {
+        alert("Trạng thái 'xác nhận' chỉ có thể chuyển sang 'đã giao'!");
         return;
     }
 
