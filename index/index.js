@@ -5,15 +5,21 @@ function ThemDieuKienSearch(){/*mở tìm kiếm nâng cao*/
     event.preventDefault();
     document.querySelector(".advanced-search").classList.toggle("open")
 }
+LoadCount = ()=> {
+    let countCart = document.getElementById('count');
+    let length = JSON.parse(localStorage.getItem('cart'));
+    countCart.innerText = length == null ? 0 : length.length ;
+}
+
+LoadCount();
 
 function hienthichinhsach() { /*chính sách*/
-    const productList = document.querySelector(".product-list");
+    const productList = document.querySelector("#main-wrapper");
     productList.innerHTML = `
-        <div style="display:block; font-family: Arial, sans-serif; color: #333; line-height: 1.6; background-color: white; width: 100%; padding-left: 20px;">
+        </div><div style="display:block;
+         font-family: Arial,sans-serif; color: #333; line-height: 1.6; background-color: white; width: 100%; height: 100%;padding-left: 20px;transform: translate(0%, 5%);">
             <h1 style="color: #007BFF; font-size: 2em;text-align: center;margin-bottom: 20px;">BẢO HÀNH - ĐỔI HÀNG - TRẢ HÀNG VỚI FOOTBALL KIT</h1>
-            
             <h2 style="color: #0056b3; font-size: 1.5em;margin-bottom: 10px;">QUY ĐỊNH BẢO HÀNH - ĐỔI TRẢ</h2>
-            
             <h3 style="color: #28a745; font-size: 1.3em; margin-bottom: 5px;">1. ĐỔI HÀNG TRONG 60 NGÀY NẾU CHƯA SỬ DỤNG</h3>
             <ul style="padding-left: 20px;">
                 <li style="color: red; font-size: 1em;font-weight: bold;">*Chỉ áp dụng sản phẩm nguyên giá, không sale off</li>
@@ -43,8 +49,6 @@ function hienthichinhsach() { /*chính sách*/
     `;
 }
 
-
-
 function openCart() { /*mở giỏ*/
     showCart();/*gọi hàm show giỏ*/
     document.querySelector('.modal-cart').classList.add('open');
@@ -57,30 +61,69 @@ function closeCart() {/*đóng giỏ*/
     updateAmount();
 }
 
+function increasingNumber(id){//Tăng số lượng trong giỏ hàng
+    let cart = JSON.parse(localStorage.getItem('cart') || []);
+    //Nếu đúng id thêm 1 số lượng
+    for (let x of cart) {
+        if (x.masp === id) {
+            x.soluong+=1;
+            break;
+        }
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    showCart();
+    updateCartTotal();
+}
+//22/11/2024
+function decreasingNumber (id) {
+    let cart = JSON.parse(localStorage.getItem('cart') || []);
+    ///Duyệt giỏ hàng
+    for (let x of cart) {
+        //Nếu đúng id trừ đi 1 số lượng
+        if (x.masp === id) {
+            if (x.soluong > 1) {
+                x.soluong--;
+            }
+            break;
+        }
+    }
+    ///Cập nhật lại giỏ hàng
+    localStorage.setItem('cart', JSON.stringify(cart));
+    showCart();
+    updateCartTotal();
+}
+
+//22/11/2024
 function showCart() {/*show giở*/
-    if (localStorage.getItem('currentuser') != null) {
-        let currentuser = JSON.parse(localStorage.getItem('currentuser'));
-        if (currentuser.cart.length != 0) {
+    
+    if (localStorage.getItem('accounts') != null) {
+        let currentuser = JSON.parse(localStorage.getItem('accounts'));
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        
+        if (cart) {
             document.querySelector('.gio-hang-trong').style.display = 'none';
             document.querySelector('button.thanh-toan').classList.remove('disabled');
             let productcarthtml = '';
-            currentuser.cart.forEach(item => {
+            cart.forEach(item => {
                 let product = getProduct(item);
                 productcarthtml += 
-                `<li class="cart-item" data-id="${product.id}">
+                `<li class="cart-item" data-id="${product.masp}">
+                <div class="cart-item-image">
+                    <img src="${product.image_url}" alt="${product.tensp}" />
+                </div>
                 <div class="cart-item-info">
-                    <p class="cart-item-title">${product.title}</p>
+                    <p class="cart-item-title">${product.tensp}</p>
                     <span class="cart-item-price price" data-price="${product.price}">
-                    ${VND(parseInt(product.price))}
+                        ${(parseInt(product.price))}
                     </span>
                 </div>
-                <p class="product-note"><i class="fa fa-pencil"></i><span>${product.note}</span></p>
                 <div class="cart-item-control">
-                    <button class="cart-item-delete" onclick="deleteCartItem(${product.id},this)">Xóa</button>
+                    <button class="cart-item-delete" onclick="deleteCartItem('${product.masp}')">Xóa</button>
+                    
                     <div class="buttons_added">
-                        <input class="minus is-form" type="button" value="-" onclick="decreasingNumber(this)">
+                        <input class="minus is-form" type="button" value="-" onclick="decreasingNumber('${product.masp}')">
                         <input class="input-qty" max="100" min="1" name="" type="number" value="${product.soluong}">
-                        <input class="plus is-form" type="button" value="+" onclick="increasingNumber(this)">
+                        <input class="plus is-form" type="button" value="+" onclick="increasingNumber('${product.masp}')">
                     </div>
                 </div>
             </li>`
@@ -94,7 +137,7 @@ function showCart() {/*show giở*/
     }
     let modalCart = document.querySelector('.modal-cart');
     let containerCart = document.querySelector('.cart-container');
-    let themsach = document.querySelector('.them-sach');
+    let themsach = document.querySelector('.them-sanpham');
     modalCart.onclick = function () {
         closeCart();
     }
@@ -106,31 +149,26 @@ function showCart() {/*show giở*/
     })
 }
 
-function deleteCartItem(id, el) {/*xóa item trong giỏ*/
-    let cartParent = el.parentNode.parentNode;
-    cartParent.remove();
-    let currentUser = JSON.parse(localStorage.getItem('currentuser'));
-    let vitri = currentUser.cart.findIndex(item => item.id = id)
-    currentUser.cart.splice(vitri, 1);
+function deleteCartItem(masp) {/*hàm xóa sản phẩm trong giỏ với mã sp là kiểu String */
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];// Lấy giỏ hàng từ localStorage
+    cart = cart.filter(item => item.masp !== masp);// Tìm và loại bỏ sản phẩm có mã sản phẩm `masp`
+    localStorage.setItem('cart', JSON.stringify(cart));// Cập nhật lại giỏ hàng vào localStorage
 
-    // Nếu trống thì hiện giỏ hàng trống
-    if (currentUser.cart.length == 0) {
-        document.querySelector('.gio-hang-trong').style.display = 'flex';
-        document.querySelector('button.thanh-toan').classList.add('disabled');
-    }
-    localStorage.setItem('currentuser', JSON.stringify(currentUser));
-    updateCartTotal();
+    showCart(); // Gọi lại hàm showCart để làm mới danh sách sản phẩm
+    LoadCount();
+    //console.log(`Sản phẩm với ID ${masp} đã bị xóa rồi nhé ^_^.`);
 }
 
+
 function updateCartTotal() {/*cập nhật giá giỏ*/
-    document.querySelector('.text-price').innerText = vnd(getCartTotal());
+    document.querySelector('.text-price').innerText = getCartTotal();
 }
 
 function getCartTotal() {/*lấy tổng tiền ra*/
-    let currentUser = JSON.parse(localStorage.getItem('currentuser'));
+    let currentUser = JSON.parse(localStorage.getItem('cart'));
     let tongtien = 0;
     if (currentUser != null) {
-        currentUser.cart.forEach(item => {
+        currentUser.forEach(item => {
             let product = getProduct(item);
             tongtien += (parseInt(product.soluong) * parseInt(product.price));
         });
@@ -149,9 +187,9 @@ function getProduct(item) {/*lấy ra sản phẩm*/
 }
 
 function getAmountCart() { /*lấy số lượng mặt hàng*/
-    let currentuser = JSON.parse(localStorage.getItem('currentuser'))
+    let currentuser = JSON.parse(localStorage.getItem('cart'));
     let amount = 0;
-    currentuser.cart.forEach(element => {
+    currentuser.forEach(element => {
         amount += parseInt(element.soluong);
     });
     return amount;
@@ -168,13 +206,15 @@ function saveAmountCart() {
     let cartAmountbtn = document.querySelectorAll(".cart-item-control .is-form");
     let listProduct = document.querySelectorAll('.cart-item');
     let currentUser = JSON.parse(localStorage.getItem('currentuser'));
+    let cart = JSON.parse(localStorage.getItem('cart'));
+
     cartAmountbtn.forEach((btn, index) => {
         btn.addEventListener('click', () => {
             let id = listProduct[parseInt(index / 2)].getAttribute("data-id");
-            let productId = currentUser.cart.find(item => {
-                return item.id == id;
+            let productId = cart.find(item => {
+                return item.masp == id;
             });
-            productId.soluong = parseInt(listProduct[parseInt(index / 2)].querySelector(".input-qty").value);
+            productId.soLuong = parseInt(listProduct[parseInt(index / 2)].querySelector(".input-qty").value);
             localStorage.setItem('currentuser', JSON.stringify(currentUser));
             updateCartTotal();
         })
@@ -188,17 +228,35 @@ function closeModal() {
     console.log(modalContainer)
     body.style.overflow = "auto";
 }
-
+//22/11/2024
 
 function addToCart(productId) { /*thêm vào giỏ*/
-    const product = products.find(p => p.id === productId); // Lấy sản phẩm từ mảng product` bằng id
-    if (product) {
-        cart.push(product); // Thêm sản phẩm vào mảng giỏ hàng
-
-        localStorage.setItem('cart', JSON.stringify(cart));
-        alert("Đã thêm sản phẩm vào giỏ hàng"); // thông báo khi click nút mua ngay (sự kiện nút MUA NGAY trong function showPage)
+    let products = JSON.parse(localStorage.getItem('products'));
+    const product = products.find(p => p.masp === productId); 
+    product.soluong = 1;
+    let cart = [];
+    if (localStorage.getItem('cart') == null) {
+      cart = [product];
+    } else {
+      cart = JSON.parse(localStorage.getItem('cart')|| '[]');
+      let ok = true;
+      for (let x of cart) {
+        if (x.masp === productId) {
+          x.quantity += 1;
+          ok = false;
+          break;
+        }
+      }
+      if(ok){
+        cart.push(product); 
+      } 
     }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert("Thêm sản phẩm vào giỏ hàng thành công!")
+    LoadCount();
+
 }
+
 
 function orderHistory() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -212,7 +270,7 @@ function showPage(page) {
     const itemsPerPage = 6; // Số sản phẩm trên mỗi trang
     const start = (page - 1) * itemsPerPage;
     const end = start + itemsPerPage;
-    const productList = document.querySelector(".product-list"); // Container chứa sản phẩm
+    const productList = document.querySelector("#product-wrapper"); // Container chứa sản phẩm
 
     const products = JSON.parse(localStorage.getItem('products')) || [];// Lấy mảng sản phẩm từ localStorage
     const filteredProducts = products; // Áp dụng bộ lọc nếu cần
@@ -238,8 +296,8 @@ function showPage(page) {
                 <div class="product-item"">
                     <div class="container-product-item">
                         <img src="${product.image_url}" alt="${product.tensp}">
-                        <button class="buyButton" onclick="addToCart(${product.masp})">MUA NGAY</button> 
-                        <button class="detailProduct" onclick="showProductDetail(${product.masp})">CHI TIẾT</button> 
+                        <button class="buyButton" onclick="addToCart('${product.masp}')">MUA NGAY</button> 
+                        <button class="detailProduct" onclick="showProductDetail('${product.masp}')">CHI TIẾT</button> 
                     </div>
                    <div class="product-info" style="color:#322A2A">
                         <p><strong>Tên sản phẩm:</strong> ${product.tensp}</p>
@@ -258,12 +316,10 @@ function showPage(page) {
     }
 }
 
-
 function showProductDetail(productId) {// hiện chi tiết sản phẩm khi ấn chi tiết
     const products = JSON.parse(localStorage.getItem('products')) || [];  // Lấy danh sách sản phẩm từ localStorage
-
     const product = products.find(item => item.masp === productId);// Tìm sản phẩm theo ID
-    if (product) {// Cập nhật thông tin chi tiết vào div hiển thị
+    if (product) {
         const detailDiv = document.querySelector(".product-detail");
         detailDiv.innerHTML = `
             <div class="detail-container">
@@ -275,7 +331,7 @@ function showProductDetail(productId) {// hiện chi tiết sản phẩm khi ấ
                 <p><strong>Kích thước:</strong> ${product.size}</p>
                 <p><strong>Giá:</strong> ${product.price.toLocaleString().replace(/,/g, '.')} VND</p>
                 <p><strong>Còn lại:</strong> ${product.stock}</p>
-                <button onclick="closeDetail()">MUA NGAY</button>
+                <button onclick="addToCart('${product.masp}'), closeDetail() ">MUA NGAY</button>
                 <button onclick="closeDetail()">Đóng</button>
             </div>
         `;
@@ -290,8 +346,6 @@ function closeDetail() { //đóng chi tiết sản phẩm
     document.body.classList.remove('no-scroll');
 }
         
-
-
 // --------------- Phần này là để làm cái trượt lên trượt xuống, mũi tên lên xuống, màu của danh mục thui --------------------
 const categoryContents = document.querySelectorAll('.category-content');
 
@@ -458,4 +512,122 @@ function filterProducts() {//lọc sản phẩm
     }
     // Hiển thị sản phẩm đã lọc
     showPage(1);
+}
+
+/*----------------------- lịch sử mua hàng------------------------------------------------------------------------------- */
+function loadOrdersTable() {
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    const products = JSON.parse(localStorage.getItem("products")) || []; 
+    const orderDetails = JSON.parse(localStorage.getItem("orderDetails")) || [];
+    
+    const tableContainer = document.querySelector("#main-wrapper");
+    tableContainer.innerHTML = ""; // Xóa nội dung cũ
+
+    const table = document.createElement("table");
+
+    const headerRow = document.createElement("tr"); // Tạo tiêu đề bảng (header)
+    ["Mã Đơn Hàng", "Tên Sản Phẩm", "Thời Gian Mua", "Tổng Tiền", "Tình Trạng Hóa Đơn"].forEach(attr => {
+        const th = document.createElement("th");
+        th.textContent = attr.toUpperCase(); // Đổi thành chữ in hoa
+        headerRow.appendChild(th);
+    });
+    table.appendChild(headerRow);
+
+    orders.forEach(order => { // Lặp qua tất cả các đơn hàng
+        // Lọc các chi tiết đơn hàng có cùng madonhang
+        const matchingOrderDetails = orderDetails.filter(orderDetail => orderDetail.madonhang === order.madonhang);
+
+        // Lặp qua từng orderDetail và tạo các dòng tương ứng
+        matchingOrderDetails.forEach(orderDetail => {
+            const row = document.createElement("tr");
+            
+            // Lấy tên sản phẩm từ orderDetails và products
+            const product = products.find(product => product.masp === orderDetail.masp);
+            const tensp = product ? product.tensp : "Sản phẩm không xác định";
+            
+            // Tạo các cột trong bảng
+            ["madonhang", "tensp", "thoigianmua", "tongtien", "tthd"].forEach(attr => {
+                const td = document.createElement("td");
+                if (attr === "tensp") {
+                    td.textContent = tensp; // Hiển thị tên sản phẩm
+                } else {
+                    td.textContent = (attr === "madonhang" ? order[attr] : order[attr] || ""); // Hiển thị dữ liệu hoặc để trống nếu không có
+                }
+                row.appendChild(td);
+            });
+            
+            row.addEventListener('click', () => showOrderDetails(order)); // Thêm sự kiện click vào dòng
+            table.appendChild(row);
+        });
+    });
+
+    // Thêm bảng vào container
+    tableContainer.appendChild(table);
+}
+
+function createNewOrder(cartKey, customerID) {
+    const cart = JSON.parse(localStorage.getItem(cartKey)) || []; //lấy ra cart
+    const orders = JSON.parse(localStorage.getItem('orders')) || [];// lấy ra orders
+    const products = JSON.parse(localStorage.getItem('products')) || []; //lấy ra products
+    const orderDetails = JSON.parse(localStorage.getItem('orderDetails')) || [];// lấy ra orders details
+
+    const lastOrderID = orders.length ? orders[orders.length - 1].madonhang : 'DH0';//lấy ra giá trị cuối để +1 cho madonhang
+    const newOrderID = 'DH' + (parseInt(lastOrderID.slice(2)) + 1);
+
+    // Tính tổng tiền cho đơn hàng
+    const totalAmount = cart.reduce((total, item) => total + item.price * item.soluong, 0);
+    // Tạo đối tượng đơn hàng mới
+    const newOrder = {
+        madonhang: newOrderID,
+        makh: customerID,
+        thoigianmua: new Date().toISOString(),
+        tongtien: totalAmount,
+        tthd: "chưa xử lý"
+    };
+
+    // Tạo chi tiết đơn hàng từ giỏ hàng
+    const newOrderDetails = cart.map
+    (item => (
+                {
+                    madonhang: newOrderID,
+                    masp: item.masp,
+                    soluong: item.soluong,
+                    dongia: item.price,
+                    thanhtien: item.price * item.soluong
+                }
+            )
+    );
+
+    cart.forEach(item => {/*giảm số lượng stock của product khi thanh toán */
+        const product = products.find(p => p.masp === item.masp);
+        if (product) {
+            product.stock -= item.soluong;
+        }
+    });
+    localStorage.setItem('products', JSON.stringify(products));/*lưu lại products */
+
+    orders.push(newOrder);//push vào orders
+    localStorage.setItem('orders', JSON.stringify(orders));
+    
+    orderDetails.push(...newOrderDetails);//push vào orderDetails
+    localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
+
+    // Xóa giỏ hàng sau khi tạo đơn hàng
+    localStorage.removeItem(cartKey);
+    localStorage.removeItem('cart');
+    LoadCount();
+    window.location.reload();
+    alert("Thanh toán thành công !\nVui lòng kiểm tra lịch sử mua hàng");
+   
+}
+
+function checkCartAndToggleButton(cartKey, buttonID) {/*Kiểm tra trong giỏ có sản phẩm ko r mới cho thanh toán */
+    const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+    if (cart.length <= 0) {
+        LoadCount();
+        alert("Không có sản phẩm trong giỏ\n Vui lòng thêm sản phẩm vào giỏ");
+        closeCart(); 
+    } else {
+        createNewOrder('cart','KH1');/*tạo mới hóa đơn và chi tiết hóa đơn */
+    }
 }

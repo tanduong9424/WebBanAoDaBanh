@@ -37,7 +37,7 @@
                             <li class="header-top-right-item open" onclick="openCart()">
                                 <div class="cart-icon-menu">
                                     <i class="fa fa-shopping-cart"></i>
-                                    <span class="count-product-cart">0</span>
+                                    <span class="count-product-cart" id="count"> </span>
                                 </div>
                                 <span class="text-cart">Giỏ hàng</span>
                             </li>
@@ -48,9 +48,14 @@
                                     <span class="text-tk">Tài khoản <i class="fa fa-caret-down"></i></span>
                                 </div>
                                 <ul class="header-top-right-menu">
-                                    <li><a id="login" href="javascript:;"><i class="fa fa-user"></i> Đăng nhập</a></li>
-                                    <li><a id="signup" href="javascript:;"><i class="fa fa-user-plus"></i> Đăng ký</a></li>
+                                    <li>
+                                        <a id="iconlogin" href="javascript:;"><i class="fa fa-user"></i> Đăng nhập</a>
+                                    </li>
+                                    <li>
+                                        <a id="iconsignup" href="javascript:;"><i class="fa fa-user-plus"></i> Đăng ký</a>
+                                    </li>
                                 </ul>
+
                             </li>
                         </ul>
                     </div>
@@ -62,9 +67,9 @@
             <div class="container">
                 <ul id="menu-list" class="menu-list">
                     <li onclick=showPage(1);>
-                        <a href="javascript:;" class="menu-link">Sản Phẩm</a>
+                        <a href="" class="menu-link">Sản Phẩm</a>
                     </li>
-                    <li  onclick="showCategory('LALIGA')">
+                    <li  onclick=loadOrdersTable();>
                         <a href="javascript:;" class="menu-link">Lịch Sử Mua Hàng</a>
                     </li>
                     <li onclick=hienthichinhsach();>
@@ -110,15 +115,14 @@
             </div>
         </div>
 
-        <main class="main-wrapper"> <!--sản phẩm-->
+        <main class="main-wrapper" id="main-wrapper"> <!--sản phẩm-->
             <div class="container">
-                <div class="main-content">
-                    <div class="category">
+                <div class="main-content" >
+                    <div class="category" id="category"><!--danh mục phân loại bên trái-->
                         <div class="category-content">
                             <button>QUỐC GIA</button>
                             <i class="fas fa-caret-down"></i>
                         </div>
-                        
                         <ul class="category-nation">
                             <li><a href="#">Anh</a><i class="fas fa-times"></i></li>
                             <li><a href="#">Pháp</a><i class="fas fa-times"></i></li>
@@ -148,9 +152,8 @@
                             <li><a href="#">400k - 499k</a><i class="fa-solid fa-xmark"></i></li>
                             <li><a href="#">&gt 500k</a><i class="fa-solid fa-xmark"></i></li>
                         </ul>
-        
                     </div>
-                    <div class="product-list"></div><!--container chứa sản phẩm , gọi ra bằng js-->
+                    <div id="product-wrapper"></div><!--container chứa sản phẩm , gọi ra bằng js-->
                 </div>
                 
                 <div class="pagination">
@@ -167,7 +170,7 @@
         <div id="user" class="modal"><!--form đki +đăng nhập-->
             <div id="login">
                 <form name="loginform" id="form-1">
-                    <button type="button" class="close" onclick="closeform()">+</button>
+                    <button type="button" class="close" onclick=showPage(1);>+</button>
                     <h2>ĐĂNG NHẬP</h2>
                     <div class="login-info">
                         <div class="form-group">
@@ -242,7 +245,9 @@
                         <i class="fa fa-shopping-basket"></i>
                         <p>Không có sản phẩm nào trong giỏ hàng của bạn</p>
                     </div>
-                    <ul class="cart-list"></ul>
+                    <ul class="cart-list">
+                        
+                    </ul>
                 </div>
                 <div class="cart-footer">
                     <div class="cart-total-price">
@@ -250,8 +255,9 @@
                         <p class="text-price">0đ</p>
                     </div>
                     <div class="cart-footer-payment">
-                        <button class="them-sach"><i class="fa fa-plus"></i> Mua tiếp</button>
-                        <button class="thanh-toan disabled">Thanh toán</button>
+                        <button class="them-sanpham"><i class="fa fa-plus"></i> Mua tiếp</button>
+                        <button class="thanh-toan" onclick="checkCartAndToggleButton('cart', '.thanh-toan');">Thanh toán</button>
+                        <!--createNewOrder('cart','KH1') là thêm vào bảng cart cho KH1-->
                     </div>
                 </div>
             </div>
@@ -359,10 +365,9 @@
         <script src="form.js"></script>
         <script src="index.js"></script>
         <script src="data.js"></script>
-    <script>
-        // Gọi hàm showPage ngay khi tải xong file HTML
-        showPage(1);
-    </script>
+        <script>
+            showPage(1);
+        </script>
 
     </body>
 </html>

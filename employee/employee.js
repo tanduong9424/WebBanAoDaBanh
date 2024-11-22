@@ -1,84 +1,9 @@
 // Lấy sản phẩm từ localStorage hoặc tạo một mảng rỗng nếu không có
 let products = JSON.parse(localStorage.getItem("products")) || [];
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+let orderDetails = JSON.parse(localStorage.getItem("orderDetails")) || [];
+let customer = JSON.parse(localStorage.getItem("customers")) || [];
 
-// Dữ liệu mẫu cho đơn hàng
-let orders = [
-    { madonhang: "DH1", makh: "KH1", thoigianmua: "2024-11-16T04:21:54.645Z", tongtien: 150000, makhuyenmai: "KM1", tthd: "đã giao" },
-    { madonhang: "DH2", makh: "KH1", thoigianmua: "2024-11-1", tongtien: 50000, makhuyenmai: "KM2", tthd: "đã giao" },
-    { madonhang: "DH3", makh: "KH2", thoigianmua: "2024-11-2", tongtien: 360000, makhuyenmai: null, tthd: "đã hủy" },
-    { madonhang: "DH4", makh: "KH2", thoigianmua: "2024-11-3", tongtien: 230000, makhuyenmai: "KM1", tthd: "chưa xử lý" },
-    { madonhang: "DH5", makh: "KH3", thoigianmua: "2024-11-4", tongtien: 105000, makhuyenmai: "KM1", tthd: "xác nhận" },
-    { madonhang: "DH6", makh: "KH4", thoigianmua: "2024-11-5", tongtien: 125000, makhuyenmai: null, tthd: "đã giao" },
-    { madonhang: "DH7", makh: "KH5", thoigianmua: "2024-11-6", tongtien: 155000, makhuyenmai: "KM2", tthd: "đã giao" },
-    { madonhang: "DH8", makh: "KH6", thoigianmua: "2024-11-6", tongtien: 165000, makhuyenmai: null, tthd: "đã giao" },
-    { madonhang: "DH9", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, makhuyenmai: "KM1", tthd: "đã giao" },
-    { madonhang: "DH10", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, makhuyenmai: "KM2", tthd: "đã giao" },
-    { madonhang: "DH11", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: null, tthd: "chưa xử lý" },
-    { madonhang: "DH12", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "chưa xử lý" },
-    { madonhang: "DH13", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "đã giao" },
-    { madonhang: "DH14", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "đã giao" },
-    { madonhang: "DH15", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao" },
-    { madonhang: "DH16", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "đã giao" },
-    { madonhang: "DH17", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "đã giao" },
-    { madonhang: "DH18", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, makhuyenmai: "KM1", tthd: "đã giao" },
-    { madonhang: "DH19", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, makhuyenmai: "KM2", tthd: "đã giao" },
-    { madonhang: "DH20", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: "", tthd: "đã giao" },
-    { madonhang: "DH21", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao" },
-
-    // Add more to reach 20 orders
-];
-let orderDetails = [
-    { madonhang: 'DH1', masp: 'SP1', soluong: 2, dongia: 50000, thanhtien: 100000 },
-    { madonhang: 'DH1', masp: 'SP2', soluong: 1, dongia: 50000, thanhtien: 50000 },
-
-    { madonhang: 'DH2', masp: 'SP1', soluong: 1, dongia: 50000, thanhtien: 50000 },
-
-    { madonhang: 'DH3', masp: 'SP2', soluong: 3, dongia: 120000, thanhtien: 360000 },
-
-    { madonhang: 'DH4', masp: 'SP1', soluong: 1, dongia: 50000, thanhtien: 50000 },
-    { madonhang: 'DH4', masp: 'SP3', soluong: 2, dongia: 90000, thanhtien: 180000 },
-
-    { madonhang: "DH5", masp: "SP4", soluong: 2, dongia: 30000, thanhtien: 60000 },
-    { madonhang: "DH5", masp: "SP5", soluong: 3, dongia: 15000, thanhtien: 45000 },
-
-    { madonhang: "DH6", masp: "SP6", soluong: 1, dongia: 80000, thanhtien: 80000 },
-    { madonhang: "DH6", masp: "SP7", soluong: 1, dongia: 40000, thanhtien: 40000 },
-
-    { madonhang: "DH7", masp: "SP8", soluong: 2, dongia: 25000, thanhtien: 50000 },
-    { madonhang: "DH7", masp: "SP1", soluong: 2, dongia: 50000, thanhtien: 100000 },
-
-    { madonhang: "DH8", masp: "SP2", soluong: 1, dongia: 120000, thanhtien: 120000 },
-    { madonhang: "DH8", masp: "SP3", soluong: 1, dongia: 45000, thanhtien: 45000 },
-
-    { madonhang: "DH9", masp: "SP4", soluong: 3, dongia: 30000, thanhtien: 90000 },
-    { madonhang: "DH9", masp: "SP5", soluong: 2, dongia: 15000, thanhtien: 30000 },
-
-    { madonhang: "DH10", masp: "SP6", soluong: 2, dongia: 80000, thanhtien: 160000 },
-    { madonhang: "DH10", masp: "SP7", soluong: 1, dongia: 40000, thanhtien: 40000 },
-
-    { madonhang: "DH11", masp: "SP8", soluong: 3, dongia: 25000, thanhtien: 75000 },
-    { madonhang: "DH11", masp: "SP1", soluong: 2, dongia: 50000, thanhtien: 100000 },
-
-    { madonhang: "DH12", masp: "SP2", soluong: 1, dongia: 120000, thanhtien: 120000 },
-    { madonhang: "DH12", masp: "SP3", soluong: 2, dongia: 45000, thanhtien: 90000 },
-
-    { madonhang: "DH13", masp: "SP4", soluong: 2, dongia: 30000, thanhtien: 60000 },
-    { madonhang: "DH13", masp: "SP6", soluong: 1, dongia: 80000, thanhtien: 80000 },
-
-    { madonhang: "DH14", masp: "SP7", soluong: 2, dongia: 40000, thanhtien: 80000 },
-    { madonhang: "DH14", masp: "SP8", soluong: 2, dongia: 25000, thanhtien: 50000 },
-
-    // Add more details based on orders
-];
-let customer = [
-    { makh: "KH1", matk: "TK4", tenkh: "Pham Van C", sdt: "0901234567", email: "c@gmail.com", diachi: "Ha Noi" },
-    { makh: "KH2", matk: "TK5", tenkh: "Tran Thi D", sdt: "0912345678", email: "d@gmail.com", diachi: "Ho Chi Minh" },
-    { makh: "KH3", matk: "TK6", tenkh: "Hoang Van E", sdt: "0923456789", email: "e@gmail.com", diachi: "Da Nang" },
-    { makh: "KH4", matk: "TK7", tenkh: "Nguyen Thi F", sdt: "0934567890", email: "f@gmail.com", diachi: "Hai Phong" },
-    { makh: "KH5", matk: "TK8", tenkh: "Le Van G", sdt: "0945678901", email: "g@gmail.com", diachi: "Can Tho" },
-    { makh: "KH6", matk: "TK9", tenkh: "Nguyen Thi H", sdt: "0956789012", email: "h@gmail.com", diachi: "Vung Tau" },
-    { makh: "KH7", matk: "TK10", tenkh: "Pham Van I", sdt: "0967890123", email: "i@gmail.com", diachi: "Hue" }
-];
 
 function resetProductFilter(){
     document.getElementById("allRadio").checked=true;
