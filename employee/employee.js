@@ -117,6 +117,8 @@ function toggleFilterCategory() {
 // Khởi chạy
 renderProducts(products);
 filterAndSortOrders();
+
+
 //renderOrders(orders);
 
 // Hàm để lọc và sắp xếp sản phẩm
@@ -752,6 +754,9 @@ function renderOrders(filteredOrders) {
         orderList.insertAdjacentHTML("beforeend", row);
         
         document.getElementById(`Status-${order.madonhang}`).value = order.tthd;
+        if (order.tthd === "đã giao"){
+            document.getElementById(`Status-${order.madonhang}`).disabled=true;
+        }
 
         document.querySelectorAll('.status-select').forEach(select => {
             updateBackgroundColor(select);
