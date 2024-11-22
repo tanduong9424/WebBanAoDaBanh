@@ -754,7 +754,7 @@ function renderOrders(filteredOrders) {
         orderList.insertAdjacentHTML("beforeend", row);
         
         document.getElementById(`Status-${order.madonhang}`).value = order.tthd;
-        if (order.tthd === "đã giao"){
+        if (order.tthd === "đã giao" || order.tthd === "đã hủy"){
             document.getElementById(`Status-${order.madonhang}`).disabled=true;
         }
 
@@ -770,9 +770,29 @@ function updateOrderStatus(madonhang) {
     
     // Lấy giá trị mới của trạng thái
     const newStatus = selectElement.value;
-    
+
     // Cập nhật trạng thái trong danh sách orders (hoặc cơ sở dữ liệu nếu cần)
     const orderIndex = orders.findIndex(order => order.madonhang === madonhang);
+
+    // Ràng buộc thay đổi trạng thái
+    if (orders[orderIndex].tthd === "chưa xử lý" && !(newStatus === "đã hủy" || newStatus === "xác nhận")) {
+        alert("Trạng thái 'chưa xử lý' chỉ có thể chuyển sang 'đã hủy' hoặc 'xác nhận'!");
+        document.getElementById(`Status-${madonhang}`).value=orders[orderIndex].tthd; //chuyển lại trạng thái cũ
+        return;
+    }   
+
+    if (orders[orderIndex].tthd === "đã hủy" || orders[orderIndex].tthd === "đã giao") {
+        alert(`Trạng thái '${orders[orderIndex].tthd}' không thể thay đổi!`);
+        document.getElementById(`Status-${madonhang}`).value=orders[orderIndex].tthd;
+        return;
+    }
+
+    if (orders[orderIndex].tthd === "xác nhận" && !(newStatus === "đã giao" || newStatus === "đã hủy")) {
+        alert("Trạng thái 'xác nhận' chỉ có thể chuyển sang 'đã giao' hoặc 'đã hủy'!");
+        document.getElementById(`Status-${madonhang}`).value=orders[orderIndex].tthd;
+        return;
+    }
+
     if (orderIndex !== -1) {
         // Cập nhật trạng thái của đơn hàng trong mảng orders
         orders[orderIndex].tthd = newStatus;
