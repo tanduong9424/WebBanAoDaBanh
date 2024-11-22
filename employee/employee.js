@@ -916,3 +916,8 @@ function closeModal() {
 }
 
 saveData();
+
+function logout() {
+    localStorage.setItem("isLoggedIn", "false");  // Reset login status
+    window.location.href = "http://127.0.0.1:5501/admin/"; // Chuyển sang giao diện đăng nhập
+}

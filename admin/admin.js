@@ -176,7 +176,7 @@ function login() {
     } else if (userAccount.role === "Nhân viên") {
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("loggedInRole", "Nhân viên");
-        window.location.href = "http://127.0.0.1:5501/employee/index.html"; // Chuyển sang giao diện nhân viên
+        window.location.href = "http://127.0.0.1:5501/employee/"; // Chuyển sang giao diện nhân viên
     } else if (userAccount.role === "Khách hàng") {
         alert("Đây là form đăng nhập dành cho Admin/Nhân viên!");
     } else {
