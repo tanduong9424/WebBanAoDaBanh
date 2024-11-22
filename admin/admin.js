@@ -10,7 +10,7 @@ let orderDetails = JSON.parse(localStorage.getItem("orderDetails")) || [];
 let accounts = [
     { id: "TK1", username: "admin", password: "admin", role: "admin", status: "Hợp lế" },
     { id: "TK2", username: "emp1", password: "pass123", role: "Nhân viên", status: "Hợp lệ" },
-    { id: "TK3", username: "emp2", password: "pass123", role: "Nhân viên", status: "Hợp lệ" },
+    { id: "TK3", username: "emp2", password: "pass123", role: "Nhân viên", status: "Không hợp lệ" },
     { id: "TK4", username: "cust1", password: "custpass", role: "Khách hàng", status: "Hợp lệ" },
     { id: "TK5", username: "cust2", password: "custpass", role: "Khách hàng", status: "Hợp lệ" },
     { id: "TK6", username: "cust3", password: "custpass", role: "Khách hàng", status: "Hợp lệ" },
@@ -173,14 +173,14 @@ function login() {
         document.getElementById("tab_menu").style.display = "block";
         document.getElementById("main_content").style.display = "block";
         document.getElementById("logoutButton").style.display = "block";
-    } else if (userAccount.role === "Nhân viên") {
+    } else if (userAccount.role === "Nhân viên" && userAccount.status === "Hợp lệ") {
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("loggedInRole", "Nhân viên");
         window.location.href = "http://127.0.0.1:5501/employee/"; // Chuyển sang giao diện nhân viên
     } else if (userAccount.role === "Khách hàng") {
         alert("Đây là form đăng nhập dành cho Admin/Nhân viên!");
-    } else {
-        alert("Vai trò tài khoản không hợp lệ!");
+    } else if (userAccount.status === "Không hợp lệ"){
+        alert("Tài khoản bị khóa!")
     }
 }
 
