@@ -159,20 +159,32 @@ function login() {
     const username = document.getElementById("loginUsername").value;
     const password = document.getElementById("loginPassword").value;
 
-    const storedCredentials = JSON.parse(localStorage.getItem("adminCredentials")) || {};
+    const userAccount = accounts.find(account => account.username === username && account.password === password);
 
-    // Validate credentials
-    if (username === storedCredentials.username && password === storedCredentials.password) {
-        localStorage.setItem("isLoggedIn", "true");  // Set session as logged in
+    if (!userAccount) {
+        alert("Thông tin đăng nhập không đúng!");
+        return;
+    }
+
+    if (userAccount.role === "admin") {
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("loggedInRole", "admin");
         document.getElementById("loginPage").style.display = "none";
         document.getElementById("tab_menu").style.display = "block";
         document.getElementById("main_content").style.display = "block";
         document.getElementById("logoutButton").style.display = "block";
+    } else if (userAccount.role === "Nhân viên") {
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("loggedInRole", "Nhân viên");
+        window.location.href = "http://127.0.0.1:5501/employee/index.html"; // Chuyển sang giao diện nhân viên
+    } else if (userAccount.role === "Khách hàng") {
+        alert("Đây là form đăng nhập dành cho Admin/Nhân viên!");
     } else {
-        alert("Invalid credentials");
-        localStorage.setItem("isLoggedIn", "false");  // Ensure isLoggedIn is false on failed login
+        alert("Vai trò tài khoản không hợp lệ!");
     }
 }
+
+
 
 // Đảm bảo đúng ID của form đăng nhập
 document.getElementById("loginPage").addEventListener("keydown", function(event) {
@@ -184,15 +196,20 @@ document.getElementById("loginPage").addEventListener("keydown", function(event)
 
 
 window.onload = () => {
-    // Check if user is logged in; default to false if not set
-    if (localStorage.getItem("isLoggedIn") !== "true") {
-        localStorage.setItem("isLoggedIn", "false");
-        document.getElementById("loginPage").style.display = "flex";  // Show login page
-        document.getElementById("tab_menu").style.display = "none";  // Hide dashboard content
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const loggedInRole = localStorage.getItem("loggedInRole"); // Lấy vai trò đăng nhập từ localStorage
+
+    console.log("isLoggedIn:", isLoggedIn); // Kiểm tra trạng thái đăng nhập
+    console.log("loggedInRole:", loggedInRole); // Kiểm tra vai trò đã lưu
+
+    if (!isLoggedIn || loggedInRole !== "admin") {
+        console.log("Hiển thị form đăng nhập");
+        document.getElementById("loginPage").style.display = "flex";
+        document.getElementById("tab_menu").style.display = "none";
         document.getElementById("main_content").style.display = "none";
         document.getElementById("logoutButton").style.display = "none";
     } else {
-        // User is logged in, display dashboard content
+        console.log("Hiển thị giao diện admin");
         document.getElementById("loginPage").style.display = "none";
         document.getElementById("tab_menu").style.display = "block";
         document.getElementById("main_content").style.display = "block";
@@ -200,6 +217,8 @@ window.onload = () => {
         renderAccounts();
     }
 };
+
+
 
 
 function logout() {
