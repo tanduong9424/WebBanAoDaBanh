@@ -10,7 +10,7 @@ let orderDetails = JSON.parse(localStorage.getItem("orderDetails")) || [];
 let accounts = [
     { id: "TK1", username: "admin", password: "admin", role: "admin", status: "Hợp lế" },
     { id: "TK2", username: "emp1", password: "pass123", role: "Nhân viên", status: "Hợp lệ" },
-    { id: "TK3", username: "emp2", password: "pass123", role: "Nhân viên", status: "Hợp lệ" },
+    { id: "TK3", username: "emp2", password: "pass123", role: "Nhân viên", status: "Không hợp lệ" },
     { id: "TK4", username: "cust1", password: "custpass", role: "Khách hàng", status: "Hợp lệ" },
     { id: "TK5", username: "cust2", password: "custpass", role: "Khách hàng", status: "Hợp lệ" },
     { id: "TK6", username: "cust3", password: "custpass", role: "Khách hàng", status: "Hợp lệ" },
@@ -45,26 +45,30 @@ let accounts = [
     // Add more as needed
   ];
   let orders = [
-    { madonhang: "DH1", makh: "KH1", thoigianmua: "2024-11-16T04:21:54.645Z", tongtien: 150000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
-    { madonhang: "DH2", makh: "KH1", thoigianmua: "2024-11-1", tongtien: 50000, makhuyenmai: "KM2", tthd: "đã giao thành công" },
-    { madonhang: "DH3", makh: "KH2", thoigianmua: "2024-11-2", tongtien: 360000, makhuyenmai: null, tthd: "đã giao thành công" },
-    { madonhang: "DH4", makh: "KH2", thoigianmua: "2024-11-3", tongtien: 230000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
-    { madonhang: "DH5", makh: "KH3", thoigianmua: "2024-11-4", tongtien: 105000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
-    { madonhang: "DH6", makh: "KH4", thoigianmua: "2024-11-5", tongtien: 125000, makhuyenmai: null, tthd: "đã giao thành công" },
-    { madonhang: "DH7", makh: "KH5", thoigianmua: "2024-11-6", tongtien: 155000, makhuyenmai: "KM2", tthd: "đã giao thành công" },
-    { madonhang: "DH8", makh: "KH6", thoigianmua: "2024-11-6", tongtien: 165000, makhuyenmai: null, tthd: "đã giao thành công" },
-    { madonhang: "DH9", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, makhuyenmai: "KM1", tthd: "đã giao thành công" },
-    { madonhang: "DH10", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, makhuyenmai: "KM2", tthd: "đã giao thành công" },
-    { madonhang: "DH11", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: null, tthd: "đã giao thành công" },
-    { madonhang: "DH12", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao thành công" },
-    { madonhang: "DH13", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "chưa xử lý" },
-    { madonhang: "DH14", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "chưa xử lý" },
+    { madonhang: "DH1", makh: "KH1", thoigianmua: "2024-11-16T04:21:54.645Z", tongtien: 150000, makhuyenmai: "KM1", tthd: "đã giao" },
+    { madonhang: "DH2", makh: "KH1", thoigianmua: "2024-11-1", tongtien: 50000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH3", makh: "KH2", thoigianmua: "2024-11-2", tongtien: 360000, makhuyenmai: null, tthd: "đã hủy" },
+    { madonhang: "DH4", makh: "KH2", thoigianmua: "2024-11-3", tongtien: 230000, makhuyenmai: "KM1", tthd: "chưa xử lý" },
+    { madonhang: "DH5", makh: "KH3", thoigianmua: "2024-11-4", tongtien: 105000, makhuyenmai: "KM1", tthd: "xác nhận" },
+    { madonhang: "DH6", makh: "KH4", thoigianmua: "2024-11-5", tongtien: 125000, makhuyenmai: null, tthd: "đã giao" },
+    { madonhang: "DH7", makh: "KH5", thoigianmua: "2024-11-6", tongtien: 155000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH8", makh: "KH6", thoigianmua: "2024-11-6", tongtien: 165000, makhuyenmai: null, tthd: "đã giao" },
+    { madonhang: "DH9", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, makhuyenmai: "KM1", tthd: "đã giao" },
+    { madonhang: "DH10", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH11", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: null, tthd: "chưa xử lý" },
+    { madonhang: "DH12", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "chưa xử lý" },
+    { madonhang: "DH13", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "đã giao" },
+    { madonhang: "DH14", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "đã giao" },
+    { madonhang: "DH15", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH16", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "đã giao" },
+    { madonhang: "DH17", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "đã giao" },
+    { madonhang: "DH18", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, makhuyenmai: "KM1", tthd: "đã giao" },
+    { madonhang: "DH19", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH20", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: "", tthd: "đã giao" },
+    { madonhang: "DH21", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao" },
 
     // Add more to reach 20 orders
-  ];
-/*  orders.forEach(order => {
-    order.thoigianmua = formatDateVietnam(order.thoigianmua);
-});*/
+];
   let orderDetails = [
     { madonhang: 'DH1', masp: 'SP1', soluong: 2, dongia: 50000, thanhtien: 100000 },
     { madonhang: 'DH1', masp: 'SP2', soluong: 1, dongia: 50000, thanhtien: 50000 },
@@ -155,20 +159,32 @@ function login() {
     const username = document.getElementById("loginUsername").value;
     const password = document.getElementById("loginPassword").value;
 
-    const storedCredentials = JSON.parse(localStorage.getItem("adminCredentials")) || {};
+    const userAccount = accounts.find(account => account.username === username && account.password === password);
 
-    // Validate credentials
-    if (username === storedCredentials.username && password === storedCredentials.password) {
-        localStorage.setItem("isLoggedIn", "true");  // Set session as logged in
+    if (!userAccount) {
+        alert("Thông tin đăng nhập không đúng!");
+        return;
+    }
+
+    if (userAccount.role === "admin") {
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("loggedInRole", "admin");
         document.getElementById("loginPage").style.display = "none";
         document.getElementById("tab_menu").style.display = "block";
         document.getElementById("main_content").style.display = "block";
         document.getElementById("logoutButton").style.display = "block";
-    } else {
-        alert("Invalid credentials");
-        localStorage.setItem("isLoggedIn", "false");  // Ensure isLoggedIn is false on failed login
+    } else if (userAccount.role === "Nhân viên" && userAccount.status === "Hợp lệ") {
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("loggedInRole", "Nhân viên");
+        window.location.href = "http://127.0.0.1:5501/employee/"; // Chuyển sang giao diện nhân viên
+    } else if (userAccount.role === "Khách hàng") {
+        alert("Đây là form đăng nhập dành cho Admin/Nhân viên!");
+    } else if (userAccount.status === "Không hợp lệ"){
+        alert("Tài khoản bị khóa!")
     }
 }
+
+
 
 // Đảm bảo đúng ID của form đăng nhập
 document.getElementById("loginPage").addEventListener("keydown", function(event) {
@@ -180,15 +196,20 @@ document.getElementById("loginPage").addEventListener("keydown", function(event)
 
 
 window.onload = () => {
-    // Check if user is logged in; default to false if not set
-    if (localStorage.getItem("isLoggedIn") !== "true") {
-        localStorage.setItem("isLoggedIn", "false");
-        document.getElementById("loginPage").style.display = "flex";  // Show login page
-        document.getElementById("tab_menu").style.display = "none";  // Hide dashboard content
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const loggedInRole = localStorage.getItem("loggedInRole"); // Lấy vai trò đăng nhập từ localStorage
+
+    console.log("isLoggedIn:", isLoggedIn); // Kiểm tra trạng thái đăng nhập
+    console.log("loggedInRole:", loggedInRole); // Kiểm tra vai trò đã lưu
+
+    if (!isLoggedIn || loggedInRole !== "admin") {
+        console.log("Hiển thị form đăng nhập");
+        document.getElementById("loginPage").style.display = "flex";
+        document.getElementById("tab_menu").style.display = "none";
         document.getElementById("main_content").style.display = "none";
         document.getElementById("logoutButton").style.display = "none";
     } else {
-        // User is logged in, display dashboard content
+        console.log("Hiển thị giao diện admin");
         document.getElementById("loginPage").style.display = "none";
         document.getElementById("tab_menu").style.display = "block";
         document.getElementById("main_content").style.display = "block";
@@ -196,6 +217,8 @@ window.onload = () => {
         renderAccounts();
     }
 };
+
+
 
 
 function logout() {
@@ -748,7 +771,7 @@ function generateStatistics() {
     // Filter orders within the specified time range and successfully delivered orders
     const filteredOrders = orders.filter(orders => {
         const orderDate = new Date(orders.thoigianmua);
-        return orderDate >= startDate && orderDate <= endDate && orders.tthd === 'đã giao thành công';
+        return orderDate >= startDate && orderDate <= endDate && orders.tthd === 'đã giao';
     });
     if (filteredOrders.length === 0) {
         alert("Không có đơn hàng nào trong khoảng thời gian này.");
@@ -1084,12 +1107,13 @@ function editOrder(orderId) {
         statusSelect.innerHTML = `
             <option value="chưa xử lý">Chưa xử lý</option>
             <option value="đã hủy">Đã hủy</option>
-            <option value="đã xác nhận">Đã xác nhận</option>
+            <option value="xác nhận">Xác nhận</option>
         `;
-    } else if (order.tthd === "đã xác nhận") {
+    } else if (order.tthd === "xác nhận") {
         statusSelect.innerHTML = `
-            <option value="đã xác nhận">Đã xác nhận</option>
-            <option value="đã giao thành công">Đã giao thành công</option>
+            <option value="xác nhận">Xác nhận</option>
+            <option value="đã giao">Đã giao</option>
+            <option value="đã hủy">Đã hủy</option>
         `;
     } else {
         // Nếu là "đã hủy" hoặc "đã giao thành công", không hiển thị các tùy chọn khác
@@ -1107,18 +1131,18 @@ function saveOrderChanges() {
     const order = orders[editOrderIndex];
 
     // Ràng buộc thay đổi trạng thái
-    if (order.tthd === "chưa xử lý" && !(newStatus === "đã hủy" || newStatus === "đã xác nhận")) {
-        alert("Trạng thái 'chưa xử lý' chỉ có thể chuyển sang 'đã hủy' hoặc 'đã xác nhận'!");
+    if (order.tthd === "chưa xử lý" && !(newStatus === "đã hủy" || newStatus === "xác nhận")) {
+        alert("Trạng thái 'chưa xử lý' chỉ có thể chuyển sang 'đã hủy' hoặc 'xác nhận'!");
         return;
     }
 
-    if (order.tthd === "đã hủy" || order.tthd === "đã giao thành công") {
+    if (order.tthd === "đã hủy" || order.tthd === "đã giao") {
         alert(`Trạng thái '${order.tthd}' không thể thay đổi!`);
         return;
     }
 
-    if (order.tthd === "đã xác nhận" && newStatus !== "đã giao thành công") {
-        alert("Trạng thái 'đã xác nhận' chỉ có thể chuyển sang 'đã giao thành công'!");
+    if (order.tthd === "xác nhận" && !(newStatus === "đã giao" || newStatus === "đã hủy")) {
+        alert("Trạng thái 'xác nhận' chỉ có thể chuyển sang 'đã giao' hoặc 'đã hủy'!");
         return;
     }
 
