@@ -1094,6 +1094,7 @@ function editOrder(orderId) {
         statusSelect.innerHTML = `
             <option value="xác nhận">Xác nhận</option>
             <option value="đã giao">Đã giao</option>
+            <option value="đã hủy">Đã hủy</option>
         `;
     } else {
         // Nếu là "đã hủy" hoặc "đã giao thành công", không hiển thị các tùy chọn khác
@@ -1121,8 +1122,8 @@ function saveOrderChanges() {
         return;
     }
 
-    if (order.tthd === "xác nhận" && newStatus !== "đã giao") {
-        alert("Trạng thái 'xác nhận' chỉ có thể chuyển sang 'đã giao'!");
+    if (order.tthd === "xác nhận" && !(newStatus === "đã giao" || newStatus === "đã hủy")) {
+        alert("Trạng thái 'xác nhận' chỉ có thể chuyển sang 'đã giao' hoặc 'đã hủy'!");
         return;
     }
 
