@@ -21,6 +21,13 @@ function createAdminAccount() {
             status: "Hoạt động",
             role: "Admin"
         }
+        ,{
+            matk: "TK4",
+            username: "admin",
+            password: "admin",
+            status: "Hoạt động",
+            role: "Admin"
+        }
         )
         localStorage.setItem('accounts', JSON.stringify(accounts));
     }
@@ -168,8 +175,8 @@ function createProducts() {
             size:"S",
             price: 100000,
             stock:32,
-            team:"VN",
-            national:'',
+            team:'',
+            national:"VN",
             date_added:"2024-11-16T04:21:54.645Z",
             image_url: "../img/vn.png", 
             status:true,
@@ -181,8 +188,8 @@ function createProducts() {
             size:"S",
             price: 100000,
             stock:32,
-            team:"EN",
-            national:'',
+            team:'',
+            national:"EN",
             date_added:"2024-11-16T04:21:54.645Z",
             image_url: "../img/eng.png", 
             status:true,
@@ -194,8 +201,8 @@ function createProducts() {
             size:"S",
             price: 100000,
             stock:32,
-            team:"PR",
-            national:'',
+            team:'',
+            national:"PR",
             date_added:"2024-11-16T04:21:54.645Z",
             image_url: "../img/phap.png", 
             status:true,
@@ -207,8 +214,8 @@ function createProducts() {
             size:"S",
             price: 100000,
             stock:32,
-            team:"AG",
-            national:'',
+            team:'',
+            national:"AG",
             date_added:"2024-11-16T04:21:54.645Z",
             image_url: "../img/arg.png", 
             status:true,
@@ -220,8 +227,8 @@ function createProducts() {
             size:"S",
             price: 100000,
             stock:32,
-            team:"PO",
-            national:'',
+            team:'',
+            national:"PO",
             date_added:"2024-11-16T04:21:54.645Z",
             image_url: "../img/por.png", 
             status:true,

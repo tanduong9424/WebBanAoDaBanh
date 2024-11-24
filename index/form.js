@@ -1,3 +1,4 @@
+
 function closeform() {
 
   var arr = document.getElementById("user");
@@ -28,28 +29,26 @@ function showLogin() {
   }
 }
 
+// Lấy các phần tử cần thiết
+const usernameInput = document.getElementById("fullname");
+const addressInput = document.getElementById("address");
+const phoneInput = document.getElementById("phone");
+const emailInput = document.getElementById("mail");
+const passwordInput = document.getElementById("password1");
+const confirmPasswordInput = document.getElementById("password2");
+const loginUsernameInput = document.getElementById("username1");
+const loginPasswordInput = document.getElementById("password");
 
-const $ = document.querySelector.bind(document);
-const $$ = document.querySelectorAll.bind(document);
+const btnSignup = document.getElementById("btnsignup");
+const btnLogin = document.getElementById("btnlogin");
 
-const username = $("#fullname");
-const password = $("#password1");
-const confirmpw = $("#password2");
-const email = $("#mail");
-const address = $("#address");
-const phone = $("#phone");
-const btn_dk = $("#btnsignup");
-
-const tk = $("#mail2");
-const mk = $("#password");
-const btn_dn = $("#btnlogin");
-
+// Quản lý tài khoản
 const logic = {
   accounts: JSON.parse(localStorage.getItem("accounts")) || [
     {
       ten: "hongtham",
       diachi: "hongtham",
-      email: "hongtham@gmail.com",
+      email: "hongtham",
       mk: "hongtham",
     },
   ],
@@ -58,83 +57,133 @@ const logic = {
     localStorage.setItem("accounts", JSON.stringify(this.accounts));
   },
 
-  clear() {
-    username.value = "";
-    confirmpw.value = "";
-    address.value = "";
-    password.value = "";
-    email.value = "";
-    phone.value = "";
+  clearSignupForm() {
+    usernameInput.value = "";
+    addressInput.value = "";
+    phoneInput.value = "";
+    emailInput.value = "";
+    passwordInput.value = "";
+    confirmPasswordInput.value = "";
   },
 
-  deleteAccount(email) {
-    const index = this.accounts.findIndex((account) => account.email === email);
-    if (index !== -1) {
-      this.accounts.splice(index, 1);
-      this.saveToLocalStorage(); 
-      alert(`Tài khoản với email "${email}" đã được xóa.`);
-    } else {
-      alert("Không tìm thấy tài khoản để xóa.");
+  handleSignup() {
+    // Kiểm tra dữ liệu
+    if (!usernameInput.value) {
+      alert("Vui lòng nhập tên người dùng!");
+      return;
     }
-  },
+    if (!addressInput.value) {
+      alert("Vui lòng nhập địa chỉ!");
+      return;
+    }
+    if (!phoneInput.value) {
+      alert("Vui lòng nhập số điện thoại!");
+      return;
+    }
+    if (!emailInput.value) {
+      alert("Vui lòng nhập email!");
+      return;
+    }
+    if (!passwordInput.value) {
+      alert("Vui lòng nhập mật khẩu!");
+      return;
+    }
+    if (!confirmPasswordInput.value) {
+      alert("Vui lòng nhập xác nhận mật khẩu!");
+      return;
+    }
 
-  handle() {
-    const _this = this;
+    if (passwordInput.value.length < 5) {
+      alert("Mật khẩu phải có ít nhất 5 ký tự.");
+      return;
+    }
 
-    btn_dn.onclick = function () {
-      if (tk.value === "" || mk.value === "") {
-        alert("Vui lòng nhập đầy đủ email và password");
-      } else {
-        let isValid = false;
+    if (passwordInput.value !== confirmPasswordInput.value) {
+      alert("Mật khẩu không khớp");
+      return;
+    }
 
-        _this.accounts.forEach((account) => {
-          if (tk.value === account.email && mk.value === account.mk) {
-            alert("Đăng nhập thành công");
-            localStorage.setItem("currentuser",JSON.stringify(account));
-            isValid = true;
-          }
-        });
+    if (!/^\d{10}$/.test(phoneInput.value)) {
+      alert("Số điện thoại phải chứa đúng 10 chữ số.");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailInput.value)) {
+      alert("Email không đúng định dạng. Vui lòng nhập lại.");
+      return;
+    }
+   // Tạo tài khoản mới
+   const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+   const customers = JSON.parse(localStorage.getItem("customers")) || [];
 
-        if (!isValid) {
-          alert("Sai tên đăng nhập hoặc mật khẩu");
-        }
-      }
+    const newmakh = `KH${customers.length + 1}`;
+    const newmaTK = `TK${accounts.length + 1}`;
+
+    const newCus = {//khách hàng mới
+      
+      makh:newmakh,
+      matk:newmaTK,
+      tenkh:usernameInput.value,
+      sdt:phoneInput.value,
+      email: emailInput.value,
+      diachi: addressInput.value,
     };
 
-    btn_dk.onclick = function () {
-      if (
-        username.value === "" ||
-        confirmpw.value === "" ||
-        address.value === "" ||
-        password.value === "" ||
-        email.value === "" ||
-        phone.value === ""
-      ) {
-        alert("Vui lòng nhập đủ thông tin");
-      } else {
-        if (password.value === confirmpw.value) {
-          alert("Bạn đã đăng kí thành công");
-          const newAccount = {
-            ten: username.value,
-            diachi: address.value,
-            email: email.value,
-            mk: password.value,
-          };
+    const  newAccount ={
+      matk: newmaTK,
+      username: usernameInput.value,
+      password: passwordInput.value,
+      status: "Hoạt động",
+      role: "Khách Hàng"
+    }
+    accounts.push(newAccount);
+    customers.push(newCus);
+    console.log(newAccount,newCus);
+    
+    localStorage.setItem("accounts", JSON.stringify(accounts));
+    localStorage.setItem("customers", JSON.stringify(customers));
 
-          _this.accounts.push(newAccount); 
-          _this.saveToLocalStorage(); 
-          _this.clear();
-        } else {
-          alert("Vui lòng kiểm tra lại mật khẩu");
-        }
-      }
-    };
+    alert("Đăng ký thành công");
+    this.clearSignupForm();
   },
 
-  start() {
-    this.handle();
+  handleLogin() {
+   const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+
+    // Kiểm tra dữ liệu
+    if (!loginUsernameInput.value) {
+      alert("Vui lòng nhập tài khoản");
+      return;
+    }
+    if (!loginPasswordInput.value) {
+      alert("Vui lòng nhập mật khẩu");
+      return;
+    }
+
+    // Kiểm tra tài khoản
+    const account = accounts.find(
+      (acc) =>
+        acc.username === loginUsernameInput.value &&
+        acc.password === loginPasswordInput.value &&
+        acc.role === 'Khách Hàng'
+    );
+
+    if (account) {
+      alert("Đăng nhập thành công");
+      localStorage.setItem("currentuser", JSON.stringify(account));
+      loginUsernameInput.value = "";
+      loginPasswordInput.value = "";
+      window.location.reload();
+    } else {
+      alert("Sai tên đăng nhập hoặc mật khẩu");
+      return;
+    }
   },
 };
 
-logic.start();
-
+// Bắt sự kiện cho nút
+btnSignup.addEventListener("click", () => logic.handleSignup());
+btnLogin.addEventListener("click", (event) => {
+  event.preventDefault(); // Ngăn trình duyệt gửi biểu mẫu
+  logic.handleLogin();
+});

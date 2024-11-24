@@ -42,20 +42,8 @@
                                 <span class="text-cart">Giỏ hàng</span>
                             </li>
 
-                            <li class="header-top-right-item dropdown open">
-                                <i class="fas fa-user-circle"></i>
-                                <div class="auth-container">
-                                    <span class="text-tk">Tài khoản <i class="fa fa-caret-down"></i></span>
-                                </div>
-                                <ul class="header-top-right-menu">
-                                    <li>
-                                        <a id="iconlogin" href="javascript:;"><i class="fa fa-user"></i> Đăng nhập</a>
-                                    </li>
-                                    <li>
-                                        <a id="iconsignup" href="javascript:;"><i class="fa fa-user-plus"></i> Đăng ký</a>
-                                    </li>
-                                </ul>
-
+                            <li class="header-top-right-item dropdown open" id="userdata">
+                               
                             </li>
                         </ul>
                     </div>
@@ -163,24 +151,26 @@
                         <button onclick="showPage(3)">3</button>
                     </div>
                     <div class="product-detail" style="display: none;"></div> <!-- hiển thị chi tiết sản phẩm -->
+                    
                 </div>
             </div>
         </main>
-
-        <div id="user" class="modal"><!--form đki +đăng nhập-->
+        <div class="order-detail" style="display: none;"></div> <!-- hiển thị chi tiết hóa đơn -->
+                    
+        <div id="user" class="modal "><!--form đki +đăng nhập-->
             <div id="login">
                 <form name="loginform" id="form-1">
-                    <button type="button" class="close" onclick=showPage(1);>+</button>
+                    <button type="button" class="close" onclick="CloseForm()">+</button>
                     <h2>ĐĂNG NHẬP</h2>
                     <div class="login-info">
                         <div class="form-group">
-                            <label for="mail2">Email:</label>
-                            <input type="email" id="mail2" required>
+                            <label for="username1">Tên đăng nhập:</label>
+                            <input type="text" id="username1" >
                             <span id="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label for="password">Mật khẩu:</label>
-                            <input type="password" id="password" required>
+                            <input type="password" id="password" >
                             <span id="form-message"></span>
                         </div>
                         <button type="submit" id="btnlogin">ĐĂNG NHẬP</button>
@@ -191,11 +181,11 @@
             <div id="signup">
                 <form name="signupform" >
                     <h2>ĐĂNG KÝ</h2>
-                    <button type="button" class="close" onclick="closeform()">+</button>
+                    <button type="button" class="close" onclick="CloseForm()">+</button>
                     <div class="signup-info">
                         <div class="col">   
                             <div class="form-group">
-                                <label for="fullname">Họ và tên:</label>
+                                <label for="fullname">Tên đăng nhập:</label>
                                 <input type="text" id="fullname" required>
                                 <span id="form-message"></span>
                             </div>
@@ -228,7 +218,7 @@
                             </div>
                         </div>
                     </div>
-                    <button id="btnsignup">ĐĂNG KÝ</button>
+                    <button id="btnsignup" onclick="handleSignup()">ĐĂNG KÝ</button>
                     <p>Bạn đã có tài khoản?<a href="#" onclick="showLogin()">Đăng nhập</a></p>
                 </form>
             </div>
@@ -236,6 +226,33 @@
         
         <div class="modal-cart"><!--Giỏ hàng-->
             <div class="cart-container">
+                <div class="khach-hang"><!--cách thức thanh toán-->
+                    <form>
+                        <div class="form-group">
+                            <label for="phuong-thuc-thanh-toan">Phương Thức Thanh Toán:</label>
+                            <select id="phuong-thuc-thanh-toan" onchange="hienThiCongThanhToan()">
+                                <option value="tien-mat">Tiền mặt</option>
+                                <option value="chuyen-khoan">Chuyển khoản</option>
+                                <option value="the">Thanh toán qua thẻ</option>
+                            </select>
+                        </div>
+                        <div id="cong-thanh-toan" class="cong-thanh-toan hidden"><!--dùng thẻ-->
+                            <h3>Thông Tin Thẻ</h3>
+                            <div class="form-group">
+                                <label for="so-the">Số Thẻ:</label>
+                                <input type="text" id="so-the" placeholder="Nhập số thẻ" maxlength="16" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="ngay-het-han">Ngày Hết Hạn:</label>
+                                <input type="month" id="ngay-het-han" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV:</label>
+                                <input type="password" id="cvv" placeholder="Nhập CVV" maxlength="3" required />
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <div class="cart-header">
                     <h3 class="cart-header-title"><i class="fa fa-shopping-cart"></i> Giỏ hàng</h3>
                     <button class="cart-close" onclick="closeCart()"><i class="fa fa-times"></i></button>
@@ -248,6 +265,7 @@
                     <ul class="cart-list">
                         
                     </ul>
+                    
                 </div>
                 <div class="cart-footer">
                     <div class="cart-total-price">
@@ -256,12 +274,84 @@
                     </div>
                     <div class="cart-footer-payment">
                         <button class="them-sanpham"><i class="fa fa-plus"></i> Mua tiếp</button>
-                        <button class="thanh-toan" onclick="checkCartAndToggleButton('cart', '.thanh-toan');">Thanh toán</button>
-                        <!--createNewOrder('cart','KH1') là thêm vào bảng cart cho KH1-->
+                        <button class="thanh-toan">Thanh toán</button>
                     </div>
                 </div>
             </div>
         </div>
+
+        
+
+
+        <div class="checkout-page">
+            <div class="checkout-header">
+                <div class="checkout-return">
+                    <button onclick="closecheckout()"><i class="fa fa-chevron-left"></i></button>
+                </div>
+                <h2 class="checkout-title">Thanh toán</h2>
+            </div>
+            <main class="checkout-section order-container">
+                <div class="checkout-col-left">
+                    <div class="checkout-row">
+                        <div class="checkout-col-title">Thông tin người nhận</div>
+                        <div class="checkout-col-content">
+                            <div class="content-group">
+                                <form action="" class="info-nhan-hang"><!-- Lựa chọn địa chỉ -->
+                                    <div class="form-group">
+                                        <input type="radio" name="address-option" id="useAccountAddress" value="account" checked>
+                                        <label>Sử dụng địa chỉ từ tài khoản</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="radio" name="address-option" id="enterNewAddress" value="new">
+                                        <label>Nhập địa chỉ giao hàng mới</label>
+                                    </div>
+                                    <!-- Địa chỉ từ tài khoản -->
+                                    <div id="account-address" class="form-group">
+                                        <input id="diachiFromAccount" name="diachiFromAccount" type="text" class="form-control"
+                                            placeholder="Địa chỉ từ tài khoản" readonly>
+                                    </div>
+                                    <!-- Địa chỉ mới -->
+                                    <div id="new-address" class="form-group" style="display: none;">
+                                        <input id="tennguoinhan" name="tennguoinhan" type="text" placeholder="Tên người nhận"
+                                            class="form-control">
+                                        <span class="form-message"></span>
+                                        <input id="sdtnhan" name="sdtnhan" type="text" placeholder="Số điện thoại nhận hàng"
+                                            class="form-control">
+                                        <span class="form-message"></span>
+                                        <input id="diachinhan" name="diachinhan" type="text" placeholder="Địa chỉ nhận hàng mới"
+                                            class="form-control">
+                                        <span class="form-message"></span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                      
+                    </div>
+                    
+                </div>
+                <div class="checkout-col-right">
+                    <p class="checkout-content-label">Đơn hàng</p>
+                    <div class="bill-total" id="list-order-checkout">
+                    </div>
+                    <div class="bill-payment">
+                        <div class="total-bill-order">
+                        </div>
+                        <div class="policy-note">
+                            Bằng việc bấm vào nút “Đặt hàng”, tôi đồng ý với <a href="#" target="_blank">chính sách hoạt động</a>của chúng tôi.
+                        </div>
+                    </div>
+                    <div class="total-checkout">
+                        <div class="text">Tổng tiền</div>
+                        <div class="price-bill">
+                            <div class="price-final" id="checkout-cart-price-final">0</div>
+                        </div>
+                    </div>
+                    <button class="complete-checkout-btn">Đặt hàng</button>
+                </div>
+            </main>
+        </div>
+
+
 
         <footer class="footer"><!--Footer-->
             <div class="widget-area">
