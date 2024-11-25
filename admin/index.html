@@ -120,7 +120,7 @@
                 <input type="number" id="salary" /><br />
                 <label>Trạng thái:</label>
                 <select id="status">
-                    <option value="Hợp lệ">Hợp lệ</option>
+                    <option value="Hoạt động">Hoạt động</option>
                     <option value="Không hợp lệ">Không hợp lệ</option>
                 </select><br />
                 <button onclick="saveAccount()">Lưu</button>
@@ -157,7 +157,7 @@
             <input type="number" id="empSalary" /><br />
             <label>Trạng thái:</label>
             <select id="empStatus">
-                <option value="Hợp lệ">Hợp lệ</option>
+                <option value="Hoạt động">Hoạt động</option>
                 <option value="Không hợp lệ">Không hợp lệ</option>
             </select><br />
             <button onclick="updateEmployeeAccount()">Lưu</button>
@@ -181,6 +181,11 @@
             <input type="email" id="custEmail" /><br />
             <label>Địa chỉ:</label>
             <input type="text" id="custAddress" /><br />
+            <label>Trạng thái:</label>
+            <select id="custStatus">
+                <option value="Hoạt động">Hoạt động</option>
+                <option value="Không hợp lệ">Không hợp lệ</option>
+            </select><br />
             <button onclick="updateCustomerAccount()">Lưu</button>
             <button onclick="cancelForm()">Hủy</button>
         </div>
