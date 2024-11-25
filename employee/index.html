@@ -105,8 +105,14 @@
                             <option value="lowestTotal">Tổng tiền thấp nhất</option>
                         </select>
                     </div>
+                    <div class="filter-date">
+                        <label for="dateFrom">Từ ngày:</label>
+                        <input type="date" id="dateFrom" onchange="filterOrdersByDate()">
+                        <label for="dateTo">Đến ngày:</label>
+                        <input type="date" id="dateTo" onchange="filterOrdersByDate()">
+                    </div>                    
                 </div>
-
+                
                 <div id="orders_container">
                     <div style="overflow-y: scroll;">
                         <table>

@@ -842,7 +842,129 @@ function closeModal() {
 
 saveData();
 
+
 function logout() {
     localStorage.setItem("isLoggedIn", "false");  // Reset login status
-    window.location.href = "http://127.0.0.1:5501/admin/"; // Chuyển sang giao diện đăng nhập
+    window.location.href = "http://127.0.0.1:5503/admin/"; // Chuyển sang giao diện đăng nhập
 }
+
+
+function filterOrdersByDate() {
+    const dateFrom = document.getElementById("dateFrom").value;
+    const dateTo = document.getElementById("dateTo").value;
+
+    const today = new Date();
+    const fromDate = dateFrom ? new Date(dateFrom) : null;
+    const toDate = dateTo ? new Date(dateTo) : null;
+
+    // Kiểm tra tính hợp lệ
+    if (toDate && toDate > today) {
+        alert("Ngày kết thúc không được sau ngày hôm nay.");
+        document.getElementById("dateTo").value = ""; // Reset giá trị không hợp lệ
+        return;
+    }
+    if (fromDate && toDate && fromDate > toDate) {
+        alert("Ngày bắt đầu phải trước hoặc trùng ngày kết thúc.");
+        document.getElementById("dateFrom").value = ""; // Reset giá trị không hợp lệ
+        return;
+    }
+
+    // Lọc đơn hàng theo ngày
+    if (toDate) {
+        toDate.setDate(toDate.getDate() + 1); // Bao gồm cả ngày cuối
+    }
+
+    const filteredOrders = orders.filter(order => {
+        const orderDate = new Date(order.thoigianmua);
+        const matchesFromDate = fromDate ? orderDate >= fromDate : true;
+        const matchesToDate = toDate ? orderDate < toDate : true;
+        return matchesFromDate && matchesToDate;
+    });
+
+    renderOrders(filteredOrders);
+}
+
+
+function filterAndSortOrders() {
+    const status = document.querySelector('input[name="radioStatus"]:checked').value;
+    const sortOrder = document.getElementById("Sort").value;
+
+    // Lọc theo trạng thái
+    let filteredOrders = orders.filter(order => (status === "all") || (status === order.tthd));
+
+    // Lọc thêm theo khoảng ngày
+    const dateFrom = document.getElementById("dateFrom").value;
+    const dateTo = document.getElementById("dateTo").value;
+    const fromDate = dateFrom ? new Date(dateFrom) : null;
+    const toDate = dateTo ? new Date(dateTo) : null;
+
+    filteredOrders = filteredOrders.filter(order => {
+        const orderDate = new Date(order.thoigianmua);
+    
+        // Xử lý ngày bắt đầu và ngày kết thúc
+        if (fromDate) fromDate.setHours(0, 0, 0, 0); // Đặt giờ phút giây về 0
+        if (toDate) {
+            toDate.setHours(23, 59, 59, 999); // Bao gồm cả ngày cuối cùng
+        }
+    
+        const matchesFromDate = fromDate ? orderDate >= fromDate : true;
+        const matchesToDate = toDate ? orderDate <= toDate : true;
+    
+        return matchesFromDate && matchesToDate;
+    });
+    
+
+    // Sắp xếp danh sách đơn hàng
+    filteredOrders.sort((a, b) => {
+        if (sortOrder === "latest") {
+            return new Date(b.thoigianmua) - new Date(a.thoigianmua);
+        } else if (sortOrder === "oldest") {
+            return new Date(a.thoigianmua) - new Date(b.thoigianmua);
+        } else if (sortOrder === "highestTotal") {
+            return b.tongtien - a.tongtien;
+        } else if (sortOrder === "lowestTotal") {
+            return a.tongtien - b.tongtien;
+        }
+    });
+
+    renderOrders(filteredOrders);
+}
+
+document.getElementById("dateFrom").addEventListener("change", validateDates);
+document.getElementById("dateTo").addEventListener("change", validateDates);
+
+function validateDates() {
+    const dateFrom = document.getElementById("dateFrom").value;
+    const dateTo = document.getElementById("dateTo").value;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Đặt giờ phút giây về 0 để so sánh chính xác
+
+    const fromDate = dateFrom ? new Date(dateFrom) : null;
+    const toDate = dateTo ? new Date(dateTo) : null;
+
+    if (fromDate) fromDate.setHours(0, 0, 0, 0); // Đồng bộ giờ của ngày bắt đầu
+    if (toDate) toDate.setHours(0, 0, 0, 0); // Đồng bộ giờ của ngày kết thúc
+
+    // Kiểm tra ngày bắt đầu không được sau hôm nay
+    if (fromDate && fromDate > today) {
+        alert("Ngày bắt đầu không được sau ngày hôm nay.");
+        document.getElementById("dateFrom").value = ""; // Reset giá trị không hợp lệ
+        return;
+    }
+
+    // Kiểm tra ngày kết thúc không được sau hôm nay
+    if (toDate && toDate > today) {
+        alert("Ngày kết thúc không được sau ngày hôm nay.");
+        document.getElementById("dateTo").value = ""; // Reset giá trị không hợp lệ
+        return;
+    }
+
+    // Kiểm tra ngày bắt đầu phải trước hoặc trùng ngày kết thúc
+    if (fromDate && toDate && fromDate > toDate) {
+        alert("Ngày bắt đầu phải trước hoặc trùng ngày kết thúc.");
+        document.getElementById("dateFrom").value = ""; // Reset giá trị không hợp lệ
+        return;
+    }
+}
+

@@ -1,23 +1,23 @@
-/*let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
 let employee = JSON.parse(localStorage.getItem("employee")) || [];
 let customer = JSON.parse(localStorage.getItem("customer")) || [];
 let products = JSON.parse(localStorage.getItem("products")) || [];
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
 let orderDetails = JSON.parse(localStorage.getItem("orderDetails")) || [];
-*/
+
 
 //import dữ liệu
-let accounts = [
-    { id: "TK1", username: "admin", password: "admin", role: "admin", status: "Hợp lế" },
-    { id: "TK2", username: "emp1", password: "pass123", role: "Nhân viên", status: "Hợp lệ" },
-    { id: "TK3", username: "emp2", password: "pass123", role: "Nhân viên", status: "Không hợp lệ" },
-    { id: "TK4", username: "cust1", password: "custpass", role: "Khách hàng", status: "Hợp lệ" },
-    { id: "TK5", username: "cust2", password: "custpass", role: "Khách hàng", status: "Hợp lệ" },
-    { id: "TK6", username: "cust3", password: "custpass", role: "Khách hàng", status: "Hợp lệ" },
-    { id: "TK7", username: "cust4", password: "custpass", role: "Khách hàng", status: "Hợp lệ" },
-    { id: "TK8", username: "cust5", password: "custpass", role: "Khách hàng", status: "Hợp lệ" },
-    { id: "TK9", username: "cust6", password: "custpass", role: "Khách hàng", status: "Hợp lệ" },
-    { id: "TK10", username: "cust7", password: "custpass", role: "Khách hàng", status: "Hợp lệ" }
+/* let accounts = [
+    { matk: "TK1", username: "admin", password: "admin", role: "admin", status: "Hoạt động" },
+    { matk: "TK2", username: "emp1", password: "pass123", role: "Nhân Viên", status: "Hoạt động" },
+    { matk: "TK3", username: "emp2", password: "pass123", role: "Nhân Viên", status: "Không hợp lệ" },
+    { matk: "TK4", username: "cust1", password: "custpass", role: "Khách Hàng", status: "Hoạt động" },
+    { matk: "TK5", username: "cust2", password: "custpass", role: "Khách Hàng", status: "Hoạt động" },
+    { matk: "TK6", username: "cust3", password: "custpass", role: "Khách Hàng", status: "Hoạt động" },
+    { matk: "TK7", username: "cust4", password: "custpass", role: "Khách Hàng", status: "Hoạt động" },
+    { matk: "TK8", username: "cust5", password: "custpass", role: "Khách Hàng", status: "Hoạt động" },
+    { matk: "TK9", username: "cust6", password: "custpass", role: "Khách Hàng", status: "Hoạt động" },
+    { matk: "TK10", username: "cust7", password: "custpass", role: "Khách Hàng", status: "Hoạt động" }
   ];
   let employee = [
     { manv: "NV1", matk: "TK2", tennv: "Nguyen Van A", sdt: "0123456789", email: "a@gmail.com", luong: 10000000 },
@@ -45,27 +45,27 @@ let accounts = [
     // Add more as needed
   ];
   let orders = [
-    { madonhang: "DH1", makh: "KH1", thoigianmua: "2024-11-16T04:21:54.645Z", tongtien: 150000, makhuyenmai: "KM1", tthd: "đã giao" },
-    { madonhang: "DH2", makh: "KH1", thoigianmua: "2024-11-1", tongtien: 50000, makhuyenmai: "KM2", tthd: "đã giao" },
-    { madonhang: "DH3", makh: "KH2", thoigianmua: "2024-11-2", tongtien: 360000, makhuyenmai: null, tthd: "đã hủy" },
-    { madonhang: "DH4", makh: "KH2", thoigianmua: "2024-11-3", tongtien: 230000, makhuyenmai: "KM1", tthd: "chưa xử lý" },
-    { madonhang: "DH5", makh: "KH3", thoigianmua: "2024-11-4", tongtien: 105000, makhuyenmai: "KM1", tthd: "xác nhận" },
-    { madonhang: "DH6", makh: "KH4", thoigianmua: "2024-11-5", tongtien: 125000, makhuyenmai: null, tthd: "đã giao" },
-    { madonhang: "DH7", makh: "KH5", thoigianmua: "2024-11-6", tongtien: 155000, makhuyenmai: "KM2", tthd: "đã giao" },
-    { madonhang: "DH8", makh: "KH6", thoigianmua: "2024-11-6", tongtien: 165000, makhuyenmai: null, tthd: "đã giao" },
-    { madonhang: "DH9", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, makhuyenmai: "KM1", tthd: "đã giao" },
-    { madonhang: "DH10", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, makhuyenmai: "KM2", tthd: "đã giao" },
-    { madonhang: "DH11", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: null, tthd: "chưa xử lý" },
-    { madonhang: "DH12", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "chưa xử lý" },
-    { madonhang: "DH13", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "đã giao" },
-    { madonhang: "DH14", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "đã giao" },
-    { madonhang: "DH15", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao" },
-    { madonhang: "DH16", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "đã giao" },
-    { madonhang: "DH17", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "đã giao" },
-    { madonhang: "DH18", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, makhuyenmai: "KM1", tthd: "đã giao" },
-    { madonhang: "DH19", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, makhuyenmai: "KM2", tthd: "đã giao" },
-    { madonhang: "DH20", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: "", tthd: "đã giao" },
-    { madonhang: "DH21", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH1", makh: "KH1", thoigianmua: "2024-11-16T04:21:54.645Z", tongtien: 150000, tthd: "đã giao" },
+    { madonhang: "DH2", makh: "KH1", thoigianmua: "2024-11-1", tongtien: 50000, tthd: "đã giao" },
+    { madonhang: "DH3", makh: "KH2", thoigianmua: "2024-11-2", tongtien: 360000, tthd: "đã hủy" },
+    { madonhang: "DH4", makh: "KH2", thoigianmua: "2024-11-3", tongtien: 230000, tthd: "chưa xử lý" },
+    { madonhang: "DH5", makh: "KH3", thoigianmua: "2024-11-4", tongtien: 105000, tthd: "xác nhận" },
+    { madonhang: "DH6", makh: "KH4", thoigianmua: "2024-11-5", tongtien: 125000, tthd: "đã giao" },
+    { madonhang: "DH7", makh: "KH5", thoigianmua: "2024-11-6", tongtien: 155000, tthd: "đã giao" },
+    { madonhang: "DH8", makh: "KH6", thoigianmua: "2024-11-6", tongtien: 165000, tthd: "đã giao" },
+    { madonhang: "DH9", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, tthd: "đã giao" },
+    { madonhang: "DH10", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, tthd: "đã giao" },
+    { madonhang: "DH11", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, tthd: "chưa xử lý" },
+    { madonhang: "DH12", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, tthd: "chưa xử lý" },
+    { madonhang: "DH13", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, tthd: "đã giao" },
+    { madonhang: "DH14", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, tthd: "đã giao" },
+    { madonhang: "DH15", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, tthd: "đã giao" },
+    { madonhang: "DH16", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, tthd: "đã giao" },
+    { madonhang: "DH17", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, tthd: "đã giao" },
+    { madonhang: "DH18", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, tthd: "đã giao" },
+    { madonhang: "DH19", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, tthd: "đã giao" },
+    { madonhang: "DH20", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, tthd: "đã giao" },
+    { madonhang: "DH21", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, tthd: "đã giao" },
 
     // Add more to reach 20 orders
 ];
@@ -111,9 +111,21 @@ let accounts = [
     { madonhang: "DH14", masp: "SP8", soluong: 2, dongia: 25000, thanhtien: 50000 },
 
     // Add more details based on orders
-  ];
-            
-  
+  ]; */
+//Tạo tài khoản cho admin            
+/* function createAdmin(){
+	var accounts = [];
+	
+	if(localStorage.getItem('user')==null){		
+		alert("co vao day k!!!!!!!!!!!");
+		
+	 //userArray = JSON.parse(localStorage.getItem('user'));
+		var accounts = {username: 'admin', password: 'admin', fullname: ' Tai khoản Admin ', datesignup: '23-11-1999', usertype:'admin'};
+		userArray.push(user1);
+		console.log(userArray);
+		localStorage.setItem('user',JSON.stringify(userArray));
+	}
+} */
   
 //Định dạng giờ
 function formatDateVietnam(dateString) {
@@ -161,8 +173,13 @@ function login() {
 
     const userAccount = accounts.find(account => account.username === username && account.password === password);
 
-    if (!userAccount) {
-        alert("Thông tin đăng nhập không đúng!");
+    if (!userAccount || userAccount.isHidden) {
+        alert("Sai thông tin tài khoản!");
+        return;
+    }
+
+    if (userAccount.status === "Không hợp lệ") {
+        alert("Tài khoản đang bị tạm khóa!");
         return;
     }
 
@@ -173,14 +190,12 @@ function login() {
         document.getElementById("tab_menu").style.display = "block";
         document.getElementById("main_content").style.display = "block";
         document.getElementById("logoutButton").style.display = "block";
-    } else if (userAccount.role === "Nhân viên" && userAccount.status === "Hợp lệ") {
+    } else if (userAccount.role === "Nhân Viên" && userAccount.status === "Hoạt động") {
         localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("loggedInRole", "Nhân viên");
-        window.location.href = "http://127.0.0.1:5501/employee/"; // Chuyển sang giao diện nhân viên
-    } else if (userAccount.role === "Khách hàng") {
-        alert("Đây là form đăng nhập dành cho Admin/Nhân viên!");
-    } else if (userAccount.status === "Không hợp lệ"){
-        alert("Tài khoản bị khóa!")
+        localStorage.setItem("loggedInRole", "Nhân Viên");
+        window.location.href = "http://127.0.0.1:5503/employee/"; // Chuyển sang giao diện nhân viên
+    } else {
+        alert("Đây là form đăng nhập dành cho Admin/Nhân Viên!");
     }
 }
 
@@ -196,6 +211,21 @@ document.getElementById("loginPage").addEventListener("keydown", function(event)
 
 
 window.onload = () => {
+    // Kiểm tra xem đã có tài khoản trong localStorage chưa
+    if (accounts.length === 0) {
+        const adminAccount = {
+            id: `TK1`, // Mã tài khoản tự động
+            username: "admin",
+            password: "admin",
+            role: "admin",
+            status: "Hợp lệ",
+            isHidden: false,
+        };
+        accounts.push(adminAccount);
+        // Lưu vào localStorage
+        localStorage.setItem("accounts", JSON.stringify(accounts));
+        console.log("Tài khoản admin đã được tạo mặc định.");
+    }
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     const loggedInRole = localStorage.getItem("loggedInRole"); // Lấy vai trò đăng nhập từ localStorage
 
@@ -266,8 +296,12 @@ function viewAccountDetails(index) {
     const account = accounts[index];
     let detailContent = '';
 
-    if (account.role === 'Nhân viên') {
-        const emp = employee.find(e => e.matk === account.id);  // So sánh với account.id
+    // Tải dữ liệu từ localStorage
+    const employees = JSON.parse(localStorage.getItem("employee")) || [];
+    const customers = JSON.parse(localStorage.getItem("customers")) || [];
+
+    if (account.role === 'Nhân Viên') {
+        const emp = employees.find(e => e.matk === account.matk); // Tìm nhân viên theo mã tài khoản
         if (emp) {
             detailContent = `
                 <p><strong>Mã nhân viên:</strong> ${emp.manv}</p>
@@ -279,8 +313,8 @@ function viewAccountDetails(index) {
         } else {
             detailContent = `<p>Thông tin nhân viên không tìm thấy.</p>`;
         }
-    } else if (account.role === 'Khách hàng') {
-        const cust = customer.find(c => c.matk === account.id);  // So sánh với account.id
+    } else if (account.role === 'Khách Hàng') {
+        const cust = customers.find(c => c.matk === account.matk); // Tìm khách hàng theo mã tài khoản
         if (cust) {
             detailContent = `
                 <p><strong>Mã khách hàng:</strong> ${cust.makh}</p>
@@ -292,11 +326,15 @@ function viewAccountDetails(index) {
         } else {
             detailContent = `<p>Thông tin khách hàng không tìm thấy.</p>`;
         }
+    } else {
+        detailContent = `<p>Loại tài khoản không hợp lệ.</p>`;
     }
 
+    // Hiển thị nội dung chi tiết
     document.getElementById("detailContent").innerHTML = detailContent;
     document.getElementById("detailModal").style.display = "block";
 }
+
 
 
 
@@ -320,7 +358,7 @@ function createAccountElement(account, originalIndex) {
     const accountEl = document.createElement("div");
     accountEl.className = "account";
     accountEl.innerHTML = `
-        <span>Mã tài khoản: ${account.id}</span>
+        <span>Mã tài khoản: ${account.matk}</span>
         <span>Tên đăng nhập: ${account.username}</span>
         <span>Loại: ${account.role}</span>
         <span>Trạng thái: ${account.status}</span>
@@ -346,7 +384,7 @@ function showAddAccountForm() {
     document.getElementById("phone").value = "";
     document.getElementById("email").value = "";
     document.getElementById("salary").value = "";
-    document.getElementById("status").value = "Hợp lệ";
+    document.getElementById("status").value = "Hoạt động";
 }
 
 // Lưu tài khoản mới
@@ -373,7 +411,7 @@ function saveAccount() {
     }
 
     const accountId = `TK${accounts.length + 1}`;
-    const newAccount = { id: accountId, username, password, role: "Nhân viên", status, isHidden: false };
+    const newAccount = { matk: accountId, username, password, role: "Nhân Viên", status, isHidden: false };
     accounts.push(newAccount);
 
     const empId = `NV${employee.length + 1}`;
@@ -396,8 +434,14 @@ function cancelForm() {
 // Hiển thị form sửa tài khoản
 function showEditAccountForm(index) {
     const account = accounts[index];
-    const emp = employee.find(e => e.matk === account.id);
-    const cust = customer.find(c => c.matk === account.id);
+
+    // Lấy dữ liệu từ localStorage
+    const customers = JSON.parse(localStorage.getItem("customers")) || [];
+    const employees = JSON.parse(localStorage.getItem("employee")) || [];
+
+    // Tìm thông tin nhân viên hoặc khách hàng
+    const emp = employees.find(e => e.matk === account.matk);
+    const cust = customers.find(c => c.matk === account.matk);
 
     // Ẩn tất cả form trước khi hiển thị form phù hợp
     document.getElementById("editAdminForm").style.display = "none";
@@ -408,7 +452,7 @@ function showEditAccountForm(index) {
         // Hiển thị form sửa Admin
         document.getElementById("editAdminForm").style.display = "block";
         document.getElementById("adminPassword").value = account.password;
-    } else if (account.role === "Nhân viên") {
+    } else if (account.role === "Nhân Viên") {
         // Hiển thị form sửa Nhân viên
         document.getElementById("editEmployeeForm").style.display = "block";
         document.getElementById("empUsername").value = account.username;
@@ -421,11 +465,12 @@ function showEditAccountForm(index) {
             document.getElementById("empEmail").value = emp.email;
             document.getElementById("empSalary").value = emp.luong;
         }
-    } else if (account.role === "Khách hàng") {
+    } else if (account.role === "Khách Hàng") {
         // Hiển thị form sửa Khách hàng
         document.getElementById("editCustomerForm").style.display = "block";
         document.getElementById("custUsername").value = account.username;
         document.getElementById("custPassword").value = account.password;
+        document.getElementById("custStatus").value = account.status;
 
         if (cust) {
             document.getElementById("custName").value = cust.tenkh;
@@ -441,48 +486,56 @@ function showEditAccountForm(index) {
 
 
 
+
 // Cập nhật tài khoản
 function updateAccount(index) {
     const account = accounts[index];
     const password = document.getElementById("password").value;
     const status = document.getElementById("status").value;
 
+    // Lấy dữ liệu từ localStorage
+    const customers = JSON.parse(localStorage.getItem("customers")) || [];
+    const employees = JSON.parse(localStorage.getItem("employee")) || [];
+
     // Cập nhật thông tin cơ bản của tài khoản
     account.password = password;
     account.status = status;
 
     // Nếu tài khoản là nhân viên, cập nhật thông tin nhân viên
-    if (account.role === "Nhân viên") {
+    if (account.role === "Nhân Viên") {
         const name = document.getElementById("name").value;
         const phone = document.getElementById("phone").value;
         const email = document.getElementById("email").value;
         const salary = document.getElementById("salary").value;
 
-        const emp = employee.find(e => e.matk === account.id);
-        if (emp) {
-            emp.tennv = name;
-            emp.sdt = phone;
-            emp.email = email;
-            emp.luong = salary;
+        const empIndex = employees.findIndex(e => e.matk === account.matk);
+        if (empIndex !== -1) {
+            employees[empIndex].tennv = name;
+            employees[empIndex].sdt = phone;
+            employees[empIndex].email = email;
+            employees[empIndex].luong = salary;
         }
     }
 
     // Nếu tài khoản là khách hàng, cập nhật thông tin khách hàng
-    if (account.role === "Khách hàng") {
+    if (account.role === "Khách Hàng") {
         const name = document.getElementById("name").value;
         const phone = document.getElementById("phone").value;
         const email = document.getElementById("email").value;
         const address = document.getElementById("address").value;
 
-        const cust = customer.find(c => c.matk === account.id);
-        if (cust) {
-            cust.tenkh = name;
-            cust.sdt = phone;
-            cust.email = email;
-            cust.diachi = address;
+        const custIndex = customers.findIndex(c => c.matk === account.matk);
+        if (custIndex !== -1) {
+            customers[custIndex].tenkh = name;
+            customers[custIndex].sdt = phone;
+            customers[custIndex].email = email;
+            customers[custIndex].diachi = address;
         }
     }
-
+    // Lưu thay đổi vào localStorage
+    localStorage.setItem("accounts", JSON.stringify(accounts));
+    localStorage.setItem("employee", JSON.stringify(employees));
+    localStorage.setItem("customers", JSON.stringify(customers));
     saveData();
     renderAccounts();
     cancelForm();
@@ -511,7 +564,7 @@ function updateAdminAccount() {
 
 function updateEmployeeAccount() {
     const account = accounts[editAccountIndex];
-    const emp = employee.find(e => e.matk === account.id);
+    const emp = employee.find(e => e.matk === account.matk);
 
     const newPassword = document.getElementById("empPassword").value;
     const newStatus = document.getElementById("empStatus").value;
@@ -552,13 +605,14 @@ function updateEmployeeAccount() {
 
 function updateCustomerAccount() {
     const account = accounts[editAccountIndex];
-    const cust = customer.find(c => c.matk === account.id);
+    const cust = customer.find(c => c.matk === account.matk);
 
     const newPassword = document.getElementById("custPassword").value;
     const newName = document.getElementById("custName").value;
     const newPhone = document.getElementById("custPhone").value;
     const newEmail = document.getElementById("custEmail").value;
     const newAddress = document.getElementById("custAddress").value;
+    const newStatus = document.getElementById("custStatus").value;
 
     // Kiểm tra tính hợp lệ của số điện thoại
     if (!isValidPhone(newPhone)) {
@@ -574,7 +628,8 @@ function updateCustomerAccount() {
 
     // Cập nhật thông tin tài khoản
     account.password = newPassword;
-
+    account.status = newStatus;
+    
     // Cập nhật thông tin khách hàng
     if (cust) {
         cust.tenkh = newName;
@@ -620,7 +675,7 @@ function renderFilteredAccounts(filteredAccounts) {
     container.innerHTML = ''; // Xóa nội dung trước đó
 
     filteredAccounts.forEach((account, filteredIndex) => {
-        const originalIndex = accounts.findIndex(acc => acc.id === account.id);
+        const originalIndex = accounts.findIndex(acc => acc.matk === account.matk);
         const accountEl = createAccountElement(account, originalIndex); // Truyền chỉ số gốc
         container.appendChild(accountEl);
     });
@@ -657,7 +712,7 @@ function renderHiddenAccounts() {
             const accountEl = document.createElement("div");
             accountEl.className = "account";
             accountEl.innerHTML = `
-                <span>Mã tài khoản: ${account.id}</span>
+                <span>Mã tài khoản: ${account.matk}</span>
                 <span>Tên đăng nhập: ${account.username}</span>
                 <span>Loại: ${account.role}</span>
                 <span>Trạng thái: ${account.status}</span>
@@ -711,6 +766,21 @@ function showPanel(panelId, event) {
 
 // Khởi tạo dữ liệu và hiển thị
 window.onload = () => {
+    // Kiểm tra xem đã có tài khoản trong localStorage chưa
+    if (accounts.length === 0) {
+        const adminAccount = {
+            id: `TK1`, // Mã tài khoản tự động
+            username: "admin",
+            password: "admin",
+            role: "admin",
+            status: "Hoạt động",
+            isHidden: false,
+        };
+        accounts.push(adminAccount);
+        // Lưu vào localStorage
+        localStorage.setItem("accounts", JSON.stringify(accounts));
+        console.log("Tài khoản admin đã được tạo mặc định.");
+    }
     applyFilters();
     renderOrders();
     setMaxDate();
@@ -1269,4 +1339,62 @@ function validateOrderDates() {
     }
 }
 
+
+function getCustomerDetails(matk) {
+    const customers = JSON.parse(localStorage.getItem("customers")) || [];
+    const customer = customers.find(cus => cus.matk === matk);
+
+    if (!customer) {
+        alert("Thông tin khách hàng không tìm thấy.");
+        return null; // Dừng nếu không tìm thấy
+    }
+
+    return customer;
+}
+/* function viewCustomerDetails(matk) {
+    const customer = getCustomerDetails(matk);
+
+    if (!customer) return;
+
+    // Hiển thị thông tin khách hàng
+    const detailSection = document.getElementById("customer-details");
+    detailSection.innerHTML = `
+        <p>Mã khách hàng: ${customer.makh}</p>
+        <p>Tên khách hàng: ${customer.tenkh}</p>
+        <p>Số điện thoại: ${customer.sdt}</p>
+        <p>Email: ${customer.email}</p>
+        <p>Địa chỉ: ${customer.diachi}</p>
+    `;
+    detailSection.style.display = "block"; // Hiển thị thông tin
+}
+function editCustomerDetails(matk) {
+    const customers = JSON.parse(localStorage.getItem("customers")) || [];
+    const customerIndex = customers.findIndex(cus => cus.matk === matk);
+
+    if (customerIndex === -1) {
+        alert("Không tìm thấy khách hàng để chỉnh sửa.");
+        return;
+    }
+
+    const customer = customers[customerIndex];
+
+    // Hiển thị form chỉnh sửa với thông tin hiện tại
+    document.getElementById("edit-name").value = customer.tenkh;
+    document.getElementById("edit-phone").value = customer.sdt;
+    document.getElementById("edit-email").value = customer.email;
+    document.getElementById("edit-address").value = customer.diachi;
+
+    document.getElementById("save-changes").onclick = function () {
+        // Lưu thay đổi
+        customer.tenkh = document.getElementById("edit-name").value;
+        customer.sdt = document.getElementById("edit-phone").value;
+        customer.email = document.getElementById("edit-email").value;
+        customer.diachi = document.getElementById("edit-address").value;
+
+        customers[customerIndex] = customer;
+        localStorage.setItem("customers", JSON.stringify(customers));
+
+        alert("Cập nhật thông tin khách hàng thành công!");
+    };
+} */
 

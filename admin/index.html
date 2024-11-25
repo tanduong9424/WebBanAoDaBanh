@@ -21,7 +21,7 @@
     
     <div id="tab_menu">
         <div><a href="#" onclick="showPanel('account', event)">Quản lý tài khoản</a></div>
-        <div><a href="#" onclick="showPanel('orders', event)">Quản lý đơn hàng</a></div> 
+        <!-- <div><a href="#" onclick="showPanel('orders', event)">Quản lý đơn hàng</a></div>  -->
         <div><a href="#" onclick="showPanel('statistics', event)">Thống kê</a></div>
     </div>
     <div id="main_content">
@@ -44,7 +44,7 @@
         </div>
 
         <!--Quản lý đơn hàng-->
-        <div id="orders_panel" style="display: none;">
+<!--         <div id="orders_panel" style="display: none;">
             <div class="top_label">Quản lý đơn hàng</div>
             
             <div>
@@ -66,7 +66,7 @@
             </div>
             
             <div id="orders_container"></div>
-        </div>
+        </div> -->
         <!--Thống kê-->
         <div id="statistics_panel" style="display: none;">
             <h2>Thống kê tình hình kinh doanh</h2>
@@ -120,7 +120,7 @@
                 <input type="number" id="salary" /><br />
                 <label>Trạng thái:</label>
                 <select id="status">
-                    <option value="Hợp lệ">Hợp lệ</option>
+                    <option value="Hoạt động">Hoạt động</option>
                     <option value="Không hợp lệ">Không hợp lệ</option>
                 </select><br />
                 <button onclick="saveAccount()">Lưu</button>
@@ -157,7 +157,7 @@
             <input type="number" id="empSalary" /><br />
             <label>Trạng thái:</label>
             <select id="empStatus">
-                <option value="Hợp lệ">Hợp lệ</option>
+                <option value="Hoạt động">Hoạt động</option>
                 <option value="Không hợp lệ">Không hợp lệ</option>
             </select><br />
             <button onclick="updateEmployeeAccount()">Lưu</button>
@@ -181,6 +181,11 @@
             <input type="email" id="custEmail" /><br />
             <label>Địa chỉ:</label>
             <input type="text" id="custAddress" /><br />
+            <label>Trạng thái:</label>
+            <select id="custStatus">
+                <option value="Hoạt động">Hoạt động</option>
+                <option value="Không hợp lệ">Không hợp lệ</option>
+            </select><br />
             <button onclick="updateCustomerAccount()">Lưu</button>
             <button onclick="cancelForm()">Hủy</button>
         </div>
