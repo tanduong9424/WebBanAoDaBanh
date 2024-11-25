@@ -1,14 +1,14 @@
-/*let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
 let employee = JSON.parse(localStorage.getItem("employee")) || [];
 let customer = JSON.parse(localStorage.getItem("customer")) || [];
 let products = JSON.parse(localStorage.getItem("products")) || [];
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
 let orderDetails = JSON.parse(localStorage.getItem("orderDetails")) || [];
-*/
+
 
 //import dữ liệu
-let accounts = [
-    { id: "TK1", username: "admin", password: "admin", role: "admin", status: "Hợp lế" },
+/* let accounts = [
+    { id: "TK1", username: "admin", password: "admin", role: "admin", status: "Hợp lệ" },
     { id: "TK2", username: "emp1", password: "pass123", role: "Nhân viên", status: "Hợp lệ" },
     { id: "TK3", username: "emp2", password: "pass123", role: "Nhân viên", status: "Không hợp lệ" },
     { id: "TK4", username: "cust1", password: "custpass", role: "Khách hàng", status: "Hợp lệ" },
@@ -45,27 +45,27 @@ let accounts = [
     // Add more as needed
   ];
   let orders = [
-    { madonhang: "DH1", makh: "KH1", thoigianmua: "2024-11-16T04:21:54.645Z", tongtien: 150000, makhuyenmai: "KM1", tthd: "đã giao" },
-    { madonhang: "DH2", makh: "KH1", thoigianmua: "2024-11-1", tongtien: 50000, makhuyenmai: "KM2", tthd: "đã giao" },
-    { madonhang: "DH3", makh: "KH2", thoigianmua: "2024-11-2", tongtien: 360000, makhuyenmai: null, tthd: "đã hủy" },
-    { madonhang: "DH4", makh: "KH2", thoigianmua: "2024-11-3", tongtien: 230000, makhuyenmai: "KM1", tthd: "chưa xử lý" },
-    { madonhang: "DH5", makh: "KH3", thoigianmua: "2024-11-4", tongtien: 105000, makhuyenmai: "KM1", tthd: "xác nhận" },
-    { madonhang: "DH6", makh: "KH4", thoigianmua: "2024-11-5", tongtien: 125000, makhuyenmai: null, tthd: "đã giao" },
-    { madonhang: "DH7", makh: "KH5", thoigianmua: "2024-11-6", tongtien: 155000, makhuyenmai: "KM2", tthd: "đã giao" },
-    { madonhang: "DH8", makh: "KH6", thoigianmua: "2024-11-6", tongtien: 165000, makhuyenmai: null, tthd: "đã giao" },
-    { madonhang: "DH9", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, makhuyenmai: "KM1", tthd: "đã giao" },
-    { madonhang: "DH10", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, makhuyenmai: "KM2", tthd: "đã giao" },
-    { madonhang: "DH11", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: null, tthd: "chưa xử lý" },
-    { madonhang: "DH12", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "chưa xử lý" },
-    { madonhang: "DH13", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "đã giao" },
-    { madonhang: "DH14", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "đã giao" },
-    { madonhang: "DH15", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao" },
-    { madonhang: "DH16", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, makhuyenmai: "KM1", tthd: "đã giao" },
-    { madonhang: "DH17", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, makhuyenmai: null, tthd: "đã giao" },
-    { madonhang: "DH18", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, makhuyenmai: "KM1", tthd: "đã giao" },
-    { madonhang: "DH19", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, makhuyenmai: "KM2", tthd: "đã giao" },
-    { madonhang: "DH20", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, makhuyenmai: "", tthd: "đã giao" },
-    { madonhang: "DH21", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, makhuyenmai: "KM2", tthd: "đã giao" },
+    { madonhang: "DH1", makh: "KH1", thoigianmua: "2024-11-16T04:21:54.645Z", tongtien: 150000, tthd: "đã giao" },
+    { madonhang: "DH2", makh: "KH1", thoigianmua: "2024-11-1", tongtien: 50000, tthd: "đã giao" },
+    { madonhang: "DH3", makh: "KH2", thoigianmua: "2024-11-2", tongtien: 360000, tthd: "đã hủy" },
+    { madonhang: "DH4", makh: "KH2", thoigianmua: "2024-11-3", tongtien: 230000, tthd: "chưa xử lý" },
+    { madonhang: "DH5", makh: "KH3", thoigianmua: "2024-11-4", tongtien: 105000, tthd: "xác nhận" },
+    { madonhang: "DH6", makh: "KH4", thoigianmua: "2024-11-5", tongtien: 125000, tthd: "đã giao" },
+    { madonhang: "DH7", makh: "KH5", thoigianmua: "2024-11-6", tongtien: 155000, tthd: "đã giao" },
+    { madonhang: "DH8", makh: "KH6", thoigianmua: "2024-11-6", tongtien: 165000, tthd: "đã giao" },
+    { madonhang: "DH9", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, tthd: "đã giao" },
+    { madonhang: "DH10", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, tthd: "đã giao" },
+    { madonhang: "DH11", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, tthd: "chưa xử lý" },
+    { madonhang: "DH12", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, tthd: "chưa xử lý" },
+    { madonhang: "DH13", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, tthd: "đã giao" },
+    { madonhang: "DH14", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, tthd: "đã giao" },
+    { madonhang: "DH15", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, tthd: "đã giao" },
+    { madonhang: "DH16", makh: "KH4", thoigianmua: "2024-11-11", tongtien: 220000, tthd: "đã giao" },
+    { madonhang: "DH17", makh: "KH5", thoigianmua: "2024-11-12", tongtien: 180000, tthd: "đã giao" },
+    { madonhang: "DH18", makh: "KH7", thoigianmua: "2024-11-8", tongtien: 180000, tthd: "đã giao" },
+    { madonhang: "DH19", makh: "KH1", thoigianmua: "2024-11-8", tongtien: 100000, tthd: "đã giao" },
+    { madonhang: "DH20", makh: "KH2", thoigianmua: "2024-11-9", tongtien: 200000, tthd: "đã giao" },
+    { madonhang: "DH21", makh: "KH3", thoigianmua: "2024-11-9", tongtien: 150000, tthd: "đã giao" },
 
     // Add more to reach 20 orders
 ];
@@ -111,9 +111,21 @@ let accounts = [
     { madonhang: "DH14", masp: "SP8", soluong: 2, dongia: 25000, thanhtien: 50000 },
 
     // Add more details based on orders
-  ];
-            
-  
+  ]; */
+//Tạo tài khoản cho admin            
+/* function createAdmin(){
+	var accounts = [];
+	
+	if(localStorage.getItem('user')==null){		
+		alert("co vao day k!!!!!!!!!!!");
+		
+	 //userArray = JSON.parse(localStorage.getItem('user'));
+		var accounts = {username: 'admin', password: 'admin', fullname: ' Tai khoản Admin ', datesignup: '23-11-1999', usertype:'admin'};
+		userArray.push(user1);
+		console.log(userArray);
+		localStorage.setItem('user',JSON.stringify(userArray));
+	}
+} */
   
 //Định dạng giờ
 function formatDateVietnam(dateString) {
@@ -161,8 +173,13 @@ function login() {
 
     const userAccount = accounts.find(account => account.username === username && account.password === password);
 
-    if (!userAccount) {
-        alert("Thông tin đăng nhập không đúng!");
+    if (!userAccount || userAccount.isHidden) {
+        alert("Sai thông tin tài khoản!");
+        return;
+    }
+
+    if (userAccount.status === "Không hợp lệ") {
+        alert("Tài khoản đang bị tạm khóa!");
         return;
     }
 
@@ -177,10 +194,8 @@ function login() {
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("loggedInRole", "Nhân viên");
         window.location.href = "http://127.0.0.1:5501/employee/"; // Chuyển sang giao diện nhân viên
-    } else if (userAccount.role === "Khách hàng") {
+    } else {
         alert("Đây là form đăng nhập dành cho Admin/Nhân viên!");
-    } else if (userAccount.status === "Không hợp lệ"){
-        alert("Tài khoản bị khóa!")
     }
 }
 
