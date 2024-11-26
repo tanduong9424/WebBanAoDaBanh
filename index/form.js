@@ -134,7 +134,8 @@ const logic = {
       username: usernameInput.value,
       password: passwordInput.value,
       status: "Hoạt động",
-      role: "Khách Hàng"
+      role: "Khách Hàng",
+      isHidden : false
     }
     accounts.push(newAccount);
     customers.push(newCus);
@@ -167,7 +168,14 @@ const logic = {
         acc.password === loginPasswordInput.value &&
         acc.role === 'Khách Hàng'
     );
-
+    if(account.status=="Không hợp lệ"){
+      alert("Tài khoản đang bị khóa!");
+      return;
+    }
+    if(account.isHidden===true){
+      alert("Tài khoản không tồn tại !");
+      return;
+    }
     if (account) {
       alert("Đăng nhập thành công");
       localStorage.setItem("currentuser", JSON.stringify(account));
