@@ -4,8 +4,8 @@
         flex-direction: column;
         gap: 10px;
     }
-    .advanced-search {
-        display: none;
+    .advanced-search{
+        display:none;
     }
     .category {
         width: 100%;
@@ -72,8 +72,8 @@
         flex-direction: column;
         padding: 10px;
     }
-    .advanced-search {
-        display: none;
+    .advanced-search{
+        display:none;
     }
     .header-top-center{
         display: none;
@@ -129,7 +129,5 @@
     .widget-contact-item:nth-child(n+5) {
         display: none; /* Ẩn các mục thứ 5 trở đi */
     }
-/*------------------------header, nav, footer-------------------------------------------------*/
-
-/*code tiếp ở đây và xóa đi cmt này*/
+    
 }

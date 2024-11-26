@@ -6,6 +6,18 @@ function ThemDieuKienSearch(){/*mở tìm kiếm nâng cao*/
     event.preventDefault();
     document.querySelector(".advanced-search").classList.toggle("open")
 }
+function ThemDieuKienSearch(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    const advancedSearch = document.querySelector(".advanced-search");
+    if (advancedSearch) {
+        advancedSearch.classList.toggle("open");
+    } else {
+        console.error("Không tìm thấy phần tử .advanced-search");
+    }
+}
+
 LoadCount = ()=> {
     let countCart = document.getElementById('count');
     let length = JSON.parse(localStorage.getItem('cart'));
@@ -937,7 +949,9 @@ function loadOrdersTable() {//load hóa đơn lên table
 function showOrderDetails(orderId) {//show ra chi tiết hóa đơn
     const orders = JSON.parse(localStorage.getItem('orders')) || [];
     const orderDetails = JSON.parse(localStorage.getItem('orderDetails')) || [];
+    const addressOrders = JSON.parse(localStorage.getItem('addressOrders')) || [];
     const order = orders.find(item => item.madonhang === orderId);
+    const fnorder = addressOrders.find(item => item.madonhang === order.madh);
     if (order) {
         const detailsForOrder = orderDetails.filter(detail => detail.madonhang === orderId);
         if (detailsForOrder.length > 0) {
@@ -960,11 +974,13 @@ function showOrderDetails(orderId) {//show ra chi tiết hóa đơn
                                     <button onclick="cancerOrderDetail('${order.madonhang}')">Hủy đơn</button>
                                 </div>
                             </div>
-
                             <p><strong>Mã Đơn Hàng:</strong> ${order.madonhang}</p>
                             <p><strong>Thời gian mua:</strong> ${new Date(order.thoigianmua).toLocaleString()}</p>
                             <p><strong>Tổng tiền:</strong> ${order.tongtien.toLocaleString().replace(/,/g, '.')} VND</p>
                             <p><strong>Tình trạng hóa đơn:</strong> ${order.tthd}</p>
+                            <p><strong>Họ và tên người nhận hàng:</strong> ${fnorder.nguoinhan}</p>
+                            <p><strong>Số điện thoại người nhận:</strong> ${fnorder.sdtngnhan}</p>
+                            <p><strong>Địa chỉ giao hàng:</strong> ${fnorder.diachigiaohang}</p>
                     </div>
                     <div id="chitiet-duoi">
                         <table id="orderDe" border="1" cellspacing="0" cellpadding="5" style="width: 100%; text-align: left;">
