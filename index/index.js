@@ -11,7 +11,9 @@ LoadCount = ()=> {
     let length = JSON.parse(localStorage.getItem('cart'));
     countCart.innerText = length == null ? 0 : length.length ;
 }
+
 document.addEventListener("DOMContentLoaded", function () {
+    
     const accountAddressOption = document.getElementById("useAccountAddress");
     const newAddressOption = document.getElementById("enterNewAddress");
     const accountAddressField = document.getElementById("account-address");
@@ -49,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
 LoadCount();
 
 function hienthichinhsach() { /*chính sách*/
-    const productList = document.querySelector("#main-wrapper");
+    const productList = document.querySelector(".main-wrapper .container");
     productList.innerHTML = `
         <div style="display:block;
          font-family: Arial,sans-serif; color: #333; line-height: 1.6; background-color: white; width: 100%; height: auto;margin-bottom:40px;padding-left: 20px;transform: translate(0%, 5%);">
@@ -84,7 +86,7 @@ function hienthichinhsach() { /*chính sách*/
         ;
 }
 
-function openCart() { /*mở giỏ*/
+function openCart() { //mở giỏ
     let currentuser = JSON.parse(localStorage.getItem('currentuser'));// Lấy người dùng hiện tại
         if (!currentuser || !currentuser.username) {
             alert("Vui lòng đăng nhập để xem giỏ hàng.");
@@ -98,7 +100,7 @@ function openCart() { /*mở giỏ*/
     
 }
 
-function closeCart() {/*đóng giỏ*/
+function closeCart() {//đóng giỏ
     document.querySelector('.modal-cart').classList.remove('open');
     body.style.overflow = "auto";
     updateAmount();
@@ -117,7 +119,7 @@ function increasingNumber(id){//Tăng số lượng trong giỏ hàng
     showCart();
     updateCartTotal();
 }
-//22/11/2024
+
 decreasingNumber = (id) => {//Giảm số lượng trong giỏ hàng
     let cart = JSON.parse(localStorage.getItem('cart'));
     ///Duyệt giỏ hàng
@@ -148,8 +150,7 @@ decreasingNumber = (id) => {//Giảm số lượng trong giỏ hàng
     updateCartTotal();
 }
 
-//22/11/2024
-function hienThiCongThanhToan() {
+function hienThiCongThanhToan() {// hiển thị các phương thức thanh toán
     const phuongThuc = document.getElementById("phuong-thuc-thanh-toan").value;
     const congThanhToan = document.getElementById("cong-thanh-toan");
    
@@ -235,8 +236,7 @@ function showProductCart() {
     listOrder.innerHTML = listOrderHtml;
 }
 
-//22/11/2024
-function showCart() {
+function showCart() { //hiển thị sản phẩm trong giỏ hàng
     if (localStorage.getItem('accounts') != null) {
         let currentuser = JSON.parse(localStorage.getItem('currentuser'));// Lấy người dùng hiện tại
         let username = currentuser.username;
@@ -305,7 +305,7 @@ function showCart() {
     });
 }
 
-function deleteCartItem(id) {
+function deleteCartItem(id) {//xóa sản phẩm trong giỏ hàng
     let cart = JSON.parse(localStorage.getItem('cart') || []);
     if (confirm("bạn có muốn xóa sản phẩm này khỏi giỏ hàng? ")) {
         ///Lọc ra sản phẩm không có trong giỏ hàng
@@ -402,7 +402,7 @@ function closeModal() {
     console.log(modalContainer)
     body.style.overflow = "auto";
 }
-//22/11/2024
+
 function addToCart(productId) {
     // Lấy danh sách sản phẩm từ localStorage
     let products = JSON.parse(localStorage.getItem('products'));
@@ -449,22 +449,41 @@ function addToCart(productId) {
     LoadCount();
 }
 
-function orderHistory() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    document.getElementById('account-user').classList.remove('open');
-    document.getElementById('trangchu').classList.add('hide');
-    document.getElementById('order-history').classList.add('open');
-    renderOrderProduct();
+const products_1 = JSON.parse(localStorage.getItem('products')) || [];
+let filteredProducts = products_1;
+let currentPage = 1; 
+const itemsPerPage = 6;//số sản phẩm trên 1 trang
+
+let totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+function renderPagination() {// hàm để tạo mấy nút phân trang 
+    // Tổng số trang
+    totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+    const paginationButtons = document.querySelector(".pagination-btn");
+
+    let startPage = Math.max(currentPage - 1, 1);
+    let endPage = Math.min(startPage + 2, totalPages);
+
+    if (endPage === totalPages) {
+        startPage = Math.max(totalPages - 2, 1);
+    }
+    let paginationHTML = "";
+
+    for (let i = startPage; i <= endPage; i++) {
+        paginationHTML += `
+        <button class="${i === currentPage ? 'active' : ''}" onclick="showPage(${i})">
+            ${i}
+        </button>
+    `;
+    }
+    paginationButtons.innerHTML = paginationHTML;
 }
 
-function showPage(page) { 
-    const itemsPerPage = 6; // Số sản phẩm trên mỗi trang
+function showPage(page) { //hiển thị sản phẩm
+    currentPage = page;
     const start = (page - 1) * itemsPerPage;
     const end = start + itemsPerPage;
     const productList = document.querySelector("#product-wrapper"); // Container chứa sản phẩm
-
-    const products = JSON.parse(localStorage.getItem('products')) || [];// Lấy mảng sản phẩm từ localStorage
-    const filteredProducts = products; // Áp dụng bộ lọc nếu cần
 
     let productsHTML = ""; // Biến chứa HTML của các sản phẩm
     const pageProducts = filteredProducts.slice(start, end); // Lấy danh sách sản phẩm cho trang hiện tại
@@ -502,86 +521,177 @@ function showPage(page) {
         productList.innerHTML = productsHTML; // Cập nhật HTML danh sách sản phẩm
     } else {
         productList.innerHTML = `
-        <div class="empty">KHÔNG CÒN SẢN PHẨM</div>
+        <div class="empty">Cửa hàng hiện chưa có sản phẩm theo yêu cầu của bạn. Xin lỗi vì sự bất tiện.</div>
         `;
+        document.querySelector('.pagination').style.display = 'none';
+    }
+    renderPagination(); // gọi hàm tạo nút phân trang
+}
+
+document.querySelector(".chevron-left").onclick = prevPage; // nút lên 1 trang
+document.querySelector(".chevron-right").onclick = nextPage; // nút giảm 1 trang
+
+function prevPage() { //nút phân trang -1
+    if (currentPage > 1) {
+        currentPage -= 1;
+        showPage(currentPage);
     }
 }
 
-function showProductDetail(productId) {// hiện chi tiết sản phẩm khi ấn chi tiết
-    const products = JSON.parse(localStorage.getItem('products')) || [];  // Lấy danh sách sản phẩm từ localStorage
-    const product = products.find(item => item.masp === productId);// Tìm sản phẩm theo ID
-    if (product) {
-        const detailDiv = document.querySelector(".product-detail");
-        detailDiv.innerHTML = `
-            <div class="detail-container">
-                <h3>Thông tin chi tiết</h3>
-                <img src="${product.image_url}" alt="${product.tensp}">
-                <p><strong>Mã sản phẩm:</strong> ${product.masp}</p>
-                <p><strong>Tên sản phẩm:</strong> ${product.tensp}</p>
-                <p><strong>Mô tả:</strong> ${product.description}</p>
-                <p><strong>Kích thước:</strong> ${product.size}</p>
-                <p><strong>Giá:</strong> ${product.price.toLocaleString().replace(/,/g, '.')} VND</p>
-                <p><strong>Còn lại:</strong> ${product.stock}</p>
-                <button onclick="addToCart('${product.masp}'), closeDetail() ">MUA NGAY</button>
-                <button onclick="closeDetail()">Đóng</button>
-            </div>
-        `;
-        detailDiv.style.display = "block"; // Hiển thị div
-        document.body.classList.add('no-scroll');
+function nextPage() {//nút phân trang +1
+    if (currentPage < totalPages) {
+        currentPage += 1;
+        showPage(currentPage);
     }
 }
 
-function closeDetail() { //đóng chi tiết sản phẩm
-    const detailDiv = document.querySelector(".product-detail");
-    detailDiv.style.display = "none"; // Ẩn div chi tiết
-    document.body.classList.remove('no-scroll');
+function searchProducts() {// tìm kiếm thông thường
+    const searchInput = document.getElementById("form-search-input").value.toLowerCase();
+
+    filteredProducts = products_1.filter(product =>
+        product.tensp.toLowerCase().includes(searchInput)
+    );
+    showPage(1);
 }
-        
-// --------------- Phần này là để làm cái trượt lên trượt xuống, mũi tên lên xuống, màu của danh mục thui --------------------
-const categoryContents = document.querySelectorAll('.category-content');
 
-// Lặp qua từng phần tử và gắn sự kiện click
-categoryContents.forEach(content => {
-    content.addEventListener('click', () => {
-        // Lấy thẻ <i> và <button> bên trong tiêu đề được click
-        const icon = content.querySelector('i');
-        const buttonCategory = content.querySelector('button');
-        const ul = content.nextElementSibling; // Lấy phần tử ul kế tiếp của tiêu đề
+function toggleSelectBox() {// hàm này chỉ để ẩn hiện lúc chọn cái Quốc gia hoặc câu lạc bộ
+    const selected = document.querySelector('#advanced-search-category-select').value;
 
-        if (ul.style.height !== '0px') {
-           
-            ul.style.height = `${ul.scrollHeight}px`; 
-            setTimeout(() => {
-                ul.style.height = '0';
-            }, 10);
+    let clubElements = document.getElementsByClassName('advanced-search-category-select-club');
+    let nationElements = document.getElementsByClassName('advanced-search-category-select-nation');
 
-            setTimeout(() => {
-                ul.style.overflow = 'hidden';
-            }, 300); 
+    if (selected === "all") {
 
-            // đổi hướng, màu icon với chữ
-            icon.classList.remove('fa-angle-down');
-            icon.classList.add('fa-angle-up');
-            icon.style.color = 'black';
-            buttonCategory.style.color = 'black';
-        } else {
-
-            ul.style.height = '0'; 
-            ul.style.overflow = 'hidden';
-            setTimeout(() => {
-                ul.style.height = `${ul.scrollHeight}px`; 
-            }, 10);
-
-            // đổi hướng, màu icon với chữ
-            icon.classList.remove('fa-angle-up');
-            icon.classList.add('fa-angle-down');
-            icon.style.color = '#F15E2C';
-            buttonCategory.style.color = '#F15E2C';
+        for (let i = 0; i < clubElements.length; i++) {
+            clubElements[i].style.display = 'none';
         }
-    });
+        for (let i = 0; i < nationElements.length; i++) {
+            nationElements[i].style.display = 'none';
+        }
+    }
+    else if (selected === "club") {
+        for (let i = 0; i < clubElements.length; i++) {
+            clubElements[i].style.display = 'inline';
+        }
+        for (let i = 0; i < nationElements.length; i++) {
+            nationElements[i].style.display = 'none';
+        }
+    }
+    else if (selected === "nation") {
+        for (let i = 0; i < nationElements.length; i++) {
+            nationElements[i].style.display = 'inline';
+        }
+        for (let i = 0; i < clubElements.length; i++) {
+            clubElements[i].style.display = 'none';
+        }
+    }
+}
+
+function advancedSearch() {//tìm kiếm nâng cao
+    filteredProducts = products_1;
+    if (document.querySelector('.club').style.display != 'none') {
+        const selectedClub = document.querySelector('.club').value.toLowerCase();
+        if (selectedClub != 'none') {
+
+            filteredProducts = products_1.filter(product =>
+                product.team.toLowerCase().includes(selectedClub)
+            );
+        }
+    }
+
+    if (document.querySelector('.nation').style.display != 'none') {
+        const selectedNation = document.querySelector('.nation').value.toLowerCase();
+
+        if (selectedNation != 'none') {
+
+            filteredProducts = products_1.filter(product =>
+                product.national.toLowerCase().includes(selectedNation)
+            );
+        }
+    }
+
+    let minPrice = document.getElementById('min-price').value.trim();
+    let maxPrice = document.getElementById('max-price').value.trim();
+
+    if (minPrice != '') {
+        minPrice = parseFloat(minPrice);
+
+        filteredProducts = filteredProducts.filter(product =>
+            product.price >= minPrice
+        );
+    }
+
+    if (maxPrice != '') {
+        maxPrice = parseFloat(maxPrice);
+
+        filteredProducts = filteredProducts.filter(product =>
+            product.price <= maxPrice
+        );
+    }
+
+    const searchInput = document.getElementById("form-search-input").value.toLowerCase();
+    if (searchInput != '') {
+        filteredProducts = filteredProducts.filter(product =>
+            product.tensp.toLowerCase().includes(searchInput)
+        );
+    }
+
+document.querySelectorAll(".category-nation li.active").forEach(item => {
+    item.classList.remove("active");
 });
 
-// -------------------------------- Lựa chọn bên danh mục --------------------------------------
+document.querySelectorAll(".category-club li.active").forEach(item => {
+    item.classList.remove("active");
+});
+
+document.querySelectorAll(".category-price li.active").forEach(item => {
+    item.classList.remove("active");
+});
+
+    // Xóa các lựa chọn đã lưu trong các mảng tương ứng
+    selectedNations = [];
+    selectedClubs = [];
+    selectedPriceRanges = [];
+    showPage(1);
+}
+
+document.querySelector('#reset-search').addEventListener("click", function () {//nút reset trong tìm kiếm nâng cao
+    filteredProducts = JSON.parse(localStorage.getItem('products'));
+    // xóa hết dữ liệu mấy cái lựa chọn ở tìm kiếm nâng cao
+    document.querySelector('#advanced-search-category-select').value = "all";
+    toggleSelectBox();
+    document.getElementById('min-price').value = "";
+    document.getElementById('max-price').value = "";
+    document.querySelector('#form-search-input').value = "";
+    // dưới này là để tránh chọn danh mục xong mới dùng search nâng cao nên cần xóa danh mục
+    document.querySelectorAll(".category-nation li.active").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    document.querySelectorAll(".category-club li.active").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    document.querySelectorAll(".category-price li.active").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    selectedNations = [];
+    selectedClubs = [];
+    selectedPriceRanges = [];
+    showPage(1);
+});
+
+document.querySelector('#sort-ascending').addEventListener("click", function () {//Sắp xếp tăng dần
+    filteredProducts.sort((a, b) => a.price - b.price);
+    showPage(1);
+});
+
+document.querySelector('#sort-descending').addEventListener("click", function () {//Sắp xếp giảm dần
+    filteredProducts.sort((a, b) => b.price - a.price);
+    showPage(1);
+});
+// ------------------------------------------ DANH MỤC -------------------------------------------------------------------------------------------
 
 let selectedNations = []; // mảng lưu các lựa chọn ÁO THEO QUỐC GIA 
 let selectedClubs = []; // mảng lưu các lựa chọn ÁO THEO CÂU LẠC BỘ
@@ -590,8 +700,32 @@ let selectedPriceRanges = []; // Mảng để lưu các khoảng giá
 // Gắn sự kiện click cho danh mục quốc gia
 document.querySelectorAll(".category-nation li").forEach(link => {
     link.addEventListener("click", event => {
+        // này là để tránh trường hợp dùng search xong không làm mới mà bấm vào danh mục
+        document.querySelector('#advanced-search-category-select').value = "all";
+        toggleSelectBox();
+        document.getElementById('min-price').value = "";
+        document.getElementById('max-price').value = "";
+        document.querySelector('#form-search-input').value = "";
+
         const target = event.currentTarget;
-        toggleNation(target.textContent);
+        
+        switch (target.textContent) {
+            case "Anh":
+                toggleNation("EN");
+                break;
+            case "Pháp":
+                toggleNation("PR");
+                break;
+            case "Bồ Đào Nha":
+                toggleNation("PO");
+                break;
+            case "Argentina":
+                toggleNation("AG");
+                break;
+            case "Việt Nam":
+                toggleNation("VN");
+                break;
+        }
         target.classList.toggle("active");
     });
 });
@@ -599,15 +733,48 @@ document.querySelectorAll(".category-nation li").forEach(link => {
 // Gắn sự kiện click cho danh mục mùa giải
 document.querySelectorAll(".category-club li").forEach(link => {
     link.addEventListener("click", event => {
+        // này là để tránh trường hợp dùng search xong không làm mới mà bấm vào danh mục
+        document.querySelector('#advanced-search-category-select').value = "all";
+        toggleSelectBox();
+        document.getElementById('min-price').value = "";
+        document.getElementById('max-price').value = "";
+        document.querySelector('#form-search-input').value = "";
+
         const target = event.currentTarget;
-        toggleClub(target.textContent);
+
+        switch (target.textContent) {
+            case "Manchester United":
+                toggleClub("MU");
+                break;
+            case "Manchester City":
+                toggleClub("MC");
+                break;
+            case "Barcelona":
+                toggleClub("BC");
+                break;
+            case "Real Marid":
+                toggleClub("RM");
+                break;
+            case "Al-Nassr":
+                toggleClub("AN");
+                break;
+        }
         target.classList.toggle("active");
     });
 });
 
 document.querySelectorAll(".category-price li").forEach(link => {
     link.addEventListener("click", event => {
+        // này là để tránh trường hợp dùng search xong không làm mới mà bấm vào danh mục
+
+        document.querySelector('#advanced-search-category-select').value = "all";
+        toggleSelectBox();
+        document.getElementById('min-price').value = "";
+        document.getElementById('max-price').value = "";
+        document.querySelector('#form-search-input').value = "";
+
         const target = event.currentTarget;
+        
         switch (target.textContent) {
             case "< 200k":
                 togglePriceRange("lessThan200");
@@ -629,15 +796,14 @@ document.querySelectorAll(".category-price li").forEach(link => {
     });
 });
 
-// Hàm xử lý khi click vào quốc gia
-function toggleNation(category) {
-    const index = selectedNations.indexOf(category);
+function toggleNation(nation) {// Hàm xử lý khi click vào quốc gia
+    const index = selectedNations.indexOf(nation);
     if (index === -1) {
-        selectedNations.push(category);
+        selectedNations.push(nation);
     } else {
         selectedNations.splice(index, 1);
     }
-    filterProducts(); 
+    filterProducts();
 }
 
 function toggleClub(Club) {// Hàm xử lý khi click vào mùa giải
@@ -647,39 +813,37 @@ function toggleClub(Club) {// Hàm xử lý khi click vào mùa giải
     } else {
         selectedClubs.splice(index, 1);
     }
-    filterProducts(); 
+    filterProducts();
 }
 
-function togglePriceRange(priceRange) {// Hàm xử lý khi click vào giá
+function togglePriceRange(priceRange) {// hàm xử lý khi click vào khoảng giá
     const index = selectedPriceRanges.indexOf(priceRange);
     if (index === -1) {
         selectedPriceRanges.push(priceRange);
     } else {
         selectedPriceRanges.splice(index, 1);
     }
-    filterProducts(); 
+    filterProducts();
 }
 
-function filterProducts() {//lọc sản phẩm
-    filteredProducts = products;
-    // Lọc theo quốc gia
+function filterProducts() {//lọc tìm sản phẩm theo category
+    filteredProducts = products_1;
+    //lọc theo nhiều quốc gia
     if (selectedNations.length > 0) {
         filteredProducts = filteredProducts.filter(product =>
-            selectedNations.includes(product.category)
+            selectedNations.includes(product.national)
         );
     }
-
-    // Lọc theo mùa giải
+    // Lọc theo nhiều câu lạc bộ
     if (selectedClubs.length > 0) {
         filteredProducts = filteredProducts.filter(product =>
-            selectedClubs.includes(product.category)
+            selectedClubs.includes(product.team)
         );
     }
-
     // Lọc theo nhiều khoảng giá
     if (selectedPriceRanges.length > 0) {
         filteredProducts = filteredProducts.filter(product => {
-            const productPrice = product.price; 
+            const productPrice = product.price;
             return selectedPriceRanges.some(priceRange => {
                 switch (priceRange) {
                     case "lessThan200":
@@ -698,25 +862,50 @@ function filterProducts() {//lọc sản phẩm
             });
         });
     }
-    // Hiển thị sản phẩm đã lọc
     showPage(1);
 }
+// ------------------------------------------------------------- HẾT DANH MỤC -----------------------------------------------------------------
 
+function showProductDetail(productId) {// hiện chi tiết sản phẩm khi ấn chi tiết
+    const products = JSON.parse(localStorage.getItem('products')) || [];  // Lấy danh sách sản phẩm từ localStorage
+    const product = products.find(item => item.masp === productId);// Tìm sản phẩm theo ID
+    if (product) {
+        const detailDiv = document.querySelector(".product-detail");
+        detailDiv.innerHTML = `
+            <div class="detail-container">
+                <h3>THÔNG TIN CHI TIẾT SẢN PHẨM</h3>
+                <img src="${product.image_url}" alt="${product.tensp}">
+                <p><strong>Mã sản phẩm:</strong> ${product.masp}</p>
+                <p><strong>Tên sản phẩm:</strong> ${product.tensp}</p>
+                <p><strong>Mô tả:</strong> ${product.description}</p>
+                <p><strong>Kích thước:</strong> ${product.size}</p>
+                <p><strong>Giá:</strong> ${product.price.toLocaleString().replace(/,/g, '.')} VND</p>
+                <p><strong>Còn lại:</strong> ${product.stock}</p>
+                <button onclick="addToCart('${product.masp}'), closeDetail() ">MUA NGAY</button>
+                <button onclick="closeDetail()">Đóng</button>
+            </div>
+        `;
+        detailDiv.style.display = "block"; // Hiển thị div
+        document.body.classList.add('no-scroll');
+    }
+}
 
-function loadOrdersTable() {
+function closeDetail() { //đóng chi tiết sản phẩm
+    const detailDiv = document.querySelector(".product-detail");
+    detailDiv.style.display = "none"; // Ẩn div chi tiết
+    document.body.classList.remove('no-scroll');
+}
+
+function loadOrdersTable() {//load hóa đơn lên table
     const orders = JSON.parse(localStorage.getItem("orders")) || [];
     const currentUser = JSON.parse(localStorage.getItem("currentuser")) || {};
     const customers = JSON.parse(localStorage.getItem("customers")) || [];
-
     const A = customers.find(cust => cust.matk === currentUser.matk);
     const customerOrders = orders.filter(order => order.makh.matk === A.matk);
-
-    const tableContainer = document.querySelector("#main-wrapper");
+    const tableContainer = document.querySelector(".main-wrapper .container");
     tableContainer.innerHTML = ""; // Xóa nội dung cũ
-
     const table = document.createElement("table");
     table.id = "ordersTable";
-
     const headerRow = document.createElement("tr");
     ["Mã Đơn Hàng", "Tên Khách Hàng", "Thời Gian Mua", "Tổng Tiền", "Tình Trạng Hóa Đơn"].forEach(attr => {
         const th = document.createElement("th");
@@ -724,60 +913,35 @@ function loadOrdersTable() {
         headerRow.appendChild(th);
     });
     table.appendChild(headerRow);
-
     customerOrders.forEach(order => {
         const row = document.createElement("tr");
-
         ["madonhang", "tenkh", "thoigianmua", "tongtien", "tthd"].forEach(attr => {
             const td = document.createElement("td");
-
-            
             if (attr === "tenkh") {
-                td.textContent = order.makh.username; // Hiển thị tên người dùng cho mã khách hàng
+                td.textContent = order.makh.username;
             } else if (attr === "thoigianmua") {
-                // Định dạng thời gian mua
                 td.textContent = new Date(order.thoigianmua).toLocaleString(); 
             } else {
-                td.textContent = order[attr]; // Hiển thị các giá trị còn lại
+                td.textContent = order[attr];
             }
-
             row.appendChild(td);
         });
-
-        // Thêm sự kiện click vào dòng, gọi hàm showOrderDetails với id đơn hàng
         row.addEventListener('click', () => {
-            console.log("Đơn hàng ID: ", order.madonhang); // In ra mã đơn hàng
             showOrderDetails(order.madonhang);
         });
         table.appendChild(row);
     });
-    
-
-    tableContainer.appendChild(table); // Thêm bảng vào container
+    tableContainer.appendChild(table);
 }
 
-
-//---------------------
-function showOrderDetails(orderId) {
-    console.log("Mã đơn hàng:", orderId);
-
-    // Lấy dữ liệu từ localStorage
+function showOrderDetails(orderId) {//show ra chi tiết hóa đơn
     const orders = JSON.parse(localStorage.getItem('orders')) || [];
     const orderDetails = JSON.parse(localStorage.getItem('orderDetails')) || [];
-
-    // Tìm đơn hàng tương ứng
     const order = orders.find(item => item.madonhang === orderId);
-
     if (order) {
-        // Lọc các chi tiết thuộc đơn hàng
         const detailsForOrder = orderDetails.filter(detail => detail.madonhang === orderId);
-
-        console.log("Chi tiết đơn hàng:", detailsForOrder);
-
         if (detailsForOrder.length > 0) {
             const detailDiv = document.querySelector(".order-detail");
-
-            // Tạo HTML cho bảng chi tiết sản phẩm
             const tableRows = detailsForOrder.map(detail => `
                 <tr>
                     <td>${detail.masp}</td>
@@ -786,21 +950,22 @@ function showOrderDetails(orderId) {
                     <td>${detail.thanhtien.toLocaleString().replace(/,/g, '.')} VND</td>
                 </tr>
             `).join('');
-
-            // Hiển thị thông tin chi tiết đơn hàng
             detailDiv.innerHTML = `
                 <div class="detail-container">
                     <div id="chitiet-tren">
                             <div class="header-chitiettren">
-                                <h3>Thông tin chi tiết đơn hàng</h3>
-                                <button onclick="closeOrderDetail()">Đóng</button>
+                                <h3>THÔNG TIN CHI TIẾT ĐƠN HÀNG</h3>
+                                <div class="button-group">
+                                    <button onclick="closeOrderDetail()">Đóng</button>
+                                    <button onclick="cancerOrderDetail('${order.madonhang}')">Hủy đơn</button>
+                                </div>
                             </div>
+
                             <p><strong>Mã Đơn Hàng:</strong> ${order.madonhang}</p>
                             <p><strong>Thời gian mua:</strong> ${new Date(order.thoigianmua).toLocaleString()}</p>
                             <p><strong>Tổng tiền:</strong> ${order.tongtien.toLocaleString().replace(/,/g, '.')} VND</p>
                             <p><strong>Tình trạng hóa đơn:</strong> ${order.tthd}</p>
                     </div>
-
                     <div id="chitiet-duoi">
                         <table id="orderDe" border="1" cellspacing="0" cellpadding="5" style="width: 100%; text-align: left;">
                             <thead>
@@ -815,37 +980,58 @@ function showOrderDetails(orderId) {
                                 ${tableRows}
                             </tbody>
                         </table>
-                        
                     </div>
                 </div>
-            `;
-
+                `;
             detailDiv.style.display = "block";
             document.body.classList.add('no-scroll');
         } else {
-            console.error("Không có chi tiết cho đơn hàng với mã:", orderId);
+            alert("Không có chi tiết cho đơn hàng với mã:", orderId);
         }
     } else {
-        console.error("Không tìm thấy đơn hàng với mã:", orderId);
+        alert("Không tìm thấy đơn hàng với mã:", orderId);
     }
 }
 
-
-
-
-
-
-
-function closeOrderDetail() {
+function closeOrderDetail() {//đóng chi tiết hóa đơn
     const detailDiv = document.querySelector(".order-detail");
-    detailDiv.style.display = "none"; // Ẩn div chi tiết
+    detailDiv.style.display = "none";
     document.body.classList.remove('no-scroll');
 }
 
-//--------------
+function cancerOrderDetail(madonhang) {//hủy đơn
+    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+    const orderDetails = JSON.parse(localStorage.getItem('orderDetails')) || [];
+    const products = JSON.parse(localStorage.getItem('products')) || [];
 
-function createNewOrder(cartKey, customerID) {
+    // Tìm đơn hàng tương ứng
+    const orderIndex = orders.findIndex(item => item.madonhang === madonhang);
 
+    if (orderIndex === -1) {
+        console.error('Đơn hàng không tồn tại!');
+        return;
+    }
+    if(orders[orderIndex].tthd === 'chưa xử lý'){
+        orders[orderIndex].tthd = 'đã hủy';// Cập nhật trạng thái đơn hàng
+        const details = orderDetails.filter(detail => detail.madonhang === madonhang);
+        details.forEach(detail => {
+            const productIndex = products.findIndex(product => product.masp === detail.masp);
+            if (productIndex !== -1) {
+                products[productIndex].stock += detail.soluong;
+            }
+        });
+        localStorage.setItem('orders', JSON.stringify(orders));
+        localStorage.setItem('products', JSON.stringify(products));
+        closeOrderDetail();
+        loadOrdersTable();
+        alert(`Đơn hàng ${madonhang} đã được hủy.`);
+    }
+    else{
+        alert(`Không thể hủy đơn hàng ${madonhang}.`);
+    }
+}
+
+function createNewOrder(cartKey, customerID) {//tạo hóa đơn mới
     if(!customerID){
         alert('Hãy đăng nhập trước !');
         return;
@@ -916,13 +1102,63 @@ function checkCartAndToggleButton(cartKey, buttonID) {/*Kiểm tra trong giỏ c
     }
 }
 
+/* ----------------------------------------------Lựa chọn địa chỉ cho đơn hàng-------------------------------------------------------------- */
+
+function handleAddressOption(newOrderID) {// kiểm tra radio button để gọi hàm nhập địa chỉ mới /từ thông tin khách hàng
+    const selectedOption = document.querySelector('input[name="address-option"]:checked').value;
+    switch (selectedOption) {
+        case "account":// địa chỉ từ thông tin khách hàng
+            useAccountAddress(newOrderID);
+            break;
+        case "new":// địa chỉ mới
+            enterNewAddress(newOrderID);
+            break;
+        default:
+            break;
+    }
+}
+
+function useAccountAddress(newOrderID) {// Hàm xử lý khi chọn địa chỉ từ thông tin khách hàng
+    const currentusers = JSON.parse(localStorage.getItem("currentuser")) || {};
+    const customers = JSON.parse(localStorage.getItem("customers")) || [];
+    const userCus = customers.find(item => item.matk === currentusers.matk);
+    const address = userCus ? userCus.diachi : "Khách hàng chưa cung cấp địa chỉ";
+    const sdt = userCus ? userCus.sdt : "Khách hàng chưa cung cấp số điện thoại";
+    const ten = userCus ? userCus.tenkh : "Khách hàng chưa cung cấp họ và tên";
+    const newAddressOrder = {
+        nguoinhan: ten,
+        sdtngnhan: sdt,
+        diachigiaohang: address,
+        madh: newOrderID
+    };
+    let addressOrders = JSON.parse(localStorage.getItem("addressOrders")) || [];
+    addressOrders.push(newAddressOrder);
+    localStorage.setItem("addressOrders", JSON.stringify(addressOrders));
+}
+
+function enterNewAddress(newOrderID) {// Hàm xử lý khi nhập địa chỉ mới cho hóa đơn
+    const nguoinhan = document.getElementById("tennguoinhan").value.trim();
+    const sdtngnhan = document.getElementById("sdtnhan").value.trim();
+    const diachigiaohang = document.getElementById("diachinhan").value.trim();
+
+    const newAddressOrder = {
+        nguoinhan: nguoinhan,
+        sdtngnhan: sdtngnhan,
+        diachigiaohang: diachigiaohang,
+        madh: newOrderID
+    };
+    let addressOrders = JSON.parse(localStorage.getItem("addressOrders")) || [];
+    addressOrders.push(newAddressOrder);
+    localStorage.setItem("addressOrders", JSON.stringify(addressOrders));
+}
+
 let display = document.getElementById('userdata');
 
 let userDisPlay  = '';
 
 if(!currUser){
     userDisPlay+=`
-    <i class="fas fa-user-circle"></i>
+    <i class="fas fa-user-circle inverted-icon"></i>
     <div class="auth-container">
         <span class="text-tk">Tài khoản <i class="fa fa-caret-down"></i></span>
     </div>
@@ -981,95 +1217,7 @@ signupButton.addEventListener('click', () => {
 CloseForm =()=>{
     loginDiv.classList.remove('user-open');
 }
-// document.addEventListener("DOMContentLoaded", function () {
-//     const accountAddressOption = document.getElementById("useAccountAddress");
-//     const newAddressOption = document.getElementById("enterNewAddress");
-//     const accountAddressField = document.getElementById("account-address");
-//     const newAddressFields = document.getElementById("new-address");
 
-//     // Hiển thị hoặc ẩn các trường nhập liệu dựa trên lựa chọn
-//     accountAddressOption.addEventListener("change", function () {
-//         if (accountAddressOption.checked) {
-//             accountAddressField.style.display = "block";
-//             newAddressFields.style.display = "none";
-//         }
-//     });
 
-//     newAddressOption.addEventListener("change", function () {
-//         if (newAddressOption.checked) {
-//             accountAddressField.style.display = "none";
-//             newAddressFields.style.display = "block";
-//         }
-//     });
-
-//     // Gán địa chỉ từ tài khoản (giả sử dữ liệu được lưu trong localStorage)
-//     const user = JSON.parse(localStorage.getItem("customers")) || {};
-
-//     let cus =  user.find(x=>x.matk === currUser.matk)
-//     console.log(cus);
-    
-//     const addressFromAccount = cus.diachi || "Địa chỉ từ tài khoản chưa có";
-//     document.getElementById("diachiFromAccount").value = addressFromAccount;
-// });
-
-/* -------------------------------------lựa chọn địa chỉ cho đơn hàng---------------------------------------------- */
-function handleAddressOption(newOrderID) {
-    // Lấy giá trị của radio button được chọn
-    const selectedOption = document.querySelector('input[name="address-option"]:checked').value;
-
-    switch (selectedOption) {
-        case "account":// địa chỉ từ thông tin khách hàng
-            console.log("Đang sử dụng địa chỉ từ tài khoản");
-            useAccountAddress(newOrderID);
-            break;
-
-        case "new":// địa chỉ mới
-            console.log("Đang nhập địa chỉ giao hàng mới");
-            enterNewAddress(newOrderID);
-            break;
-
-        default:
-            console.log("Không có lựa chọn hợp lệ");
-            break;
-    }
-}
-
-// Hàm xử lý khi chọn địa chỉ từ thông tin khách hàng
-function useAccountAddress(newOrderID) {
-    const currentusers = JSON.parse(localStorage.getItem("currentuser")) || {};
-
-    const customers = JSON.parse(localStorage.getItem("customers")) || [];
-    const userCus = customers.find(item => item.matk === currentusers.matk);
-
-    const address = userCus ? userCus.diachi : "Khách hàng chưa cung cấp địa chỉ";
-    const sdt = userCus ? userCus.sdt : "Khách hàng chưa cung cấp số điện thoại";
-    const ten = userCus ? userCus.tenkh : "Khách hàng chưa cung cấp họ và tên";
-    const newAddressOrder = {
-        nguoinhan: ten,
-        sdtngnhan: sdt,
-        diachigiaohang: address,
-        madh: newOrderID
-    };
-    let addressOrders = JSON.parse(localStorage.getItem("addressOrders")) || [];
-    addressOrders.push(newAddressOrder);
-    localStorage.setItem("addressOrders", JSON.stringify(addressOrders));
-}
-
-// Hàm xử lý khi nhập địa chỉ mới
-function enterNewAddress(newOrderID) {
-    const nguoinhan = document.getElementById("tennguoinhan").value.trim();
-    const sdtngnhan = document.getElementById("sdtnhan").value.trim();
-    const diachigiaohang = document.getElementById("diachinhan").value.trim();
-
-    const newAddressOrder = {
-        nguoinhan: nguoinhan,
-        sdtngnhan: sdtngnhan,
-        diachigiaohang: diachigiaohang,
-        madh: newOrderID
-    };
-    let addressOrders = JSON.parse(localStorage.getItem("addressOrders")) || [];
-    addressOrders.push(newAddressOrder);
-    localStorage.setItem("addressOrders", JSON.stringify(addressOrders));
-}
 
 

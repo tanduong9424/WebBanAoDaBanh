@@ -5,11 +5,11 @@
         <title>Football Kit</title>
         <link rel="stylesheet" href="index.css">
         <link rel="stylesheet" href="form.css">
+        <link rel="stylesheet" href="responsive.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        
-    </head>
 
+    </head>
     <body>
 
         <header><!--Header-->
@@ -25,10 +25,11 @@
 
                     <div class="header-top-center">
                         <form action="" class="form-search">
-                            <span class="search-btn"><i class="fa fa-search"></i></span>
-                            <input type="text" class="form-search-input" placeholder="Nhập tên sản phẩm..."
-                                oninput="searchProducts()">
-                            <button class="filter-btn" onclick="ThemDieuKienSearch()"; ><i class="fa fa-caret-down"></i></button>
+                            <span class="search-btn" onclick="searchProducts()"><i class="fa fa-search"></i></span>
+                            <input type="text" class="form-search-input" id="form-search-input"
+                                placeholder="Nhập tên sản phẩm...">
+                            <button class="filter-btn" onclick="ThemDieuKienSearch()"><i
+                                    class="fa fa-caret-down"></i></button>
                         </form>
                     </div>
 
@@ -36,7 +37,7 @@
                         <ul class="header-top-right-list">
                             <li class="header-top-right-item open" onclick="openCart()">
                                 <div class="cart-icon-menu">
-                                    <i class="fa fa-shopping-cart"></i>
+                                    <i class="fa fa-shopping-cart inverted-icon"></i>
                                     <span class="count-product-cart" id="count"> </span>
                                 </div>
                                 <span class="text-cart">Giỏ hàng</span>
@@ -49,55 +50,73 @@
                     </div>
                 </div>
             </div>
+            <nav class="nav-header"><!--Nav dưới header-->
+                <div class="container">
+                    <ul id="menu-list" class="menu-list">
+                        <li onclick=showPage(1);>
+                            <a href="" class="menu-link">Sản Phẩm</a>
+                        </li>
+                        <li  onclick=loadOrdersTable();>
+                            <a href="javascript:;" class="menu-link">Lịch Sử Mua Hàng</a>
+                        </li>
+                        <li onclick=hienthichinhsach();>
+                            <a href="javascript:;" class="menu-link">Chính sách của chúng tôi</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </header>
 
-        <nav class="nav-header"><!--Nav dưới header-->
-            <div class="container">
-                <ul id="menu-list" class="menu-list">
-                    <li onclick=showPage(1);>
-                        <a href="" class="menu-link">Sản Phẩm</a>
-                    </li>
-                    <li  onclick=loadOrdersTable();>
-                        <a href="javascript:;" class="menu-link">Lịch Sử Mua Hàng</a>
-                    </li>
-                    <li onclick=hienthichinhsach();>
-                        <a href="javascript:;" class="menu-link">Chính sách của chúng tôi</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        
 
-        <div class="advanced-search"><!--Tìm kiếm mở rộng-->
+        <div class="advanced-search">
             <div class="container">
-                <div class="advanced-search-category"><!--tìm theo thể loại-->
+                <div class="advanced-search-category">
                     <span>Phân loại </span>
-                    <select name="" id="advanced-search-category-select" onchange="searchProducts()">
-                        <option>Tất cả</option>
-                        <option>Câu lạc bộ</option>
-                        <option>Quốc gia</option>
+                    <select name="" id="advanced-search-category-select" onchange="toggleSelectBox()">
+                        <option value="all">Tất cả</option>
+                        <option value="club">Câu lạc bộ</option>
+                        <option value="nation">Quốc gia</option>
                     </select>
-                    <span>Lựa chọn </span>
-                    <select name="" id="advanced-search-category-select" onchange="searchProducts()">
-                        <option>Tất cả</option>
-                        <option>Câu lạc bộ</option>
-                        <option>Quốc gia</option>
+    
+                    <span class="advanced-search-category-select-nation">Lựa chọn</span>
+                    <select name="" class="advanced-search-category-select-nation nation">
+                        <option value="none"></option>
+                        <option value="EN">Anh</option>
+                        <option value="PR">Pháp</option>
+                        <option value="PO">Bồ Đào Nha</option>
+                        <option value="AG">Argentina</option>
+                        <option value="VN">Việt Nam</option>
                     </select>
+    
+    
+                    <span class="advanced-search-category-select-club">Lựa chọn</span>
+                    <select name="" class="advanced-search-category-select-club club">
+                        <option value="none"></option>
+                        <option value="MU">Manchester United</option>
+                        <option value="MC">Manchester City</option>
+                        <option value="BC">Barcelona</option>
+                        <option value="RM">Real Marid</option>
+                        <option value="AN">Al-Nassr</option>
+                    </select>
+    
+    
                 </div>
-                <div class="advanced-search-price"><!--tìm theo giá-->
+                <div class="advanced-search-price">
                     <span>Giá từ</span>
-                    <input type="number" placeholder="tối thiểu" id="min-price" onchange="searchProducts()">
+                    <input type="number" placeholder="tối thiểu" id="min-price">
                     <span>đến</span>
-                    <input type="number" placeholder="tối đa" id="max-price" onchange="searchProducts()">
-                    <button id="advanced-search-price-btn"><i class="fa fa-search"></i></button>
+                    <input type="number" placeholder="tối đa" id="max-price">
+                    <button id="advanced-search-price-btn" onclick="advancedSearch()"><i class="fa fa-search"></i></button>
                 </div>
                 <div class="advanced-search-control">
-                    <!--sắp xếp tăng-->
-                    <button id="sort-ascending" onclick="searchProducts(1)"><i class="fa fa-arrow-up"></i></button>
-                    <!--sắp xếp giảm-->
-                    <button id="sort-descending" onclick="searchProducts(2)"><i class="fa fa-arrow-down"></i></button>
-                    <!--reset giá trị tìm kiếm-->
-                    <button id="reset-search" onclick="searchProducts(0)"><i class="fa fa-refresh"></i></button>
-                    <!--đóng tìm kiếm nâng cao-->
+    
+                    <button id="sort-ascending"><i class="fa fa-arrow-up"></i></button>
+    
+                    <button id="sort-descending"><i class="fa fa-arrow-down"></i></button>
+    
+                    <button id="reset-search" ><i class="fa fa-refresh"></i></button>
+    
                     <button onclick="closeSearchAdvanced()"><i class="fa fa-trash"></i></button>
                 </div>
             </div>
@@ -109,18 +128,18 @@
                     <div class="category" id="category"><!--danh mục phân loại bên trái-->
                         <div class="category-content">
                             <button>QUỐC GIA</button>
-                            <i class="fas fa-caret-down"></i>
+ 
                         </div>
                         <ul class="category-nation">
                             <li><a href="#">Anh</a><i class="fas fa-times"></i></li>
                             <li><a href="#">Pháp</a><i class="fas fa-times"></i></li>
                             <li><a href="#">Bồ Đào Nha</a><i class="fas fa-times"></i></li>
-                            <li><a href="#">Agentina</a><i class="fas fa-times"></i></li>
+                            <li><a href="#">Argentina</a><i class="fas fa-times"></i></li>
                             <li><a href="#">Việt Nam</a><i class="fas fa-times"></i></li>
                         </ul>
                         <div class="category-content">
                             <button>CÂU LẠC BỘ</button>
-                            <i class="fas fa-caret-down"></i>
+
                         </div>
                         <ul class="category-club">
                             <li><a href="#">Manchester United</a><i class="fas fa-times"></i></li>
@@ -144,14 +163,11 @@
                     <div id="product-wrapper"></div><!--container chứa sản phẩm , gọi ra bằng js-->
                 </div>
                 
-                <div class="pagination">
-                    <div class="pagination-btn">
-                        <button onclick="showPage(1)" class="active">1</button>
-                        <button onclick="showPage(2)">2</button>
-                        <button onclick="showPage(3)">3</button>
-                    </div>
+                <div class="pagination"><!--sửa nè-->
+                    <div class="chevron"><button class="chevron-left"><i class="fa fa-chevron-left"></i></button></div>
+                    <div class="pagination-btn"></div><!-- các nút phân trang tạo bên js -->
+                    <div class="chevron"><button class="chevron-right"><i class="fa fa-chevron-right"></i></button></div>
                     <div class="product-detail" style="display: none;"></div> <!-- hiển thị chi tiết sản phẩm -->
-                    
                 </div>
             </div>
         </main>
@@ -254,7 +270,7 @@
                     </form>
                 </div>
                 <div class="cart-header">
-                    <h3 class="cart-header-title"><i class="fa fa-shopping-cart"></i> Giỏ hàng</h3>
+                    <h3 class="cart-header-title"><i class="fa fa-shopping-cart" style="color:white"></i>Giỏ hàng</h3>
                     <button class="cart-close" onclick="closeCart()"><i class="fa fa-times"></i></button>
                 </div>
                 <div class="cart-body">
@@ -279,9 +295,6 @@
                 </div>
             </div>
         </div>
-
-        
-
 
         <div class="checkout-page">
             <div class="checkout-header">
@@ -350,8 +363,6 @@
                 </div>
             </main>
         </div>
-
-
 
         <footer class="footer"><!--Footer-->
             <div class="widget-area">
