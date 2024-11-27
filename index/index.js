@@ -6,17 +6,7 @@ function ThemDieuKienSearch(){/*mở tìm kiếm nâng cao*/
     event.preventDefault();
     document.querySelector(".advanced-search").classList.toggle("open")
 }
-function ThemDieuKienSearch(event) {
-    if (event) {
-        event.preventDefault();
-    }
-    const advancedSearch = document.querySelector(".advanced-search");
-    if (advancedSearch) {
-        advancedSearch.classList.toggle("open");
-    } else {
-        console.error("Không tìm thấy phần tử .advanced-search");
-    }
-}
+
 
 LoadCount = ()=> {
     let countCart = document.getElementById('count');
@@ -1210,7 +1200,7 @@ let userDisPlay  = '';
 
 if(!currUser){
     userDisPlay+=`
-    <i class="fas fa-user-circle inverted-icon"></i>
+    <i class="fa fa-user-circle"></i>
     <div class="auth-container">
         <span class="text-tk">Tài khoản <i class="fa fa-caret-down"></i></span>
     </div>
@@ -1270,6 +1260,33 @@ CloseForm =()=>{
     loginDiv.classList.remove('user-open');
 }
 
+/*đây hả */
+document.querySelector('.category-responsive-btn')
+.addEventListener('click', () => {
+    document.querySelector('.category').style.transform = 'translateX(0)';
+    document.querySelector('#category-overlay').style.display = 'block';
+    
+});
 
+document.querySelector('#category-overlay').addEventListener('click', () => {
+    document.querySelector('.category').style.transform = 'translateX(-100%)';
+    document.querySelector('#category-overlay').style.display = 'none';
+});
 
+let resizeTimeout;
+
+window.addEventListener('resize', () => {
+    // Xóa timeout trước đó (nếu có)
+    clearTimeout(resizeTimeout);
+
+    // Đặt timeout mới để tránh reload liên tục khi kéo
+    resizeTimeout = setTimeout(() => {
+        const width = window.innerWidth;
+
+        // Kiểm tra điều kiện kích thước
+        if (width > 800) {
+            location.reload(); // Tự reload trang
+        }
+    }, 200); // Thời gian chờ để tránh reload quá nhanh
+});
 

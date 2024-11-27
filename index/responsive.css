@@ -1,133 +1,184 @@
 @media (max-width: 900px) {
-/*------------header, nav, footer-------------------------------------------------*/
-    .main-content {
-        flex-direction: column;
-        gap: 10px;
-    }
-    .advanced-search{
-        display:none;
-    }
-    .category {
-        width: 100%;
-    }
-    nav.nav-header {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        background-color: white;
+    /*------------header, nav, footer-------------------------------------------------*/
+        .main-content {
+            flex-direction: column;
+            gap: 10px;
+        }
+        .advanced-search{
+            display:none;
+        }
+    
+        .category {
+            width: 100%;
+        }
+        nav.nav-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: white;
+        }
+        
+        #product-wrapper {
+            width: 100%;
+            justify-content: center;
+        }
+    
+
+        .menu-list {
+            display: block;
+            text-align: left;
+        }
+    
+        .menu-list li {
+            margin-bottom: 10px;
+        }
+    
+        .menu-link {
+            display: block;
+            padding: 10px;
+            font-size: 10px;
+        }
+        /* Hiển thị widget-contact-item theo dạng cột */
+        .widget-contact-item {
+            display: flex;
+            flex-direction: column; /* Sắp xếp theo cột */
+            align-items: flex-start; /* Canh trái */
+        }
+    
+        /* Ẩn tất cả các mục không phải widget-contact-item */
+        .widget-social-item,
+        .widget-row-col,
+        .widget-row-col-1 {
+            display: none; /* Ẩn các mục khác */
+        }
+    
+        /* Hiển thị tối đa 4 mục widget-contact-item */
+        .widget-contact-item:nth-child(n+5) {
+            display: none; /* Ẩn các mục thứ 5 trở đi */
+        }
+    
+    
+    
+    
+    
+    /*------------------------header, nav, footer-------------------------------------------------*/
+    
+    
+    /* thêm mới */
+      .header-top-right-item {
+            display: none;
+        }
+        #product-wrapper {
+            width: 100%;
+            justify-content: center;
+        }
+    
+        .product-item {
+            width: calc(50% - 20px);
+        }
+        /* thêm mới hết */
+    
+    
+    
     }
     
-    #product-wrapper {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .product-item {
-        width: calc(100% - 20px);
-    }
-    .menu-list {
-        display: block;
-        text-align: left;
-    }
-
-    .menu-list li {
-        margin-bottom: 10px;
-    }
-
-    .menu-link {
-        display: block;
-        padding: 10px;
-        font-size: 10px;
-    }
-    /* Hiển thị widget-contact-item theo dạng cột */
-    .widget-contact-item {
-        display: flex;
-        flex-direction: column; /* Sắp xếp theo cột */
-        align-items: flex-start; /* Canh trái */
-    }
-
-    /* Ẩn tất cả các mục không phải widget-contact-item */
-    .widget-social-item,
-    .widget-row-col,
-    .widget-row-col-1 {
-        display: none; /* Ẩn các mục khác */
-    }
-
-    /* Hiển thị tối đa 4 mục widget-contact-item */
-    .widget-contact-item:nth-child(n+5) {
-        display: none; /* Ẩn các mục thứ 5 trở đi */
-    }
-/*------------------------header, nav, footer-------------------------------------------------*/
-
-/*code tiếp ở đây và xóa đi cmt này*/
-
-
-
-
-}
-
-@media (max-width: 480px) {
-/*------------header, nav, footer-------------------------------------------------*/
-    header {
-        flex-direction: column;
-        padding: 10px;
-    }
-    .advanced-search{
-        display:none;
-    }
-    .header-top-center{
-        display: none;
-    }
-    .header-logo-img {
-        width: 100px;
-    }
-    nav.nav-header {
-        position: sticky; /* Dính vào vị trí khi cuộn */
-        top: 0; /* Ngay dưới header */
-        z-index: 10; /* Đảm bảo nó nằm trên các phần tử khác */
-        background-color: white; /* Tùy chỉnh màu nền để phù hợp với giao diện */
+    @media (max-width: 800px) {
+    /*------------header, nav, footer-------------------------------------------------*/
+        body {
+            width: 100%;
+        }
+        header {
+            flex-direction: column;
+            padding: 10px;
+        }
+        .advanced-search{
+            display:none;
+        }
+        .header-top-center{
+            display: none;
+        }
+        .header-logo-img {
+            width: 100px;
+        }
+        nav.nav-header {
+            position: sticky; /* Dính vào vị trí khi cuộn */
+            top: 0; /* Ngay dưới header */
+            z-index: 10; /* Đảm bảo nó nằm trên các phần tử khác */
+            background-color: white; /* Tùy chỉnh màu nền để phù hợp với giao diện */
+        }
+        
+        .pagination {
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+    
+        .pagination-btn button {
+            width: 25px;
+            height: 25px;
+        }
+        .menu-list {
+            display: block;
+            text-align: left;
+        }
+    
+        .menu-list li {
+            margin-bottom: 10px;
+        }
+    
+        .menu-link {
+            display: block;
+            padding: 10px;
+            font-size: 10px;
+        }
+        /* Hiển thị widget-contact-item theo dạng cột */
+        .widget-contact-item {
+            display: flex;
+            flex-direction: column; /* Sắp xếp theo cột */
+            align-items: flex-start; /* Canh trái */
+        }
+    
+        /* Ẩn tất cả các mục không phải widget-contact-item */
+        .widget-social-item,
+        .widget-row-col,
+        .widget-row-col-1 {
+            display: none; /* Ẩn các mục khác */
+        }
+    
+        /* Hiển thị tối đa 4 mục widget-contact-item */
+        .widget-contact-item:nth-child(n+5) {
+            display: none; /* Ẩn các mục thứ 5 trở đi */
+        }
+        
+    
+        /*--------------------------- --------               thêm mới                  -------------------------------------*/
+        .category-responsive {
+            display: inline;
+        }
+        #category {
+            position: fixed;
+            transform: translateX(-100%);
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 60%;
+            z-index: 9999;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+    
+        .header-top-right-item {
+            display: none;
+        }
+     
+        .chevron {
+            display: none;
+        }
+        /*mới thêm*/
+        .product-item {
+            width: calc(100% - 20px);
+        }
+    
+    
     }
     
-    .pagination {
-        flex-wrap: wrap;
-        gap: 5px;
-    }
-
-    .pagination-btn button {
-        width: 25px;
-        height: 25px;
-    }
-    .menu-list {
-        display: block;
-        text-align: left;
-    }
-
-    .menu-list li {
-        margin-bottom: 10px;
-    }
-
-    .menu-link {
-        display: block;
-        padding: 10px;
-        font-size: 10px;
-    }
-    /* Hiển thị widget-contact-item theo dạng cột */
-    .widget-contact-item {
-        display: flex;
-        flex-direction: column; /* Sắp xếp theo cột */
-        align-items: flex-start; /* Canh trái */
-    }
-
-    /* Ẩn tất cả các mục không phải widget-contact-item */
-    .widget-social-item,
-    .widget-row-col,
-    .widget-row-col-1 {
-        display: none; /* Ẩn các mục khác */
-    }
-
-    /* Hiển thị tối đa 4 mục widget-contact-item */
-    .widget-contact-item:nth-child(n+5) {
-        display: none; /* Ẩn các mục thứ 5 trở đi */
-    }
     
-}
