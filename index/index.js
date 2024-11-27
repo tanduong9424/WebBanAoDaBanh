@@ -1119,7 +1119,7 @@ function createNewOrder(cartKey, customerID) {//tạo hóa đơn mới
     );
 
     cart.forEach(item => {/*giảm số lượng stock của product khi thanh toán */
-        const product = products.find(p => p.masp === item.masp);
+       const product = products.find(p => p.masp === item.masp);
         if (product) {
             product.stock -= item.soluong;
         }
@@ -1140,6 +1140,8 @@ function createNewOrder(cartKey, customerID) {//tạo hóa đơn mới
     alert("Thanh toán thành công !\nVui lòng kiểm tra lịch sử mua hàng");
    
 }
+
+
 
 function checkCartAndToggleButton(cartKey, buttonID) {/*Kiểm tra trong giỏ có sản phẩm ko r mới cho thanh toán */
     const cart = JSON.parse(localStorage.getItem(cartKey)) || [];

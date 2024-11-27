@@ -67,7 +67,7 @@ const logic = {
   },
 
   handleSignup() {
-    // Kiểm tra dữ liệu
+    // Kiểm tra dữ liệu (đoạn này giữ nguyên)
     if (!usernameInput.value) {
       alert("Vui lòng nhập tên người dùng!");
       return;
@@ -112,41 +112,44 @@ const logic = {
       alert("Email không đúng định dạng. Vui lòng nhập lại.");
       return;
     }
-   // Tạo tài khoản mới
-   const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
-   const customers = JSON.parse(localStorage.getItem("customers")) || [];
+    
+    // Tạo tài khoản mới (giữ nguyên)
+    const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+    const customers = JSON.parse(localStorage.getItem("customers")) || [];
 
     const newmakh = `KH${customers.length + 1}`;
     const newmaTK = `TK${accounts.length + 1}`;
 
-    const newCus = {//khách hàng mới
-      
-      makh:newmakh,
-      matk:newmaTK,
-      tenkh:usernameInput.value,
-      sdt:phoneInput.value,
+    const newCus = {
+      makh: newmakh,
+      matk: newmaTK,
+      tenkh: usernameInput.value,
+      sdt: phoneInput.value,
       email: emailInput.value,
       diachi: addressInput.value,
     };
 
-    const  newAccount ={
+    const newAccount = {
       matk: newmaTK,
       username: usernameInput.value,
       password: passwordInput.value,
       status: "Hoạt động",
       role: "Khách Hàng",
-      isHidden : false
-    }
+      isHidden: false
+    };
+    
     accounts.push(newAccount);
     customers.push(newCus);
-    console.log(newAccount,newCus);
-    
     localStorage.setItem("accounts", JSON.stringify(accounts));
     localStorage.setItem("customers", JSON.stringify(customers));
 
     alert("Đăng ký thành công");
     this.clearSignupForm();
-  },
+
+    // Chuyển hướng sang màn hình đăng nhập
+    showLogin(); // Gọi hàm chuyển sang giao diện đăng nhập
+},
+
 
   handleLogin() {
    const accounts = JSON.parse(localStorage.getItem("accounts")) || [];

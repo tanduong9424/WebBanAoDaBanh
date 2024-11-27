@@ -656,11 +656,19 @@ function renderOrders(filteredOrders) {
             month: 'long',
             day: 'numeric',
         });
-        
+        const customers = JSON.parse(localStorage.getItem('customers')) || [];
+        // Xác định mã khách hàng
+        let customerID = order.makh;
+        if (typeof customerID === 'object') {
+            // Tìm khách hàng dựa trên `matk`
+            const customer = customers.find(c => c.matk === order.makh.matk);
+            customerID = customer ? customer.makh : 'Không xác định';
+        }
+
         const row = `
             <tr>
                 <td>${order.madonhang}</td>
-                <td>${order.makh}</td>
+                <td>${customerID}</td>
                 <td>${formattedDate}</td>
                 <td>${order.tongtien.toLocaleString()} VND</td>
                 
@@ -737,13 +745,21 @@ function updateOrderStatus(madonhang) {
 function viewOrderDetails(madonhang) {
     // Tìm thông tin đơn hàng
     const order = orders.find(donHang => donHang.madonhang === madonhang);
+    const customers = JSON.parse(localStorage.getItem('customers')) || [];
     if (!order) {
         console.error("Không tìm thấy đơn hàng.");
         return;
     }
 
-    // Tìm thông tin khách hàng
-    const customerInfo = customer.find(kh => kh.makh === order.makh);
+   let customerID = order.makh;
+    if (typeof customerID === 'object') {
+        // Nếu `makh` là object, tìm khách hàng dựa trên `matk`
+        const customer = customers.find(c => c.matk === customerID.matk);
+        customerID = customer ? customer.makh : 'Không xác định';
+    }
+
+    // Tìm thông tin chi tiết của khách hàng
+    const customerInfo = customers.find(kh => kh.makh === customerID);
     if (!customerInfo) {
         console.error("Không tìm thấy thông tin khách hàng.");
         return;

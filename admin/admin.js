@@ -214,11 +214,11 @@ window.onload = () => {
     // Kiểm tra xem đã có tài khoản trong localStorage chưa
     if (accounts.length === 0) {
         const adminAccount = {
-            id: `TK1`, // Mã tài khoản tự động
+            matk: `TK1`, // Mã tài khoản tự động
             username: "admin",
             password: "admin",
             role: "admin",
-            status: "Hợp lệ",
+            status: "Hoạt động",
             isHidden: false,
         };
         accounts.push(adminAccount);
@@ -769,7 +769,7 @@ window.onload = () => {
     // Kiểm tra xem đã có tài khoản trong localStorage chưa
     if (accounts.length === 0) {
         const adminAccount = {
-            id: `TK1`, // Mã tài khoản tự động
+            matk: `TK1`, // Mã tài khoản tự động
             username: "admin",
             password: "admin",
             role: "admin",

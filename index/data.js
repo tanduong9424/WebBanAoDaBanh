@@ -2,32 +2,37 @@ function createAdminAccount() {
     let accounts = localStorage.getItem("accounts");
     if (!accounts) {
         accounts = [];
-        accounts.push({
+        accounts.push(
+        {
             matk: "TK1",
-            username: "htd",
-            password: "123456789",
-            status: "Hoạt động",
-            role: "Khách Hàng"
-        },{
-            matk: "TK2",
-            username: "nxd",
-            password: "123456789",
-            status: "Hoạt động",
-            role: "Nhân Viên"
-        },{
-            matk: "TK3",
-            username: "hhd",
-            password: "123456789",
-            status: "Hoạt động",
-            role: "Admin"
-        }
-        ,{
-            matk: "TK4",
             username: "admin",
             password: "admin",
             status: "Hoạt động",
-            role: "Admin"
+            role: "admin",
+            isHidden: false
+        },{
+            matk: "TK2",
+            username: "htd",
+            password: "123456789",
+            status: "Hoạt động",
+            role: "Khách Hàng",
+            isHidden: false
+        },{
+            matk: "TK3",
+            username: "nxd",
+            password: "123456789",
+            status: "Hoạt động",
+            role: "Nhân Viên",
+            isHidden: false
+        },{
+            matk: "TK4",
+            username: "hhd",
+            password: "123456789",
+            status: "Hoạt động",
+            role: "Nhân Viên",
+            isHidden: false
         }
+        
         )
         localStorage.setItem('accounts', JSON.stringify(accounts));
     }
