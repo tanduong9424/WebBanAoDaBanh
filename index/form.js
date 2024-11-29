@@ -171,12 +171,17 @@ const logic = {
         acc.password === loginPasswordInput.value &&
         acc.role === 'Khách Hàng'
     );
-    if(account.status=="Không hợp lệ"){
-      alert("Tài khoản đang bị khóa!");
+    console.log(account);
+    if (!account) {
+      alert("Sai tên đăng nhập hoặc mật khẩu");
       return;
     }
     if(account.isHidden===true){
-      alert("Tài khoản không tồn tại !");
+      alert("Sai tên đăng nhập hoặc mật khẩu");
+      return;
+    }
+    if(account.status=="Không hợp lệ"){
+      alert("Tài khoản đang bị khóa!");
       return;
     }
     if (account) {
@@ -185,10 +190,7 @@ const logic = {
       loginUsernameInput.value = "";
       loginPasswordInput.value = "";
       window.location.reload();
-    } else {
-      alert("Sai tên đăng nhập hoặc mật khẩu");
-      return;
-    }
+    } 
   },
 };
 
