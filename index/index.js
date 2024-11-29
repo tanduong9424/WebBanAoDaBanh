@@ -46,8 +46,32 @@ document.addEventListener("DOMContentLoaded", function () {
     const addressFromAccount = userCus ? userCus.diachi : "Tài khoản chưa cung cấp địa chỉ";
     document.getElementById("diachiFromAccount").value = addressFromAccount;
 
+    document.querySelector('.category-responsive-btn').addEventListener('click', () => {
+        document.querySelector('.category').style.transform = 'translateX(0)';
+        document.querySelector('#category-overlay').style.display = 'block';
+    });
 
+    document.querySelector('#category-overlay').addEventListener('click', () => {
+        document.querySelector('.category').style.transform = 'translateX(-100%)';
+        document.querySelector('#category-overlay').style.display = 'none';
+    });
     
+    let resizeTimeout;
+
+window.addEventListener('resize', () => {
+    // Xóa timeout trước đó (nếu có)
+    clearTimeout(resizeTimeout);
+
+    // Đặt timeout mới để tránh reload liên tục khi kéo
+    resizeTimeout = setTimeout(() => {
+        const width = window.innerWidth;
+        // Kiểm tra điều kiện kích thước
+        if (width > 800) {
+            location.reload(); // Tự reload trang
+        }
+    }, 200); // Thời gian chờ để tránh reload quá nhanh
+});
+
 });
 
 LoadCount();
@@ -311,12 +335,12 @@ function showCart() { //hiển thị sản phẩm trong giỏ hàng
     // Xử lý hiển thị giỏ hàng
     let modalCart = document.querySelector('.modal-cart');
     let containerCart = document.querySelector('.cart-container');
-    let themsach = document.querySelector('.them-sanpham');
+    let themsp = document.querySelector('.them-sanpham');
 
     modalCart.onclick = function () {
         closeCart();
     };
-    themsach.onclick = function () {
+    themsp.onclick = function () {
         closeCart();
     };
     containerCart.addEventListener('click', (e) => {
@@ -1244,6 +1268,7 @@ if(signout){
         window.location.reload();
      });
 }
+
 toggleButton.addEventListener('click', () => {
     loginDiv.classList.add('user-open');
     signupForm.style.display = 'none';
@@ -1260,33 +1285,8 @@ CloseForm =()=>{
     loginDiv.classList.remove('user-open');
 }
 
-/*đây hả */
-document.querySelector('.category-responsive-btn')
-.addEventListener('click', () => {
-    document.querySelector('.category').style.transform = 'translateX(0)';
-    document.querySelector('#category-overlay').style.display = 'block';
-    
-});
 
-document.querySelector('#category-overlay').addEventListener('click', () => {
-    document.querySelector('.category').style.transform = 'translateX(-100%)';
-    document.querySelector('#category-overlay').style.display = 'none';
-});
 
-let resizeTimeout;
 
-window.addEventListener('resize', () => {
-    // Xóa timeout trước đó (nếu có)
-    clearTimeout(resizeTimeout);
 
-    // Đặt timeout mới để tránh reload liên tục khi kéo
-    resizeTimeout = setTimeout(() => {
-        const width = window.innerWidth;
-
-        // Kiểm tra điều kiện kích thước
-        if (width > 800) {
-            location.reload(); // Tự reload trang
-        }
-    }, 200); // Thời gian chờ để tránh reload quá nhanh
-});
 
