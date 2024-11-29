@@ -1020,7 +1020,7 @@ function showOrderDetails(orderId) {//show ra chi tiết hóa đơn
     const orderDetails = JSON.parse(localStorage.getItem('orderDetails')) || [];
     const addressOrders = JSON.parse(localStorage.getItem('addressOrders')) || [];
     const order = orders.find(item => item.madonhang === orderId);
-    const fnorder = addressOrders.find(item => item.madonhang === order.madh);
+    const fnorder = addressOrders.find(item => item.madh === order.madonhang);
     if (order) {
         const detailsForOrder = orderDetails.filter(detail => detail.madonhang === orderId);
         if (detailsForOrder.length > 0) {
