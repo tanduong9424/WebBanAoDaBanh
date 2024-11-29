@@ -304,13 +304,12 @@ function showAddProductForm() {
                     </div>
                     <div class="item2">
                         <select name="selectTeam" id="Team">
-                            <option selected value="">[Chọn câu lạc bộ]</option>
-                            <option value="Liverpool">Liverpool</option>
-                            <option value="Bayern">Bayern</option>
-                            <option value="Barcelona">Barcelona</option>
-                            <option value="PSG">PSG</option>
-                            <option value="Napoli">Napoli</option>
-                            <option value="Other">Other</option>
+                            <option selected value="">[Tất cả Câu lạc bộ]</option>
+                            <option value="MU">Manchester United</option>
+                            <option value="MC">Manchester City</option>
+                            <option value="BC">Barcelona</option>
+                            <option value="RM">Real Marid</option>
+                            <option value="AN">Al-Nassr</option>
                         </select>
                     </div>
                 </div>
@@ -324,13 +323,12 @@ function showAddProductForm() {
                     </div>
                     <div class="item2">
                         <select name="selectNational" id="National">
-                            <option selected value="">[Chọn quốc gia]</option>
-                            <option value="Anh">Anh</option>
-                            <option value="Đức">Đức</option>
-                            <option value="Tây Ban Nha">Tây Ban Nha</option>
-                            <option value="Pháp">Pháp</option>
-                            <option value="Ý">Ý</option>
-                            <option value="Other">Other</option>
+                            <option selected value="">[Tất cả Quốc gia]</option>
+                            <option value="EN">Anh</option>
+                            <option value="PR">Pháp</option>
+                            <option value="PO">Bồ Đào Nha</option>
+                            <option value="AG">Argentina</option>
+                            <option value="VN">Việt Nam</option>
                         </select>
                     </div>
                 </div>
@@ -861,7 +859,7 @@ saveData();
 
 function logout() {
     localStorage.setItem("isLoggedIn", "false");  // Reset login status
-    window.location.href = "http://127.0.0.1:5503/admin/"; // Chuyển sang giao diện đăng nhập
+    window.location.href = "http://127.0.0.1:5505/admin/"; // Chuyển sang giao diện đăng nhập
 }
 
 

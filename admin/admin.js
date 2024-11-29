@@ -1,6 +1,6 @@
 let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
 let employee = JSON.parse(localStorage.getItem("employee")) || [];
-let customer = JSON.parse(localStorage.getItem("customer")) || [];
+let customer = JSON.parse(localStorage.getItem("customers")) || [];
 let products = JSON.parse(localStorage.getItem("products")) || [];
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
 let orderDetails = JSON.parse(localStorage.getItem("orderDetails")) || [];
@@ -193,7 +193,7 @@ function login() {
     } else if (userAccount.role === "Nhân Viên" && userAccount.status === "Hoạt động") {
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("loggedInRole", "Nhân Viên");
-        window.location.href = "http://127.0.0.1:5503/employee/"; // Chuyển sang giao diện nhân viên
+        window.location.href = "http://127.0.0.1:5505/employee/"; // Chuyển sang giao diện nhân viên
     } else {
         alert("Đây là form đăng nhập dành cho Admin/Nhân Viên!");
     }
@@ -834,15 +834,26 @@ function generateStatistics() {
 
     const startDate = new Date(document.getElementById("startDate").value);
     const endDate = new Date(document.getElementById("endDate").value);
+    
+    // Kiểm tra ngày hợp lệ
     if (isNaN(startDate) || isNaN(endDate)) {
         alert("Vui lòng chọn khoảng thời gian hợp lệ.");
         return;
     }
-    // Filter orders within the specified time range and successfully delivered orders
-    const filteredOrders = orders.filter(orders => {
-        const orderDate = new Date(orders.thoigianmua);
-        return orderDate >= startDate && orderDate <= endDate && orders.tthd === 'đã giao';
+    
+    // Đặt giờ phút giây của ngày bắt đầu và kết thúc về 0 để so sánh chỉ phần ngày
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(23, 59, 59, 999); // Bao gồm cả ngày kết thúc
+    
+    // Lọc đơn hàng trong khoảng thời gian đã chọn và trạng thái 'đã giao'
+    const filteredOrders = orders.filter(order => {
+        const orderDate = new Date(order.thoigianmua);
+        orderDate.setHours(0, 0, 0, 0); // Đặt giờ của ngày đơn hàng về 0
+    
+        return orderDate >= startDate && orderDate <= endDate && order.tthd === 'đã giao';
     });
+    
+    // Kiểm tra nếu không có đơn hàng nào thỏa mãn
     if (filteredOrders.length === 0) {
         alert("Không có đơn hàng nào trong khoảng thời gian này.");
         return;
@@ -1006,7 +1017,7 @@ function createProductTableWithInvoices(title, products) {
     table.prepend(caption); // Thêm tiêu đề vào đầu bảng
     return table;
 }
-function viewInvoices(masp) {
+/* function viewInvoices(masp) {
     const invoices = orders.filter(order =>
         orderDetails.some(detail => detail.masp === masp && detail.madonhang === order.madonhang)
     );
@@ -1015,7 +1026,7 @@ function viewInvoices(masp) {
         alert("Không tìm thấy hóa đơn nào liên quan đến sản phẩm này.");
         return;
     }
-
+console.log(invoices);
     // Hiển thị danh sách hóa đơn
     const invoiceList = invoices.map(order => `
         <p>Hóa đơn: ${order.madonhang}</p>
@@ -1034,7 +1045,67 @@ function viewInvoices(masp) {
     const modal = document.getElementById("detailModal");
     document.getElementById("detailContent").innerHTML = modalContent;
     modal.style.display = "block";
-}
+} */
+    function viewInvoices(masp) {
+        // Lọc ra các hóa đơn liên quan đến sản phẩm `masp`
+        const invoices = orders.filter(order =>
+            orderDetails.some(detail => detail.masp === masp && detail.madonhang === order.madonhang)
+        );
+    
+        if (invoices.length === 0) {
+            alert("Không tìm thấy hóa đơn nào liên quan đến sản phẩm này.");
+            return;
+        }
+    
+        // Lấy danh sách khách hàng từ localStorage (nếu không có, mặc định là mảng rỗng)
+        const customers = JSON.parse(localStorage.getItem('customers')) || [];
+    
+        // Tạo danh sách hóa đơn với thông tin khách hàng
+        const invoiceList = invoices.map(order => {
+            // Xác định mã khách hàng (`makh`) từ `order.makh` hoặc dựa trên `matk`
+            let customerID;
+            let customerName = "Không xác định"; // Tên khách hàng mặc định
+    
+            if (typeof order.makh === 'object' && order.makh.matk) {
+                // Tìm khách hàng dựa trên `matk`
+                const customer = customers.find(c => c.matk === order.makh.matk);
+                if (customer) {
+                    customerID = customer.makh;
+                    customerName = customer.tenkh || "Không rõ tên";
+                } else {
+                    customerID = "Không xác định";
+                }
+            } else {
+                // Sử dụng trực tiếp `makh` nếu là giá trị đơn giản
+                customerID = order.makh || "Không xác định";
+                const customer = customers.find(c => c.makh === customerID);
+                if (customer) {
+                    customerName = customer.tenkh || "Không rõ tên";
+                }
+            }
+    
+            // Trả về thông tin hóa đơn
+            return `
+                <p>Hóa đơn: ${order.madonhang}</p>
+                <p>Khách hàng: ${customerName} (ID: ${customerID})</p>
+                <p>Thời gian mua: ${new Date(order.thoigianmua).toLocaleDateString("vi-VN")}</p>
+                <p>Tổng tiền: ${order.tongtien.toLocaleString("vi-VN")} đồng</p>
+                <hr>
+            `;
+        }).join("");
+    
+        // Hiển thị nội dung hóa đơn trong modal
+        const modalContent = `
+            <h3>Hóa đơn liên quan đến sản phẩm: ${masp}</h3>
+            ${invoiceList}
+        `;
+    
+        // Hiển thị modal
+        const modal = document.getElementById("detailModal");
+        document.getElementById("detailContent").innerHTML = modalContent;
+        modal.style.display = "block";
+    }
+    
 
 
 
@@ -1043,7 +1114,7 @@ function calculateCustomerStatistics(filteredOrders) {
     const customerRevenue = customer.map(customer => {
         // Lọc các hóa đơn của khách hàng trong thời gian đã chọn
         const totalRevenue = filteredOrders
-            .filter(orders => orders.makh === customer.makh)  // Lọc hóa đơn theo mã khách hàng
+            .filter(orders => orders.makh.matk === customer.matk)  // Lọc hóa đơn theo mã khách hàng
             .reduce((sum, orders) => sum + orders.tongtien, 0);  // Tính tổng tiền từ các hóa đơn
 
         return { ...customer, revenue: totalRevenue };  // Trả về thông tin khách hàng kèm theo tổng doanh thu
@@ -1120,7 +1191,7 @@ function validateDates() {
 
     // Check if start date is before end date
     if (startDateInput.value && endDateInput.value) {
-        if (startDate >= endDate) {
+        if (startDate > endDate) {
             alert("Ngày bắt đầu phải trước ngày kết thúc.");
             startDateInput.value = "";  // Clear invalid date
             return;
@@ -1128,7 +1199,7 @@ function validateDates() {
     }
 
     // Check if end date is before today
-    if (endDate >= today) {
+    if (endDate > today) {
         alert("Ngày kết thúc phải trước ngày thực hiện thống kê.");
         endDateInput.value = "";  // Clear invalid date
         return;

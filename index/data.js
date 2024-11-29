@@ -10,34 +10,11 @@ function createAdminAccount() {
             status: "Hoạt động",
             role: "admin",
             isHidden: false
-        },{
-            matk: "TK2",
-            username: "htd",
-            password: "123456789",
-            status: "Hoạt động",
-            role: "Khách Hàng",
-            isHidden: false
-        },{
-            matk: "TK3",
-            username: "nxd",
-            password: "123456789",
-            status: "Hoạt động",
-            role: "Nhân Viên",
-            isHidden: false
-        },{
-            matk: "TK4",
-            username: "hhd",
-            password: "123456789",
-            status: "Hoạt động",
-            role: "Nhân Viên",
-            isHidden: false
-        }
-        
+        }        
         )
         localStorage.setItem('accounts', JSON.stringify(accounts));
     }
 }
-
 
 function createProducts() {
     let products = localStorage.getItem("products");
@@ -270,41 +247,8 @@ function createProducts() {
     }
 }
 
-function createCustomers() {
-    let customers = JSON.parse(localStorage.getItem("customers")) || [];
-    if (customers.length === 0) {
-        customers = [
-            { makh: "KH1", matk: "TK4", tenkh: "Pham Van C", sdt: "0901234567", email: "c@gmail.com", diachi: "Ha Noi" }            
-        ];
-        localStorage.setItem("customers", JSON.stringify(customers));
-    }
-}
-
-function createOrderDetails() {
-    let orderDetails = JSON.parse(localStorage.getItem("orderDetails")) || [];
-    if (orderDetails.length === 0) {
-        orderDetails = [
-            { madonhang: 'DH1', masp: 'SP1', soluong: 2, dongia: 50000, thanhtien: 100000 },
-            { madonhang: 'DH1', masp: 'SP2', soluong: 1, dongia: 50000, thanhtien: 50000 }          
-        ];
-        localStorage.setItem("orderDetails", JSON.stringify(orderDetails));
-    }
-}
-
-function createOrders() {
-    let orders = JSON.parse(localStorage.getItem("orders")) || [];
-    if (orders.length === 0) {
-        orders = [
-            { madonhang: "DH1", makh: "KH1", thoigianmua: "2024-11-16T04:21:54.645Z", tongtien: 150000, tthd: "chưa xử lý"  }
-        ];
-        localStorage.setItem("orders", JSON.stringify(orders));
-    }
-}
 
 window.onload = function() {
     createAdminAccount();
-    createCustomers();
     createProducts();
-    createOrders();
-    createOrderDetails();
 };
