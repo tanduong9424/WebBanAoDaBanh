@@ -29,15 +29,12 @@
 }
 h2 {
   margin: 20px 20px 20px 30px;
-  border-bottom: 5px solid black;
   width: fit-content;
-}
-#form-message {
-  color: red;
+  text-align: center;
 }
 #login .form-group {
   display: flex;
-  margin: 10px 0px;
+  margin: 5px 0px;
   flex-direction: column;
 }
 
@@ -100,7 +97,6 @@ a {
   position: relative;
 }
 .signup-info {
-  display: flex;
   flex-wrap: wrap;
 }
 #signup label {

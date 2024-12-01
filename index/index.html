@@ -205,34 +205,49 @@
                         <div class="col">   
                             <div class="form-group">
                                 <label for="fullname">Tên đăng nhập:</label>
-                                <input type="text" id="fullname" required>
+                                <input type="text" id="fullname" >
                                 <span id="form-message"></span>
                             </div>
+                          <div class="flex">
                             <div class="form-group">
-                                <label for="address">Địa chỉ:</label>
-                                <input type="text" id="address" required>
+                                <label for="city">Thành phố:</label>
+                                <select id="city" >
+                                  <option value="">Chọn thành phố</option>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="district">Quận/Huyện:</label>
+                                <select id="district" >
+                                  <option value="">Chọn quận/huyện</option>
+                                </select>
+                              </div>
+                          </div>
+                              
+                            <div class="form-group">
+                                <label for="address">Địa chỉ chi tiết:</label>
+                                <input type="text" id="address" >
                                 <span id="form-message"></span>
                             </div>
                             <div class="form-group">
                                 <label for="phone">Số điện thoại:</label>
-                                <input type="tel" id="phone" required>
+                                <input type="tel" id="phone" >
                                 <span id="form-message"></span>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="mail">Email:</label>
-                                <input type="email" id="mail" required>
+                                <input type="email" id="mail" >
                                 <span id="form-message"></span>
                             </div>
                             <div class="form-group">
                                 <label for="password1">Mật khẩu:</label>
-                                <input type="password" id="password1" required>
+                                <input type="password" id="password1" >
                                 <span id="form-message"></span>
                             </div>
                             <div class="form-group">
                                 <label for="password2">Nhập lại mật khẩu:</label>
-                                <input type="password" id="password2" required>
+                                <input type="password" id="password2" >
                                 <span id="form-message"></span>
                             </div>
                         </div>
@@ -321,12 +336,10 @@
                                         <input type="radio" name="address-option" id="enterNewAddress" value="new">
                                         <label>Nhập địa chỉ giao hàng mới</label>
                                     </div>
-                                    <!-- Địa chỉ từ tài khoản -->
                                     <div id="account-address" class="form-group">
                                         <input id="diachiFromAccount" name="diachiFromAccount" type="text" class="form-control"
                                             placeholder="Địa chỉ từ tài khoản" readonly>
                                     </div>
-                                    <!-- Địa chỉ mới -->
                                     <div id="new-address" class="form-group" style="display: none;">
                                         <input id="tennguoinhan" name="tennguoinhan" type="text" placeholder="Tên người nhận"
                                             class="form-control">

@@ -1588,7 +1588,12 @@ button.thanh-toan.disabled { /* cái nút thanh toán bị disabled*/
 .form-group {
     margin-bottom: 15px;
 }
-
+.flex{
+    width: 400px;
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 20px;
+}
 .form-group label {
     display: block;
     margin-bottom: 5px;
