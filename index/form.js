@@ -9,15 +9,15 @@ let diachiJson = {
         { "id": 1, "name": "Quận 1" },
         { "id": 2, "name": "Quận 2" },
         { "id": 3, "name": "Quận 3" },
-        { "id": 3, "name": "Quận 4" },
-        { "id": 3, "name": "Quận 5" },
-        { "id": 3, "name": "Quận 6" },
-        { "id": 3, "name": "Quận 7" },
-        { "id": 3, "name": "Quận 8" },
-        { "id": 3, "name": "Quận 9" },
-        { "id": 3, "name": "Quận 10" },
-        { "id": 3, "name": "Quận 11" },
-        { "id": 3, "name": "Quận Tân Bình" }
+        { "id": 4, "name": "Quận 4" },
+        { "id": 5, "name": "Quận 5" },
+        { "id": 6, "name": "Quận 6" },
+        { "id": 7, "name": "Quận 7" },
+        { "id": 8, "name": "Quận 8" },
+        { "id": 9, "name": "Quận 9" },
+        { "id": 10, "name": "Quận 10" },
+        { "id": 11, "name": "Quận 11" },
+        { "id": 12, "name": "Quận Tân Bình" }
       ]
     },
     {
