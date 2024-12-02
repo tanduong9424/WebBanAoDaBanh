@@ -405,7 +405,7 @@ function showProductDetails(masp) {
                         <p><strong>Stock:</strong> ${product.stock}</p>
                         <p><strong>Câu lạc bộ:</strong> ${product.team}</p>
                         <p><strong>Quốc gia:</strong> ${product.national}</p>
-                        <p><strong>Date Added:</strong> ${formattedDate}</p>
+                        <p><strong>Ngày thêm:</strong> ${formattedDate}</p>
                     </div>
                 </div>
 
@@ -502,12 +502,11 @@ function showEditProductForm(masp) {
                             <div class="item2">
                                 <select name="selectTeam" id="Team">
                                     <option value="">[Chọn câu lạc bộ]</option>
-                                    <option value="Liverpool" ${product.team === "Liverpool" ? "selected" : ""}>Liverpool</option>
-                                    <option value="Bayern" ${product.team === "Bayern" ? "selected" : ""}>Bayern</option>
-                                    <option value="Barcelona" ${product.team === "Barcelona" ? "selected" : ""}>Barcelona</option>
-                                    <option value="PSG" ${product.team === "PSG" ? "selected" : ""}>PSG</option>
-                                    <option value="Napoli" ${product.team === "Napoli" ? "selected" : ""}>Napoli</option>
-                                    <option value="Other" ${product.team === "Other" ? "selected" : ""}>Other</option>
+                                    <option value="Liverpool" ${product.team === "MU" ? "selected" : ""}>Manchester United</option>
+                                    <option value="Bayern" ${product.team === "MC" ? "selected" : ""}>Manchester City</option>
+                                    <option value="Barcelona" ${product.team === "BC" ? "selected" : ""}>Barcelona</option>
+                                    <option value="PSG" ${product.team === "RM" ? "selected" : ""}>Real Marid</option>
+                                    <option value="Napoli" ${product.team === "AN" ? "selected" : ""}>Al-Nassr</option>
                                 </select>
                             </div>
                         </div>
@@ -522,12 +521,11 @@ function showEditProductForm(masp) {
                             <div class="item2">
                                 <select name="selectNational" id="National">
                                     <option value="">[Chọn quốc gia]</option>
-                                    <option value="Anh" ${product.national === "Anh" ? "selected" : ""}>Anh</option>
-                                    <option value="Đức" ${product.national === "Đức" ? "selected" : ""}>Đức</option>
-                                    <option value="Tây Ban Nha" ${product.national === "Tây Ban Nha" ? "selected" : ""}>Tây Ban Nha</option>
-                                    <option value="Pháp" ${product.national === "Pháp" ? "selected" : ""}>Pháp</option>
-                                    <option value="Ý" ${product.national === "Ý" ? "selected" : ""}>Ý</option>
-                                    <option value="Other" ${product.national === "Other" ? "selected" : ""}>Other</option>
+                                    <option value="Anh" ${product.national === "EN" ? "selected" : ""}>Anh</option>
+                                    <option value="Đức" ${product.national === "PR" ? "selected" : ""}>Pháp</option>
+                                    <option value="Tây Ban Nha" ${product.national === "PO" ? "selected" : ""}>Bồ Đào Nha</option>
+                                    <option value="Pháp" ${product.national === "AG" ? "selected" : ""}>Argentina</option>
+                                    <option value="Ý" ${product.national === "VN" ? "selected" : ""}>Việt Nam</option>
                                 </select>
                             </div>
                         </div>
@@ -671,12 +669,7 @@ function renderOrders(filteredOrders) {
                 <td>${order.tongtien.toLocaleString()} VND</td>
                 
                 <td>
-                    <select name="selectStatus" id="Status-${order.madonhang}" class="status-select" onchange="updateOrderStatus('${order.madonhang}')" style="font-weight: bold;">
-                        <option value="chưa xử lý">chưa xử lý</option>
-                        <option value="xác nhận">xác nhận</option>
-                        <option value="đã giao">đã giao</option>
-                        <option value="đã hủy">đã hủy</option>
-                    </select>
+                    <span id="Status-${order.madonhang}">${order.tthd}</span>
                 </td>
                 <td><button onclick="viewOrderDetails('${order.madonhang}')">Xem chi tiết</button></td>
             </tr>
@@ -684,20 +677,12 @@ function renderOrders(filteredOrders) {
         //orderList.innerHTML += row;
         orderList.insertAdjacentHTML("beforeend", row);
         
-        document.getElementById(`Status-${order.madonhang}`).value = order.tthd;
-        if (order.tthd === "đã giao" || order.tthd === "đã hủy"){
-            document.getElementById(`Status-${order.madonhang}`).disabled=true;
-        }
-
-        document.querySelectorAll('.status-select').forEach(select => {
-            updateBackgroundColor(select);
-        });
     });
 }
 
 function updateOrderStatus(madonhang) {
     // Lấy đối tượng select của đơn hàng
-    const selectElement = document.getElementById(`Status-${madonhang}`);
+    const selectElement = document.getElementById("orderStatus");
     
     // Lấy giá trị mới của trạng thái
     const newStatus = selectElement.value;
@@ -708,20 +693,43 @@ function updateOrderStatus(madonhang) {
     // Ràng buộc thay đổi trạng thái
     if (orders[orderIndex].tthd === "chưa xử lý" && !(newStatus === "đã hủy" || newStatus === "xác nhận")) {
         alert("Trạng thái 'chưa xử lý' chỉ có thể chuyển sang 'đã hủy' hoặc 'xác nhận'!");
-        document.getElementById(`Status-${madonhang}`).value=orders[orderIndex].tthd; //chuyển lại trạng thái cũ
+        console.log(orders[orderIndex].tthd);
+        console.log(newStatus);
+
+        document.getElementById("orderStatus").value=orders[orderIndex].tthd; //chuyển lại trạng thái cũ
         return;
     }   
 
     if (orders[orderIndex].tthd === "đã hủy" || orders[orderIndex].tthd === "đã giao") {
         alert(`Trạng thái '${orders[orderIndex].tthd}' không thể thay đổi!`);
-        document.getElementById(`Status-${madonhang}`).value=orders[orderIndex].tthd;
+        document.getElementById("orderStatus").value=orders[orderIndex].tthd;
         return;
     }
 
     if (orders[orderIndex].tthd === "xác nhận" && !(newStatus === "đã giao" || newStatus === "đã hủy")) {
         alert("Trạng thái 'xác nhận' chỉ có thể chuyển sang 'đã giao' hoặc 'đã hủy'!");
-        document.getElementById(`Status-${madonhang}`).value=orders[orderIndex].tthd;
+        document.getElementById("orderStatus").value=orders[orderIndex].tthd;
         return;
+    }
+
+    // Thông báo khi chọn "đã hủy"
+    if (newStatus === "đã hủy") {
+        const confirmCancel = confirm("Chọn 'đã hủy' sẽ không thể thay đổi trạng thái. Bạn có chắc chắn?");
+        if (!confirmCancel) {
+            //selectElement.value = currentStatus; // Quay lại trạng thái cũ
+            document.getElementById("orderStatus").value=orders[orderIndex].tthd;
+            return;
+        }
+    }
+
+    // Thông báo khi chọn "đã giao"
+    if (newStatus === "đã giao") {
+        const confirmDelivered = confirm("Chọn 'đã giao' sẽ không thể thay đổi trạng thái. Bạn có chắc chắn?");
+        if (!confirmDelivered) {
+            //selectElement.value = currentStatus; // Quay lại trạng thái cũ
+            document.getElementById("orderStatus").value=orders[orderIndex].tthd;
+            return;
+        }
     }
 
     if (orderIndex !== -1) {
@@ -734,8 +742,7 @@ function updateOrderStatus(madonhang) {
         console.log(`Không tìm thấy đơn hàng với mã ${madonhang}`);
     }
     
-    // (Tùy chọn) Cập nhật lại màu nền của select
-    updateBackgroundColor(selectElement);
+
     saveData();
     filterAndSortOrders();
 }
@@ -768,7 +775,16 @@ function viewOrderDetails(madonhang) {
 
     // Định dạng lại ngày mua
     const thoigianmua = new Date(order.thoigianmua);
-    const formattedDate = thoigianmua.toLocaleDateString('vi-VN');
+    const formattedDate = thoigianmua.toLocaleString('vi-VN', {
+        weekday: 'long',  // Hiển thị thứ (ví dụ: Thứ Hai)
+        year: 'numeric',  // Hiển thị năm (ví dụ: 2024)
+        month: 'long',    // Hiển thị tháng dưới dạng tên đầy đủ (ví dụ: Tháng Mười Hai)
+        day: 'numeric',   // Hiển thị ngày (ví dụ: 2)
+        hour: '2-digit',  // Hiển thị giờ (ví dụ: 08)
+        minute: '2-digit',// Hiển thị phút (ví dụ: 30)
+        //second: '2-digit',// Hiển thị giây (ví dụ: 45)
+        hour12: false      // Hiển thị định dạng 24 giờ (nếu muốn AM/PM thì để true)
+    });
 
     // Tạo nội dung HTML cho sản phẩm
     const productRows = orderProducts.map(orderProduct => {
@@ -791,6 +807,15 @@ function viewOrderDetails(madonhang) {
     const detailOrder = document.getElementById("detailOrder");
     detailOrder.innerHTML = `
         <h3>Mã đơn hàng: ${order.madonhang}</h3>
+        <div>
+            <label style="font-weight: bold;">Trạng thái:</label>
+            <select id="orderStatus" onchange="updateOrderStatus('${order.madonhang}')" style="font-weight: bold;">
+                <option value="chưa xử lý" ${order.tthd === "chưa xử lý" ? "selected" : ""}>chưa xử lý</option>
+                <option value="xác nhận" ${order.tthd === "xác nhận" ? "selected" : ""}>xác nhận</option>
+                <option value="đã giao" ${order.tthd === "đã giao" ? "selected" : ""}>đã giao</option>
+                <option value="đã hủy" ${order.tthd === "đã hủy" ? "selected" : ""}>đã hủy</option>
+            </select>
+        </div>
         <div>
             <div><strong>Khách hàng:</strong></div>
             <div>Tên: ${customerInfo.tenkh}</div>
@@ -821,17 +846,7 @@ function viewOrderDetails(madonhang) {
 }
 
 
-function updateBackgroundColor(selectElement) {
-    const colorMap = {
-        "chưa xử lý": "lightgray",
-        "xác nhận": "lightgreen",
-        "đã giao": "lightblue",
-        "đã hủy": "lightcoral"
-    };
 
-    // Cập nhật màu nền theo giá trị hiện tại
-    selectElement.style.backgroundColor = colorMap[selectElement.value] || "white";
-}
 
 
 // Lưu dữ liệu vào localStorage
