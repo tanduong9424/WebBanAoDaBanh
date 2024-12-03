@@ -29,7 +29,7 @@
                             <div style="float: left;"><label for="">Lọc theo: </label></div>
                             <div style="float: left;">
                                 <select id="nationalFilter" onchange="applyFilters()" style="display: none;">
-                                    <option selected value="">[Tất cả Quốc gia]</option>
+                                    <option selected value="">Tất cả Quốc gia</option>
                                     <option value="EN">Anh</option>
                                     <option value="PR">Pháp</option>
                                     <option value="PO">Bồ Đào Nha</option>
@@ -38,7 +38,7 @@
                                 </select>
                                 
                                 <select id="teamFilter" onchange="applyFilters()" style="display: none;">
-                                        <option selected value="">[Tất cả Câu lạc bộ]</option>
+                                        <option selected value="">Tất cả Câu lạc bộ</option>
                                         <option value="MU">Manchester United</option>
                                         <option value="MC">Manchester City</option>
                                         <option value="BC">Barcelona</option>
@@ -58,7 +58,7 @@
                     <div>
                         <label for="">Kích cỡ:</label>
                         <select id="sizeFilter" onchange="applyFilters()">
-                            <option value="">[Tất cả kích cỡ]</option>
+                            <option value="">Tất cả kích cỡ</option>
                             <option value="S">S</option>
                             <option value="M">M</option>
                             <option value="L">L</option>
@@ -77,13 +77,35 @@
 
                 </div>
                 <div style="margin: 3px;"><button onclick="resetProductFilter()">reset</button></div>
-                <div id="products_container">
+<!--                 <div id="products_container">
                     
+                </div> -->
+                <div id="products_container2">
+                    <div style="overflow-y: scroll;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td style="width: 25%">Sản phẩm</td>
+                                    <td style="width: 15%">Đơn giá</td>
+                                    <td style="width: 5%">Số lượng</td>
+                                    <td>Hành động</td>
+                                    <!-- <td>Mã khuyến mãi</td> -->
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div style="overflow-y: scroll; height: 95%;">
+                        <table id="product-table">
+                            <tbody id="products-list">
+                                <!-- Dữ liệu sẽ được điền vào đây -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             
             <!-- Quản lý Đơn Hàng -->
-            <div id="orders_panel" style="display: block;">
+            <div id="orders_panel" style="display: block; height: 93%;">
                 <div class="top_label">Quản lý Đơn Hàng</div>
                 <div style="margin-left: 5px;">
                     <div>

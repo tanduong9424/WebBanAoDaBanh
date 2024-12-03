@@ -106,6 +106,14 @@ html, body {
         height: 85%;
     }
   }
+
+#products_container2{
+    height: 85%;
+
+    /* border: 5px solid red; */
+
+}
+
 .product{
     align-items: center;
     border: 1px solid #ccc;
@@ -126,6 +134,7 @@ html, body {
     overflow: scroll;
     height: 100%; */
     margin-top: 5px;
+    /*height: 105%;*/
 }
 table {
     width: 100%;
