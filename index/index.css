@@ -1327,9 +1327,6 @@ button.thanh-toan.disabled { /* cái nút thanh toán bị disabled*/
     margin-right: 20px;
 }
 
-#tudenlay-group {
-    display: none;
-}
 
 .content-group.chk-ship {
     display: flex;
@@ -1610,7 +1607,7 @@ button.thanh-toan.disabled { /* cái nút thanh toán bị disabled*/
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .cong-thanh-toan h3 {
@@ -1776,19 +1773,6 @@ button.thanh-toan.disabled { /* cái nút thanh toán bị disabled*/
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-/*đây hả*/
 .category-responsive {
     display: none;
     margin-right: 40px;
@@ -1813,3 +1797,62 @@ button.thanh-toan.disabled { /* cái nút thanh toán bị disabled*/
     display: none;
     background-color: white;
 }
+
+
+
+/*----------------------------------------3/12/2024*/
+
+  
+  .form-adress-container {
+    background-color: #ffffff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    
+  }
+  
+  .form-adress-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333333;
+  }
+  
+
+  .form-address, .form-address1, .form-address2 label {
+    display: block;
+    margin-top: 20px;
+    font-weight: bold;
+    color: #555555;
+  }
+  
+.form-address2 input, select {
+    width: 100%;
+    padding: 10px;
+    
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  .form-address  input, select {
+    width: 100%;
+    padding: 10px;
+   
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+.form-address1  input, select {
+    width: 100%;
+    padding: 10px;
+    
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+
+  
+
+  

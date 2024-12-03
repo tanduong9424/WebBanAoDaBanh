@@ -327,6 +327,7 @@
                         <div class="checkout-col-title">Thông tin người nhận</div>
                         <div class="checkout-col-content">
                             <div class="content-group">
+
                                 <form action="" class="info-nhan-hang"><!-- Lựa chọn địa chỉ -->
                                     <div class="form-group">
                                         <input type="radio" name="address-option" id="useAccountAddress" value="account" checked>
@@ -336,21 +337,46 @@
                                         <input type="radio" name="address-option" id="enterNewAddress" value="new">
                                         <label>Nhập địa chỉ giao hàng mới</label>
                                     </div>
-                                    <div id="account-address" class="form-group">
-                                        <input id="diachiFromAccount" name="diachiFromAccount" type="text" class="form-control"
-                                            placeholder="Địa chỉ từ tài khoản" readonly>
-                                    </div>
-                                    <div id="new-address" class="form-group" style="display: none;">
-                                        <input id="tennguoinhan" name="tennguoinhan" type="text" placeholder="Tên người nhận"
-                                            class="form-control">
-                                        <span class="form-message"></span>
-                                        <input id="sdtnhan" name="sdtnhan" type="text" placeholder="Số điện thoại nhận hàng"
-                                            class="form-control">
-                                        <span class="form-message"></span>
-                                        <input id="diachinhan" name="diachinhan" type="text" placeholder="Địa chỉ nhận hàng mới"
-                                            class="form-control">
-                                        <span class="form-message"></span>
-                                    </div>
+                                    <!--------------------------------------------------------------------->
+                                    <div class="form-address-container">
+                                        <form>
+                                          <div class="form-address">
+                                            <label>Tên người nhận:</label>
+                                            <input type="text" id="tennguoinhan" placeholder="Nhập tên người nhận" required disabled />
+                                          </div>
+                                          <div class="form-address">
+                                            <label>Địa chỉ nhà:</label>
+                                            <input type="text" id="diachinha" placeholder="Nhập địa chỉ nhà" required disabled />
+                                          </div>
+                                          <div class="form-address">
+                                            <label>Số điện thoại:</label>
+                                            <input type="tel" id="sodienthoai" placeholder="Nhập số điện thoại" required  disabled />
+                                          </div>
+                                          <div class="form-address1">
+                                            <label>Thành phố:</label>
+                                            <input type="text" id="text-address-city" placeholder="Thành Phố" required disabled />
+                                          </div>
+                                          <div class="form-address1">
+                                            <label>Quận:</label>
+                                            <input type="text" id="text-address-distric" placeholder="Quận" required disabled />
+                                          </div>
+                                          <div class="form-address2 hidden">
+                                            <label for="cities">Thành phố:</label>
+                                            <select id="cities">
+                                              <option value="Hồ Chí Minh">Hồ Chí Minh</option>
+                                              <option value="Hà Nội">Hà Nội</option>
+                                            </select>
+                                          </div>
+                                          <div class="form-address2 hidden">
+                                            <label for="districts">Quận:</label>
+                                            <select id="districts" name="districts">
+                                              <option value="Quận 1">Quận 1</option>
+                                              <option value="Quận 2">Quận 2</option>
+                                            </select>
+                                          </div>
+                                        </form>
+                                      </div>
+                                     
                                 </form>
                             </div>
                         </div>

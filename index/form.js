@@ -239,9 +239,6 @@ const logic = {
       return;
     }
     
-  
-    // Ghép thành chuỗi
-    const fullAddress = `${addressInput.value},${selectedDistrict}, ${selectedCity}`;
     // Tạo tài khoản mới (giữ nguyên)
     const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
     const customers = JSON.parse(localStorage.getItem("customers")) || [];
@@ -255,7 +252,11 @@ const logic = {
       tenkh: usernameInput.value,
       sdt: phoneInput.value,
       email: emailInput.value,
-      diachi: fullAddress,
+      diachi: {
+        chitiet:addressInput.value,
+        quan: selectedDistrict,
+        tinh: selectedCity,
+      },
     };
 
     const newAccount = {

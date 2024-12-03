@@ -16,37 +16,8 @@ LoadCount = () => {
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    const accountAddressOption = document.getElementById("useAccountAddress");
-    const newAddressOption = document.getElementById("enterNewAddress");
-    const accountAddressField = document.getElementById("account-address");
-    const newAddressFields = document.getElementById("new-address");
-
-    // Hiển thị hoặc ẩn các trường nhập liệu dựa trên lựa chọn
-    accountAddressOption.addEventListener("change", function () {
-        if (accountAddressOption.checked) {
-            accountAddressField.style.display = "block";
-            newAddressFields.style.display = "none";
-        }
-    });
-
-    newAddressOption.addEventListener("change", function () {
-        if (newAddressOption.checked) {
-            accountAddressField.style.display = "none";
-            newAddressFields.style.display = "block";
-        }
-    });
-
-    // Lấy dữ liệu từ localStorage
-    const user = JSON.parse(localStorage.getItem("currentuser")) || {};
-    const customers = JSON.parse(localStorage.getItem("customers")) || [];
-    // Tìm khách hàng khớp với `currentuser.matk`
-    const userCus = customers.find(item => item.matk === user.matk); // Dùng `find` để lấy đối tượng đầu tiên
-
-    // Kiểm tra và gán địa chỉ
-    const addressFromAccount = userCus ? userCus.diachi : "Tài khoản chưa cung cấp địa chỉ";
-    document.getElementById("diachiFromAccount").value = addressFromAccount;
-
-    document.querySelector('.category-responsive-btn').addEventListener('click', () => {
+    kiemtradiachi();;
+     document.querySelector('.category-responsive-btn').addEventListener('click', () => {
         document.querySelector('.category').style.transform = 'translateX(0)';
         document.querySelector('#category-overlay').style.display = 'block';
     });
@@ -58,23 +29,99 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let resizeTimeout;
 
-    window.addEventListener('resize', () => {
-        // Xóa timeout trước đó (nếu có)
-        clearTimeout(resizeTimeout);
-
-        // Đặt timeout mới để tránh reload liên tục khi kéo
+    window.addEventListener('resize', () => {// Xóa timeout trước đó (nếu có)
+        clearTimeout(resizeTimeout);// Đặt timeout mới để tránh reload liên tục khi kéo
         resizeTimeout = setTimeout(() => {
-            const width = window.innerWidth;
-            // Kiểm tra điều kiện kích thước
+            const width = window.innerWidth;// Kiểm tra điều kiện kích thước
             if (width > 800) {
                 location.reload(); // Tự reload trang
             }
         }, 200); // Thời gian chờ để tránh reload quá nhanh
     });
-
 });
 
 LoadCount();
+
+function kiemtradiachi() {
+    const accountAddressOption = document.getElementById("useAccountAddress");
+    const newAddressOption = document.getElementById("enterNewAddress");
+    const formAddress1Elements = document.querySelectorAll(".form-address1");
+    const formAddress2Elements = document.querySelectorAll(".form-address2");
+
+    // Lấy dữ liệu từ localStorage
+    const user = JSON.parse(localStorage.getItem("currentuser")) || {};
+    const customers = JSON.parse(localStorage.getItem("customers")) || [];
+    const userCus = customers.find(item => item.matk === user.matk);
+
+    accountAddressOption.addEventListener("change", function () {
+        if (accountAddressOption.checked) {
+            // Hiển thị form-address1
+            formAddress1Elements.forEach(element => {
+                element.classList.remove("hidden");
+                element.style.display = "block";
+            });
+            // Ẩn form-address2
+            formAddress2Elements.forEach(element => {
+                element.classList.add("hidden");
+                element.style.display = "none";
+            });
+            // Kiểm tra và gán địa chỉ
+            const tenkh = userCus ? userCus.tenkh : "Tài khoản chưa cung cấp đủ thông tin"
+            const sdt = userCus ? userCus.sdt : "Tài khoản chưa cung cấp đủ thông tin"
+            const dchi = userCus && userCus.diachi ? userCus.diachi.dchi : "Tài khoản chưa cung cấp địa chỉ";
+            const quan = userCus && userCus.diachi ? userCus.diachi.quan : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
+            const tinh = userCus && userCus.diachi ? userCus.diachi.tinh : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
+
+            document.getElementById("tennguoinhan").value =tenkh;
+            document.getElementById("tennguoinhan").disabled = true;
+            document.getElementById("sodienthoai").value =sdt;
+            document.getElementById("sodienthoai").disabled = true;
+            document.getElementById("diachinha").value =dchi;
+            document.getElementById("diachinha").disabled = true;
+            document.getElementById("text-address-city").value =tinh;
+            document.getElementById("text-address-city").disabled = true;
+            document.getElementById("text-address-distric").value =quan;
+            document.getElementById("text-address-distric").disabled = true;
+        }
+    });
+
+    // Xử lý sự kiện khi chọn "Nhập địa chỉ giao hàng mới"
+    newAddressOption.addEventListener("change", function () {
+        if (newAddressOption.checked) {    
+            // Ẩn form-address1
+            formAddress1Elements.forEach(element => {
+                element.classList.add("hidden");
+                element.style.display = "none";
+            });
+            // Hiển thị form-address2
+            formAddress2Elements.forEach(element => {
+                element.classList.remove("hidden");
+                element.style.display = "block";
+            });
+
+            document.getElementById("tennguoinhan").value ="";
+            document.getElementById("tennguoinhan").disabled = false;
+            document.getElementById("sodienthoai").value ="";
+            document.getElementById("sodienthoai").disabled = false;
+            document.getElementById("diachinha").value ="";
+            document.getElementById("diachinha").disabled = false;
+        }
+    });
+    //trường hợp mặc định tick cái load từ thông tin khách hàng ra
+    const tenkh = userCus ? userCus.tenkh : "Tài khoản chưa cung cấp đủ thông tin"
+    const sdt = userCus ? userCus.sdt : "Tài khoản chưa cung cấp đủ thông tin"
+    const dchi = userCus && userCus.diachi ? userCus.diachi.dchi : "Tài khoản chưa cung cấp địa chỉ";
+    const quan = userCus && userCus.diachi ? userCus.diachi.quan : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
+    const tinh = userCus && userCus.diachi ? userCus.diachi.tinh : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
+    document.getElementById("tennguoinhan").value =tenkh;
+    document.getElementById("sodienthoai").value =sdt;
+    document.getElementById("diachinha").value =dchi;
+    document.getElementById("text-address-city").value =tinh;
+    document.getElementById("text-address-distric").value =quan;
+
+}
+    
+ 
 
 function hienthichinhsach() { /*chính sách*/
     const productList = document.querySelector(".main-wrapper .container");
@@ -1021,6 +1068,7 @@ function showOrderDetails(orderId) {//show ra chi tiết hóa đơn
     const addressOrders = JSON.parse(localStorage.getItem('addressOrders')) || [];
     const order = orders.find(item => item.madonhang === orderId);
     const fnorder = addressOrders.find(item => item.madh === order.madonhang);
+    const diachidonhang = `${fnorder.diachi}, ${fnorder.quan}, ${fnorder.tinh}`;
     if (order) {
         const detailsForOrder = orderDetails.filter(detail => detail.madonhang === orderId);
         if (detailsForOrder.length > 0) {
@@ -1049,7 +1097,7 @@ function showOrderDetails(orderId) {//show ra chi tiết hóa đơn
                             <p><strong>Tình trạng hóa đơn:</strong> ${order.tthd}</p>
                             <p><strong>Họ và tên người nhận hàng:</strong> ${fnorder.nguoinhan}</p>
                             <p><strong>Số điện thoại người nhận:</strong> ${fnorder.sdtngnhan}</p>
-                            <p><strong>Địa chỉ giao hàng:</strong> ${fnorder.diachigiaohang}</p>
+                            <p><strong>Địa chỉ giao hàng:</strong> ${diachidonhang}</p>
                     </div>
                     <div id="chitiet-duoi">
                         <table id="orderDe" border="1" cellspacing="0" cellpadding="5" style="width: 100%; text-align: left;">
@@ -1176,8 +1224,6 @@ function createNewOrder(cartKey, customerID) {//tạo hóa đơn mới
 
 }
 
-
-
 function checkCartAndToggleButton(cartKey, buttonID) {/*Kiểm tra trong giỏ có sản phẩm ko r mới cho thanh toán */
     const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
     if (cart.length <= 0) {
@@ -1209,13 +1255,20 @@ function useAccountAddress(newOrderID) {// Hàm xử lý khi chọn địa chỉ
     const currentusers = JSON.parse(localStorage.getItem("currentuser")) || {};
     const customers = JSON.parse(localStorage.getItem("customers")) || [];
     const userCus = customers.find(item => item.matk === currentusers.matk);
-    const address = userCus ? userCus.diachi : "Khách hàng chưa cung cấp địa chỉ";
+
     const sdt = userCus ? userCus.sdt : "Khách hàng chưa cung cấp số điện thoại";
     const ten = userCus ? userCus.tenkh : "Khách hàng chưa cung cấp họ và tên";
+
+    const dchi = userCus ? userCus.diachi.dchi : "Khách hàng chưa cung cấp địa chỉ";
+    const quan = userCus ? userCus.diachi.quan : "Khách hàng chưa cung cấp địa chỉ";
+    const tinh = userCus ? userCus.diachi.tinh : "Khách hàng chưa cung cấp địa chỉ";
+
     const newAddressOrder = {
         nguoinhan: ten,
         sdtngnhan: sdt,
-        diachigiaohang: address,
+        diachi: dchi,
+        quan: quan,
+        tinh: tinh,
         madh: newOrderID
     };
     let addressOrders = JSON.parse(localStorage.getItem("addressOrders")) || [];
@@ -1225,13 +1278,17 @@ function useAccountAddress(newOrderID) {// Hàm xử lý khi chọn địa chỉ
 
 function enterNewAddress(newOrderID) {// Hàm xử lý khi nhập địa chỉ mới cho hóa đơn
     const nguoinhan = document.getElementById("tennguoinhan").value.trim();
-    const sdtngnhan = document.getElementById("sdtnhan").value.trim();
-    const diachigiaohang = document.getElementById("diachinhan").value.trim();
+    const sdtngnhan = document.getElementById("sodienthoai").value.trim();
 
+    const dchi = document.getElementById("diachinha").value.trim();
+    const quan = document.getElementById("districts").value;
+    const tinh = document.getElementById("cities").value;
     const newAddressOrder = {
         nguoinhan: nguoinhan,
         sdtngnhan: sdtngnhan,
-        diachigiaohang: diachigiaohang,
+        diachi: dchi,
+        quan: quan,
+        tinh: tinh,
         madh: newOrderID
     };
     let addressOrders = JSON.parse(localStorage.getItem("addressOrders")) || [];
