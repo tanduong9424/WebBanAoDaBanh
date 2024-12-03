@@ -104,10 +104,10 @@ function applyFilters() {
 
 // Hiển thị các sản phẩm
 function renderProducts(filteredProducts) {
-    const container = document.getElementById("products_container");
-    container.innerHTML = ''; //xóa nội dung cũ
+    const productsList = document.getElementById("products-list");
+    productsList.innerHTML = ''; //xóa nội dung cũ
 
-    filteredProducts.forEach((product) => {
+/*     filteredProducts.forEach((product) => {
         if (product.status){
             const productEl = document.createElement("div");
             productEl.className = "product";
@@ -124,7 +124,25 @@ function renderProducts(filteredProducts) {
             container.appendChild(productEl);
         }
         console.log(product);
+    }); */
+
+    filteredProducts.forEach(product => {
+        const row = `
+            <tr>
+                <td style="width: 25%">${product.tensp}</td>
+                <td style="width: 15%">${product.price.toLocaleString()} VND</td>
+                <td style="width: 5%">${product.stock}</td>
+                <td>
+                    <button onclick="showEditProductForm('${product.masp}')">Sửa</button>
+                    <button onclick="deleteProduct('${product.masp}')">Xóa</button>
+                    <button onclick="showProductDetails('${product.masp}')">Chi tiết</button>
+                </td>
+            </tr>
+        `;
+        //productList.innerHTML += row;
+        productsList.insertAdjacentHTML("beforeend", row);
     });
+
 }
 
 // Thêm sản phẩm mới
@@ -403,8 +421,8 @@ function showProductDetails(masp) {
                         <p><strong>Mô tả:</strong> ${product.description.replace(/\n/g, '<br>')}</p>
                         <p><strong>Size:</strong> ${product.size}</p>
                         <p><strong>Stock:</strong> ${product.stock}</p>
-                        <p><strong>Câu lạc bộ:</strong> ${product.team}</p>
-                        <p><strong>Quốc gia:</strong> ${product.national}</p>
+                        <!--<p><strong>Câu lạc bộ:</strong> ${product.team}</p>-->
+                        <!-- <p><strong>Quốc gia:</strong> ${product.national}</p> -->
                         <p><strong>Ngày thêm:</strong> ${formattedDate}</p>
                     </div>
                 </div>
@@ -501,12 +519,12 @@ function showEditProductForm(masp) {
                             </div>
                             <div class="item2">
                                 <select name="selectTeam" id="Team">
-                                    <option value="">[Chọn câu lạc bộ]</option>
-                                    <option value="Liverpool" ${product.team === "MU" ? "selected" : ""}>Manchester United</option>
-                                    <option value="Bayern" ${product.team === "MC" ? "selected" : ""}>Manchester City</option>
-                                    <option value="Barcelona" ${product.team === "BC" ? "selected" : ""}>Barcelona</option>
-                                    <option value="PSG" ${product.team === "RM" ? "selected" : ""}>Real Marid</option>
-                                    <option value="Napoli" ${product.team === "AN" ? "selected" : ""}>Al-Nassr</option>
+                                    <option value="">Chọn câu lạc bộ</option>
+                                    <option value="MU" ${product.team === "MU" ? "selected" : ""}>Manchester United</option>
+                                    <option value="MC" ${product.team === "MC" ? "selected" : ""}>Manchester City</option>
+                                    <option value="BC" ${product.team === "BC" ? "selected" : ""}>Barcelona</option>
+                                    <option value="RM" ${product.team === "RM" ? "selected" : ""}>Real Marid</option>
+                                    <option value="AN" ${product.team === "AN" ? "selected" : ""}>Al-Nassr</option>
                                 </select>
                             </div>
                         </div>
@@ -520,12 +538,12 @@ function showEditProductForm(masp) {
                             </div>
                             <div class="item2">
                                 <select name="selectNational" id="National">
-                                    <option value="">[Chọn quốc gia]</option>
-                                    <option value="Anh" ${product.national === "EN" ? "selected" : ""}>Anh</option>
-                                    <option value="Đức" ${product.national === "PR" ? "selected" : ""}>Pháp</option>
-                                    <option value="Tây Ban Nha" ${product.national === "PO" ? "selected" : ""}>Bồ Đào Nha</option>
-                                    <option value="Pháp" ${product.national === "AG" ? "selected" : ""}>Argentina</option>
-                                    <option value="Ý" ${product.national === "VN" ? "selected" : ""}>Việt Nam</option>
+                                    <option value="">Chọn quốc gia</option>
+                                    <option value="EN" ${product.national === "EN" ? "selected" : ""}>Anh</option>
+                                    <option value="PR" ${product.national === "PR" ? "selected" : ""}>Pháp</option>
+                                    <option value="PO" ${product.national === "PO" ? "selected" : ""}>Bồ Đào Nha</option>
+                                    <option value="AG" ${product.national === "AG" ? "selected" : ""}>Argentina</option>
+                                    <option value="VN" ${product.national === "VN" ? "selected" : ""}>Việt Nam</option>
                                 </select>
                             </div>
                         </div>
@@ -732,10 +750,30 @@ function updateOrderStatus(madonhang) {
         }
     }
 
+   
+
     if (orderIndex !== -1) {
         // Cập nhật trạng thái của đơn hàng trong mảng orders
         orders[orderIndex].tthd = newStatus;
-        
+        if (newStatus === "đã hủy"){
+            // Tìm thông tin sản phẩm liên quan đến đơn hàng
+            const orderProducts = orderDetails.filter(detail => detail.madonhang === madonhang);
+            // Giảm số lượng trong mảng products
+            orderProducts.forEach(orderProduct => {
+                // Tìm chỉ số của sản phẩm trong mảng products
+                const productIndex = products.findIndex(product => product.masp === orderProduct.masp);
+
+                // Nếu tìm thấy, tăng lại số lượng
+                if (productIndex !== -1) {
+                    products[productIndex].stock += orderProduct.soluong;
+
+                    // Đảm bảo số lượng không âm
+/*                     if (products[productIndex].soluong < 0) {
+                        products[productIndex].soluong = 0;
+                    } */
+                }
+            });
+        }
         // Nếu bạn cần cập nhật giao diện hoặc cơ sở dữ liệu, làm ở đây
         console.log(`Đã cập nhật trạng thái đơn hàng ${madonhang} thành: ${newStatus}`);
     } else {
