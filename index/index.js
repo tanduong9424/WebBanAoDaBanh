@@ -7,7 +7,6 @@ function ThemDieuKienSearch() {/*mở tìm kiếm nâng cao*/
     document.querySelector(".advanced-search").classList.toggle("open")
 }
 
-
 LoadCount = () => {
     let countCart = document.getElementById('count');
     let length = JSON.parse(localStorage.getItem('cart'));
@@ -16,7 +15,8 @@ LoadCount = () => {
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    kiemtradiachi();;
+    kiemtradiachi();
+    loadCitiesorder();
      document.querySelector('.category-responsive-btn').addEventListener('click', () => {
         document.querySelector('.category').style.transform = 'translateX(0)';
         document.querySelector('#category-overlay').style.display = 'block';
@@ -42,86 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 LoadCount();
 
-function kiemtradiachi() {
-    const accountAddressOption = document.getElementById("useAccountAddress");
-    const newAddressOption = document.getElementById("enterNewAddress");
-    const formAddress1Elements = document.querySelectorAll(".form-address1");
-    const formAddress2Elements = document.querySelectorAll(".form-address2");
 
-    // Lấy dữ liệu từ localStorage
-    const user = JSON.parse(localStorage.getItem("currentuser")) || {};
-    const customers = JSON.parse(localStorage.getItem("customers")) || [];
-    const userCus = customers.find(item => item.matk === user.matk);
-
-    accountAddressOption.addEventListener("change", function () {
-        if (accountAddressOption.checked) {
-            // Hiển thị form-address1
-            formAddress1Elements.forEach(element => {
-                element.classList.remove("hidden");
-                element.style.display = "block";
-            });
-            // Ẩn form-address2
-            formAddress2Elements.forEach(element => {
-                element.classList.add("hidden");
-                element.style.display = "none";
-            });
-            // Kiểm tra và gán địa chỉ
-            const tenkh = userCus ? userCus.tenkh : "Tài khoản chưa cung cấp đủ thông tin"
-            const sdt = userCus ? userCus.sdt : "Tài khoản chưa cung cấp đủ thông tin"
-            const dchi = userCus && userCus.diachi ? userCus.diachi.dchi : "Tài khoản chưa cung cấp địa chỉ";
-            const quan = userCus && userCus.diachi ? userCus.diachi.quan : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
-            const tinh = userCus && userCus.diachi ? userCus.diachi.tinh : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
-
-            document.getElementById("tennguoinhan").value =tenkh;
-            document.getElementById("tennguoinhan").disabled = true;
-            document.getElementById("sodienthoai").value =sdt;
-            document.getElementById("sodienthoai").disabled = true;
-            document.getElementById("diachinha").value =dchi;
-            document.getElementById("diachinha").disabled = true;
-            document.getElementById("text-address-city").value =tinh;
-            document.getElementById("text-address-city").disabled = true;
-            document.getElementById("text-address-distric").value =quan;
-            document.getElementById("text-address-distric").disabled = true;
-        }
-    });
-
-    // Xử lý sự kiện khi chọn "Nhập địa chỉ giao hàng mới"
-    newAddressOption.addEventListener("change", function () {
-        if (newAddressOption.checked) {    
-            // Ẩn form-address1
-            formAddress1Elements.forEach(element => {
-                element.classList.add("hidden");
-                element.style.display = "none";
-            });
-            // Hiển thị form-address2
-            formAddress2Elements.forEach(element => {
-                element.classList.remove("hidden");
-                element.style.display = "block";
-            });
-
-            document.getElementById("tennguoinhan").value ="";
-            document.getElementById("tennguoinhan").disabled = false;
-            document.getElementById("sodienthoai").value ="";
-            document.getElementById("sodienthoai").disabled = false;
-            document.getElementById("diachinha").value ="";
-            document.getElementById("diachinha").disabled = false;
-        }
-    });
-    //trường hợp mặc định tick cái load từ thông tin khách hàng ra
-    const tenkh = userCus ? userCus.tenkh : "Tài khoản chưa cung cấp đủ thông tin"
-    const sdt = userCus ? userCus.sdt : "Tài khoản chưa cung cấp đủ thông tin"
-    const dchi = userCus && userCus.diachi ? userCus.diachi.dchi : "Tài khoản chưa cung cấp địa chỉ";
-    const quan = userCus && userCus.diachi ? userCus.diachi.quan : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
-    const tinh = userCus && userCus.diachi ? userCus.diachi.tinh : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
-    document.getElementById("tennguoinhan").value =tenkh;
-    document.getElementById("sodienthoai").value =sdt;
-    document.getElementById("diachinha").value =dchi;
-    document.getElementById("text-address-city").value =tinh;
-    document.getElementById("text-address-distric").value =quan;
-
-}
-    
- 
 
 function hienthichinhsach() { /*chính sách*/
     const productList = document.querySelector(".main-wrapper .container");
@@ -208,7 +129,6 @@ function increasingNumber(id) { // Tăng số lượng trong giỏ hàng
     showCart();
     updateCartTotal();
 }
-
 
 decreasingNumber = (id) => {//Giảm số lượng trong giỏ hàng
     let cart = JSON.parse(localStorage.getItem('cart'));
@@ -554,7 +474,6 @@ function addToCart(productId) {
     alert("Thêm sản phẩm vào giỏ hàng thành công!");
     LoadCount();
 }
-
 
 const products_1 = JSON.parse(localStorage.getItem('products')) || [];
 let filteredProducts = products_1;
@@ -1169,6 +1088,36 @@ function createNewOrder(cartKey, customerID) {//tạo hóa đơn mới
         alert('Hãy đăng nhập trước !');
         return;
     }
+    const tenNguoiNhan = document.getElementById("tennguoinhan");
+    const soDienThoai = document.getElementById("sodienthoai");
+    const diaChiNha = document.getElementById("diachinha");
+    const districts = document.getElementById("districts");
+    if (!tenNguoiNhan.value.trim()){
+        alert("Vui lòng nhập tên người nhận.");
+        tenNguoiNhan.focus();
+        return;
+    }
+    if (!diaChiNha.value.trim()) {
+        alert("Vui lòng nhập địa chỉ nhà.");
+        diaChiNha.focus();
+        return;
+    }
+    if (!soDienThoai.value.trim()) {
+        alert("Vui lòng nhập số điện thoại.");
+        soDienThoai.focus();
+        return;
+    }
+    const enterNewAddresss = document.getElementById("enterNewAddress");
+    if (enterNewAddresss.checked) {
+        if (districts.value.trim() === "Chọn quận/huyện") {
+        alert("Vui lòng chọn quận");
+        districts.focus();
+        return;
+    }
+    } else {
+        console.log("chỗ input quận huyện");
+    }
+
     const cart = JSON.parse(localStorage.getItem(cartKey)) || []; //lấy ra cart
     const orders = JSON.parse(localStorage.getItem('orders')) || [];// lấy ra orders
     const products = JSON.parse(localStorage.getItem('products')) || []; //lấy ra products
@@ -1259,7 +1208,7 @@ function useAccountAddress(newOrderID) {// Hàm xử lý khi chọn địa chỉ
     const sdt = userCus ? userCus.sdt : "Khách hàng chưa cung cấp số điện thoại";
     const ten = userCus ? userCus.tenkh : "Khách hàng chưa cung cấp họ và tên";
 
-    const dchi = userCus ? userCus.diachi.dchi : "Khách hàng chưa cung cấp địa chỉ";
+    const dchi = userCus ? userCus.diachi.chitiet : "Khách hàng chưa cung cấp địa chỉ";
     const quan = userCus ? userCus.diachi.quan : "Khách hàng chưa cung cấp địa chỉ";
     const tinh = userCus ? userCus.diachi.tinh : "Khách hàng chưa cung cấp địa chỉ";
 
@@ -1295,6 +1244,140 @@ function enterNewAddress(newOrderID) {// Hàm xử lý khi nhập địa chỉ m
     addressOrders.push(newAddressOrder);
     localStorage.setItem("addressOrders", JSON.stringify(addressOrders));
 }
+/*Huỳnh Tấn DƯơng*/
+function showPreviewOrder() {// hiện chi tiết sản phẩm khi ấn chi tiết
+    const products = JSON.parse(localStorage.getItem('products')) || [];  // Lấy danh sách sản phẩm từ localStorage
+    const product = products.find(item => item.masp === productId);// Tìm sản phẩm theo ID
+    if (product) {
+        const detailDiv = document.querySelector(".product-detail");
+        detailDiv.innerHTML = `
+            <div class="detail-container">
+                <h3>THÔNG TIN CHI TIẾT SẢN PHẨM</h3>
+                <img src="${product.image_url}" alt="${product.tensp}">
+                <p><strong>Mã sản phẩm:</strong> ${product.masp}</p>
+                <p><strong>Tên sản phẩm:</strong> ${product.tensp}</p>
+                <p><strong>Mô tả:</strong> ${product.description}</p>
+                <p><strong>Kích thước:</strong> ${product.size}</p>
+                <p><strong>Giá:</strong> ${product.price.toLocaleString().replace(/,/g, '.')} VND</p>
+                <p><strong>Còn lại:</strong> ${product.stock}</p>
+                <button onclick="addToCart('${product.masp}'), closeDetail() ">MUA NGAY</button>
+                <button onclick="closeDetail()">Đóng</button>
+            </div>
+        `;
+        detailDiv.style.display = "block"; // Hiển thị div
+        document.body.classList.add('no-scroll');
+    }
+}
+
+
+function kiemtradiachi() {
+    const accountAddressOption = document.getElementById("useAccountAddress");
+    const newAddressOption = document.getElementById("enterNewAddress");
+    const formAddress1Elements = document.querySelectorAll(".form-address1");
+    const formAddress2Elements = document.querySelectorAll(".form-address2");
+
+    const user = JSON.parse(localStorage.getItem("currentuser")) || {};
+    const customers = JSON.parse(localStorage.getItem("customers")) || [];
+    const userCus = customers.find(item => item.matk === user.matk);
+
+    accountAddressOption.addEventListener("change", function () {
+        if (accountAddressOption.checked) {// Hiển thị form-address1 khi chon radio button lấy thông tin từ khách
+            formAddress1Elements.forEach(element => {
+                element.classList.remove("hidden");
+                element.style.display = "block";
+            });
+            formAddress2Elements.forEach(element => {// Ẩn form-address2 khi nhập mới địa chỉ,..
+                element.classList.add("hidden");
+                element.style.display = "none";
+            });
+            // Kiểm tra và gán địa chỉ
+            const tenkh = userCus ? userCus.tenkh : "Tài khoản chưa cung cấp đủ thông tin"
+            const sdt = userCus ? userCus.sdt : "Tài khoản chưa cung cấp đủ thông tin"
+            const dcchitiet = userCus && userCus.diachi ? userCus.diachi.chitiet : "Tài khoản chưa cung cấp địa chỉ";
+            const quan = userCus && userCus.diachi ? userCus.diachi.quan : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
+            const tinh = userCus && userCus.diachi ? userCus.diachi.tinh : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
+
+            document.getElementById("tennguoinhan").value =tenkh;
+            document.getElementById("tennguoinhan").disabled = true;
+            document.getElementById("sodienthoai").value =sdt;
+            document.getElementById("sodienthoai").disabled = true;
+            document.getElementById("diachinha").value =dcchitiet;
+            document.getElementById("diachinha").disabled = true;
+            document.getElementById("text-address-city").value =tinh;
+            document.getElementById("text-address-city").disabled = true;
+            document.getElementById("text-address-distric").value =quan;
+            document.getElementById("text-address-distric").disabled = true;
+        }
+    });
+
+    // Xử lý sự kiện khi chọn "Nhập địa chỉ giao hàng mới"
+    newAddressOption.addEventListener("change", function () {
+        if (newAddressOption.checked) {    
+            // Ẩn form-address1
+            formAddress1Elements.forEach(element => {
+                element.classList.add("hidden");
+                element.style.display = "none";
+            });
+            // Hiển thị form-address2
+            formAddress2Elements.forEach(element => {
+                element.classList.remove("hidden");
+                element.style.display = "block";
+            });
+
+            document.getElementById("tennguoinhan").value ="";
+            document.getElementById("tennguoinhan").disabled = false;
+            document.getElementById("sodienthoai").value ="";
+            document.getElementById("sodienthoai").disabled = false;
+            document.getElementById("diachinha").value ="";
+            document.getElementById("diachinha").disabled = false;
+           
+        }
+    });
+    //trường hợp mặc định tick cái load từ thông tin khách hàng ra
+    const tenkh = userCus ? userCus.tenkh : "Tài khoản chưa cung cấp đủ thông tin"
+    const sdt = userCus ? userCus.sdt : "Tài khoản chưa cung cấp đủ thông tin"
+    const dchi = userCus && userCus.diachi ? userCus.diachi.chitiet : "Tài khoản chưa cung cấp địa chỉ";
+    const quan = userCus && userCus.diachi ? userCus.diachi.quan : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
+    const tinh = userCus && userCus.diachi ? userCus.diachi.tinh : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
+    document.getElementById("tennguoinhan").value =tenkh;
+    document.getElementById("sodienthoai").value =sdt;
+    document.getElementById("diachinha").value =dchi;
+    document.getElementById("text-address-city").value =tinh;
+    document.getElementById("text-address-distric").value =quan;
+
+}
+function loadCitiesorder(){
+    const diachiData = JSON.parse(localStorage.getItem('diachiData')); // Lấy dữ liệu từ localStorage
+    const citySelect = document.getElementById('cities');
+    diachiData.regions.forEach(region => {// Thêm các thành phố vào combobox
+      const option = document.createElement('option');
+      option.value = region.city;
+      option.textContent = region.city;
+      citySelect.appendChild(option);
+    });
+    loadDistrictsorder("Hồ Chí Minh", diachiData);
+    citySelect.addEventListener('change', function () {// Lắng nghe sự kiện thay đổi trên combobox thành phố
+      loadDistrictsorder(this.value, diachiData);
+    });
+}
+  
+function loadDistrictsorder(selectedCity, diachiData) {// Hàm tải danh sách quận/huyện dựa vào thành phố được chọn
+    const districtSelect = document.getElementById('districts');
+    // Tìm thành phố được chọn
+    districtSelect.innerHTML = '<option value="Chọn quận/huyện">Chọn quận/huyện</option>'; // Reset với một option mặc định
+    const selectedRegion = diachiData.regions.find(region => region.city === selectedCity);
+    if (selectedRegion) {
+      selectedRegion.districts.forEach(district => {
+        const option = document.createElement('option');
+        option.value = district.quan; // Dùng giá trị quận
+        option.textContent = district.quan; // Hiển thị tên quận/huyện
+        districtSelect.appendChild(option);
+      });
+    } else {
+      console.log('Không tìm thấy thành phố được chọn:', selectedCity);
+    }
+}
+    
 
 let display = document.getElementById('userdata');
 

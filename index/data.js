@@ -246,9 +246,81 @@ function createProducts() {
         localStorage.setItem('products', JSON.stringify(products));
     }
 }
-
+let diachiJson = {
+    "regions": [
+      {
+        "city": "Hồ Chí Minh",
+        "districts": [
+          { "quan": "Quận 1" },
+          { "quan": "Quận 2" },
+          { "quan": "Quận 3" },
+          { "quan": "Quận 4" },
+          { "quan": "Quận 5" },
+          { "quan": "Quận 6" },
+          { "quan": "Quận 7" },
+          { "quan": "Quận 8" },
+          { "quan": "Quận 9" },
+          { "quan": "Quận 10" },
+          { "quan": "Quận 11" },
+          { "quan": "Quận 12" },
+          { "quan": "Quận Tân Bình" },
+          { "quan": "Quận Bình Thạnh" },
+          { "quan": "Quận Gò Vấp" },
+          { "quan": "Quận Phú Nhuận" },
+          { "quan": "Quận Bình Tân" },
+          { "quan": "Thành Phố Thủ Đức" },
+          { "quan": "Huyện Nhà Bè" },
+          { "quan": "Huyện Hóc Môn" },
+          { "quan": "Huyện Bình Chánh" },
+          { "quan": "Huyện Củ Chi" },
+          { "quan": "Huyện Cần Giờ" }
+        ]
+      },
+      {
+        "city": "Hà Nội",
+        "districts": [
+          { "quan": "Cầu Giấy" },
+          { "quan": "Thanh Xuân" },
+          { "quan": "Hoàng Mai" },
+          { "quan": "Ba Đình" },
+          { "quan": "Hoàn Kiếm" },
+          { "quan": "Đống Đa" },
+          { "quan": "Hà Đông" },
+          { "quan": "Hai Bà Trưng" },
+          { "quan": "Long Biên" },
+          { "quan": "Tây Hồ" },
+          { "quan": "Nam Từ Liêm" },
+          { "quan": "Bắc Từ Liêm" }
+        ]
+      },
+      {
+        "city": "Đà Nẵng",
+        "districts": [
+          { "quan": "Hải Châu" },
+          { "quan": "Thanh Khê" },
+          { "quan": "Sơn Trà" },
+          { "quan": "Ngũ Hành Sơn" },
+          { "quan": "Liên Chiểu" },
+          { "quan": "Cẩm Lệ" },
+          { "quan": "Hòa Vang" },
+          { "quan": "Hoàng Sa" }
+        ]
+      }
+    ]
+  };
+  function saveToLocalStorage(key, data) {
+    if (typeof key === "string" && data) {
+      localStorage.setItem(key, JSON.stringify(data));
+      console.log(`Dữ liệu đã được lưu vào Local Storage với key: "${key}"`);
+    } else {
+      console.error("Key phải là chuỗi và data không được null hoặc undefined.");
+    }
+  }
+  
+  
 
 window.onload = function() {
     createAdminAccount();
     createProducts();
+    saveToLocalStorage("diachiData", diachiJson);
 };

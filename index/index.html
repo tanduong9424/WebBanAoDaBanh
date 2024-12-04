@@ -342,37 +342,33 @@
                                         <form>
                                           <div class="form-address">
                                             <label>Tên người nhận:</label>
-                                            <input type="text" id="tennguoinhan" placeholder="Nhập tên người nhận" required disabled />
+                                            <input type="text" id="tennguoinhan" placeholder="Nhập tên người nhận" disabled />
                                           </div>
                                           <div class="form-address">
                                             <label>Địa chỉ nhà:</label>
-                                            <input type="text" id="diachinha" placeholder="Nhập địa chỉ nhà" required disabled />
+                                            <input type="text" id="diachinha" placeholder="Nhập địa chỉ nhà" disabled />
                                           </div>
                                           <div class="form-address">
                                             <label>Số điện thoại:</label>
-                                            <input type="tel" id="sodienthoai" placeholder="Nhập số điện thoại" required  disabled />
+                                            <input type="tel" id="sodienthoai" placeholder="Nhập số điện thoại" disabled />
                                           </div>
+
                                           <div class="form-address1">
                                             <label>Thành phố:</label>
-                                            <input type="text" id="text-address-city" placeholder="Thành Phố" required disabled />
+                                            <input type="text" id="text-address-city" placeholder="Thành Phố" disabled/>
                                           </div>
                                           <div class="form-address1">
                                             <label>Quận:</label>
-                                            <input type="text" id="text-address-distric" placeholder="Quận" required disabled />
+                                            <input type="text" id="text-address-distric" placeholder="Quận" disabled/>
                                           </div>
+
                                           <div class="form-address2 hidden">
                                             <label for="cities">Thành phố:</label>
-                                            <select id="cities">
-                                              <option value="Hồ Chí Minh">Hồ Chí Minh</option>
-                                              <option value="Hà Nội">Hà Nội</option>
-                                            </select>
+                                            <select id="cities"></select>
                                           </div>
                                           <div class="form-address2 hidden">
                                             <label for="districts">Quận:</label>
-                                            <select id="districts" name="districts">
-                                              <option value="Quận 1">Quận 1</option>
-                                              <option value="Quận 2">Quận 2</option>
-                                            </select>
+                                            <select id="districts" name="districts"></select>
                                           </div>
                                         </form>
                                       </div>
@@ -392,7 +388,7 @@
                         <div class="total-bill-order">
                         </div>
                         <div class="policy-note">
-                            Bằng việc bấm vào nút “Đặt hàng”, tôi đồng ý với <a href="#" target="_blank">chính sách hoạt động</a>của chúng tôi.
+                            Bằng việc bấm vào nút “Đặt hàng”, tôi đồng ý với <a href="#" target="_blank"> chính sách hoạt động </a>của chúng tôi.
                         </div>
                     </div>
                     <div class="total-checkout">
@@ -401,6 +397,7 @@
                             <div class="price-final" id="checkout-cart-price-final">0</div>
                         </div>
                     </div>
+                    <button class="preview-checkout-btn">Xem tổng quát đơn hàng</button>
                     <button class="complete-checkout-btn">Đặt hàng</button>
                 </div>
             </main>
