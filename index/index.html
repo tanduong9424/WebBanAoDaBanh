@@ -321,6 +321,10 @@
                 </div>
                 <h2 class="checkout-title">Thanh toán</h2>
             </div>
+
+
+           
+
             <main class="checkout-section order-container">
                 <div class="checkout-col-left">
                     <div class="checkout-row">
@@ -397,11 +401,13 @@
                             <div class="price-final" id="checkout-cart-price-final">0</div>
                         </div>
                     </div>
-                    <button class="preview-checkout-btn">Xem tổng quát đơn hàng</button>
+                    <button class="preview-checkout-btn" onclick=showPreviewOrder();>Xem tổng quát đơn hàng</button>
                     <button class="complete-checkout-btn">Đặt hàng</button>
                 </div>
             </main>
         </div>
+
+        <div class="preview-order" style="display: none;" ></div><!-- hiển thị tổng quát hóa đơn trước khi thanh toán-->
 
         <footer class="footer"><!--Footer-->
             <div class="widget-area">

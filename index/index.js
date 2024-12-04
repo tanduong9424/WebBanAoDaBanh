@@ -42,10 +42,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 LoadCount();
 
-
-    
- 
-
 function hienthichinhsach() { /*chính sách*/
     const productList = document.querySelector(".main-wrapper .container");
     productList.innerHTML = `
@@ -91,14 +87,14 @@ function openCart() { //mở giỏ
     else {
         showCart();/*gọi hàm show giỏ*/
         document.querySelector('.modal-cart').classList.add('open');
-        body.style.overflow = "hidden";
+        //body.style.overflow = "hidden";
     }
 
 }
 
 function closeCart() {//đóng giỏ
     document.querySelector('.modal-cart').classList.remove('open');
-    body.style.overflow = "auto";
+    //body.style.overflow = "auto";
     updateAmount();
 }
 
@@ -192,7 +188,7 @@ nutthanhtoan.addEventListener('click', () => {
     checkoutpage.classList.add('active');
     thanhtoanpage();
     closeCart();
-    body.style.overflow = "hidden"
+    //body.style.overflow = "hidden"
 })
 function closecheckout() {
     checkoutpage.classList.remove('active');
@@ -1084,94 +1080,102 @@ function cancerOrderDetail(madonhang) {//hủy đơn
         alert(`Không thể hủy đơn hàng ${madonhang}.`);
     }
 }
+function checkfillAddress(){
+    const tenNguoiNhan = document.getElementById("tennguoinhan");
+    const soDienThoai = document.getElementById("sodienthoai");
+    const diaChiNha = document.getElementById("diachinha");
+    const districts = document.getElementById("districts");
+    const enterNewAddresss = document.getElementById("enterNewAddress");
 
+    if (!tenNguoiNhan.value.trim()){
+        alert("Vui lòng nhập tên người nhận.");
+        tenNguoiNhan.focus();
+        return 0;
+    }
+    if (!diaChiNha.value.trim()) {
+        alert("Vui lòng nhập địa chỉ nhà.");
+        diaChiNha.focus();
+        return 0;
+    }
+    if (!soDienThoai.value.trim()) {
+        alert("Vui lòng nhập số điện thoại.");
+        soDienThoai.focus();
+        return 0;
+    }
+    
+    if (enterNewAddresss.checked) {
+        if (districts.value.trim() === "Chọn quận/huyện") {
+            alert("Vui lòng chọn quận");
+            districts.focus();
+            return 0;
+        }
+        return 1;
+    }
+    return 1;
+}
 function createNewOrder(cartKey, customerID) {//tạo hóa đơn mới
     if (!customerID) {
         alert('Hãy đăng nhập trước !');
         return;
     }
-    const tenNguoiNhan = document.getElementById("tennguoinhan");
-    const soDienThoai = document.getElementById("sodienthoai");
-    const diaChiNha = document.getElementById("diachinha");
-    const districts = document.getElementById("districts");
-    if (!tenNguoiNhan.value.trim()){
-        alert("Vui lòng nhập tên người nhận.");
-        tenNguoiNhan.focus();
-        return;
-    }
-    if (!diaChiNha.value.trim()) {
-        alert("Vui lòng nhập địa chỉ nhà.");
-        diaChiNha.focus();
-        return;
-    }
-    if (!soDienThoai.value.trim()) {
-        alert("Vui lòng nhập số điện thoại.");
-        soDienThoai.focus();
-        return;
-    }
-    const enterNewAddresss = document.getElementById("enterNewAddress");
-    if (enterNewAddresss.checked) {
-        if (districts.value.trim() === "Chọn quận/huyện") {
-        alert("Vui lòng chọn quận");
-        districts.focus();
-        return;
-    }
-    } else {
-        console.log("chỗ input quận huyện");
-    }
 
-    const cart = JSON.parse(localStorage.getItem(cartKey)) || []; //lấy ra cart
-    const orders = JSON.parse(localStorage.getItem('orders')) || [];// lấy ra orders
-    const products = JSON.parse(localStorage.getItem('products')) || []; //lấy ra products
-    const orderDetails = JSON.parse(localStorage.getItem('orderDetails')) || [];// lấy ra orders details
+    if (checkfillAddress() == 1){
+        const cart = JSON.parse(localStorage.getItem(cartKey)) || []; //lấy ra cart
+        const orders = JSON.parse(localStorage.getItem('orders')) || [];// lấy ra orders
+        const products = JSON.parse(localStorage.getItem('products')) || []; //lấy ra products
+        const orderDetails = JSON.parse(localStorage.getItem('orderDetails')) || [];// lấy ra orders details
 
-    const lastOrderID = orders.length ? orders[orders.length - 1].madonhang : 'DH0';//lấy ra giá trị cuối để +1 cho madonhang
-    const newOrderID = 'DH' + (parseInt(lastOrderID.slice(2)) + 1);
+        const lastOrderID = orders.length ? orders[orders.length - 1].madonhang : 'DH0';//lấy ra giá trị cuối để +1 cho madonhang
+        const newOrderID = 'DH' + (parseInt(lastOrderID.slice(2)) + 1);
 
-    // Tính tổng tiền cho đơn hàng
-    const totalAmount = cart.reduce((total, item) => total + item.price * item.soluong, 0);
-    // Tạo đối tượng đơn hàng mới
-    const newOrder = {
-        madonhang: newOrderID,
-        makh: customerID,
-        thoigianmua: new Date().toISOString(),
-        tongtien: totalAmount,
-        tthd: "chưa xử lý"
-    };
+        // Tính tổng tiền cho đơn hàng
+        const totalAmount = cart.reduce((total, item) => total + item.price * item.soluong, 0);
+        // Tạo đối tượng đơn hàng mới
+        const newOrder = {
+            madonhang: newOrderID,
+            makh: customerID,
+            thoigianmua: new Date().toISOString(),
+            tongtien: totalAmount,
+            tthd: "chưa xử lý"
+        };
 
-    // Tạo chi tiết đơn hàng từ giỏ hàng
-    const newOrderDetails = cart.map
-        (item => (
-            {
-                madonhang: newOrderID,
-                masp: item.masp,
-                soluong: item.soluong,
-                dongia: item.price,
-                thanhtien: item.price * item.soluong
+        // Tạo chi tiết đơn hàng từ giỏ hàng
+        const newOrderDetails = cart.map
+            (item => (
+                {
+                    madonhang: newOrderID,
+                    masp: item.masp,
+                    soluong: item.soluong,
+                    dongia: item.price,
+                    thanhtien: item.price * item.soluong
+                }
+            )
+            );
+
+        cart.forEach(item => {/*giảm số lượng stock của product khi thanh toán */
+            const product = products.find(p => p.masp === item.masp);
+            if (product) {
+                product.stock -= item.soluong;
             }
-        )
-        );
+        });
+        localStorage.setItem('products', JSON.stringify(products));/*lưu lại products */
 
-    cart.forEach(item => {/*giảm số lượng stock của product khi thanh toán */
-        const product = products.find(p => p.masp === item.masp);
-        if (product) {
-            product.stock -= item.soluong;
-        }
-    });
-    localStorage.setItem('products', JSON.stringify(products));/*lưu lại products */
+        orders.push(newOrder);//push vào orders
+        localStorage.setItem('orders', JSON.stringify(orders));
 
-    orders.push(newOrder);//push vào orders
-    localStorage.setItem('orders', JSON.stringify(orders));
+        orderDetails.push(...newOrderDetails);//push vào orderDetails
+        localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
+        handleAddressOption(newOrderID);/*Kiểm tra địa chỉ giao hàng là thêm mới hay từ thông tin khách hàng*/
 
-    orderDetails.push(...newOrderDetails);//push vào orderDetails
-    localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
-    handleAddressOption(newOrderID);/*Kiểm tra địa chỉ giao hàng là thêm mới hay từ thông tin khách hàng*/
+        localStorage.removeItem(cartKey);// Xóa giỏ hàng sau khi tạo đơn hàng
+        localStorage.removeItem('cart');
+        LoadCount();
+        window.location.reload();
+        alert("Thanh toán thành công !\nVui lòng kiểm tra lịch sử mua hàng");
+    }
+    
 
-    localStorage.removeItem(cartKey);// Xóa giỏ hàng sau khi tạo đơn hàng
-    localStorage.removeItem('cart');
-    LoadCount();
-    window.location.reload();
-    alert("Thanh toán thành công !\nVui lòng kiểm tra lịch sử mua hàng");
+    
 
 }
 
@@ -1246,29 +1250,86 @@ function enterNewAddress(newOrderID) {// Hàm xử lý khi nhập địa chỉ m
     addressOrders.push(newAddressOrder);
     localStorage.setItem("addressOrders", JSON.stringify(addressOrders));
 }
-/*Huỳnh Tấn DƯơng*/
-function showPreviewOrder() {// hiện chi tiết sản phẩm khi ấn chi tiết
-    const products = JSON.parse(localStorage.getItem('products')) || [];  // Lấy danh sách sản phẩm từ localStorage
-    const product = products.find(item => item.masp === productId);// Tìm sản phẩm theo ID
-    if (product) {
-        const detailDiv = document.querySelector(".product-detail");
+
+function showPreviewOrder() {// hiện chi tiết hóa đơn trước khi thanh toán
+    if(checkfillAddress()==1){
+        const carts = JSON.parse(localStorage.getItem("cart"));
+        const currentuser= JSON.parse(localStorage.getItem("currentuser"));
+        const cart = carts.filter(item => item.username === currentuser.username);
+        const tenNguoiNhan = document.getElementById("tennguoinhan");
+        const soDienThoai = document.getElementById("sodienthoai");
+        const enterNewAddresss = document.getElementById("enterNewAddress");
+        const diaChiNha=document.getElementById("diachinha");
+
+        let totalPrice = 0;
+        cart.forEach(item => {
+            totalPrice += item.price * item.soluong; // Tính tiền cho mỗi sản phẩm và cộng dồn vào totalPrice
+        });
+
+        let districts='';
+        let cities='';
+       
+        if (enterNewAddresss.checked) {//khi nhập mới địa chỉ thì lấy từ combox
+            districts = document.getElementById("districts");
+            cities = document.getElementById("cities");
+        }
+        else{//lấy từ thông tin user thì lấy từ text input đã bị disabled
+            districts = document.getElementById("text-address-distric");
+            cities = document.getElementById("text-address-city");
+        }
+        let addressOd =  `${diaChiNha.value}, ${districts.value}, ${cities.value}`;
+
+        const detailDiv = document.querySelector(".preview-order");
+        const tableRows = cart.map(detail => `
+            <tr>
+                <td>${detail.masp}</td>
+                <td>${detail.soluong}</td>
+                <td>${detail.size}</td>
+                <td>${detail.price.toLocaleString().replace(/,/g, '.')} VNĐ</td>
+                <td>${detail.soluong*detail.price} VNĐ</td>
+            </tr>
+        `).join('');
+        
+        
         detailDiv.innerHTML = `
             <div class="detail-container">
-                <h3>THÔNG TIN CHI TIẾT SẢN PHẨM</h3>
-                <img src="${product.image_url}" alt="${product.tensp}">
-                <p><strong>Mã sản phẩm:</strong> ${product.masp}</p>
-                <p><strong>Tên sản phẩm:</strong> ${product.tensp}</p>
-                <p><strong>Mô tả:</strong> ${product.description}</p>
-                <p><strong>Kích thước:</strong> ${product.size}</p>
-                <p><strong>Giá:</strong> ${product.price.toLocaleString().replace(/,/g, '.')} VND</p>
-                <p><strong>Còn lại:</strong> ${product.stock}</p>
-                <button onclick="addToCart('${product.masp}'), closeDetail() ">MUA NGAY</button>
-                <button onclick="closeDetail()">Đóng</button>
-            </div>
-        `;
+                <div id="chitiet-tren">
+                    <div class="header-chitiettren">
+                        <h3>TỔNG QUÁT HÓA ĐƠN</h3>
+                        <button onclick=closePreviewOrder();>Đóng</button>
+                    </div>
+                    <p><strong>Khách nhận hàng:</strong>${tenNguoiNhan.value}</p>
+                    <p><strong>Số điện thoại:</strong>${soDienThoai.value}</p>
+                    <p><strong>Địa chỉ giao hàng:</strong> ${addressOd}</p>
+                    <p><strong>Tổng tiền:</strong> ${totalPrice} VNĐ</p>
+                </div>
+
+                <div id="chitiet-duoi">
+                     <table id="orderDe" border="1" cellspacing="0" cellpadding="5" style="width: 100%; text-align: left;">
+                        <thead>
+                            <tr>
+                                <th>Mã sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Size</th>
+                                <th>Đơn giá</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableRows}
+                        </tbody>
+                    </table>
+                </div>
+            </div>`;
         detailDiv.style.display = "block"; // Hiển thị div
         document.body.classList.add('no-scroll');
     }
+    
+}
+function closePreviewOrder() { //đóng chi tiết sản phẩm
+    const detailDiv = document.querySelector(".preview-order");
+    detailDiv.style.display = "none"; // Ẩn div chi tiết
+    document.body.classList.remove('no-scroll');
 }
 
 
@@ -1380,7 +1441,7 @@ function loadDistrictsorder(selectedCity, diachiData) {// Hàm tải danh sách 
     }
 }
     
-
+/*-------------------------------------------------------------------------------------- */
 let display = document.getElementById('userdata');
 
 let userDisPlay = '';
@@ -1448,16 +1509,3 @@ CloseForm = () => {
     loginDiv.classList.remove('user-open');
 }
 
-
-
-
-
-
-
-
-
-
-
-
-  
-  

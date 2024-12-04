@@ -1706,7 +1706,7 @@ button.thanh-toan.disabled { /* cái nút thanh toán bị disabled*/
     padding: 20px;
     border: 1px solid #231919;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 9999;
+    z-index: 9980;
     max-width: 900px;
     align-items: center;
     width: 100%;
@@ -1814,59 +1814,100 @@ button.thanh-toan.disabled { /* cái nút thanh toán bị disabled*/
 
 
 
-/*----------------------------------------3/12/2024*/
+/*----------------------------------------Huỳnh Tấn Dương*/
 
   
-  .form-adress-container {
+.form-adress-container {
     background-color: #ffffff;
     padding: 20px 30px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 100%;
-    
-  }
-  
-  .form-adress-container h2 {
+}
+
+.form-adress-container h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #333333;
-  }
-  
+}
 
-  .form-address, .form-address1, .form-address2 label {
+
+.form-address, .form-address1, .form-address2 label {
     display: block;
     margin-top: 20px;
     font-weight: bold;
     color: #555555;
-  }
+}
   
 .form-address2 input, select {
     width: 100%;
     padding: 10px;
-    
     border: 1px solid #cccccc;
     border-radius: 5px;
     font-size: 14px;
-  }
-  .form-address  input, select {
+}
+
+.form-address  input, select {
     width: 100%;
     padding: 10px;
-   
     border: 1px solid #cccccc;
     border-radius: 5px;
     font-size: 14px;
-  }
+}
 .form-address1  input, select {
     width: 100%;
     padding: 10px;
-    
     border: 1px solid #cccccc;
     border-radius: 5px;
     font-size: 14px;
-  }
+}
   
 
-  
+.preview-order {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 9990;
+    max-width: 900px;
+    align-items: center;
+    width: 100%;
+    height:600px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1); 
+    border-radius: 5px;
+}
+
+
+.preview-order p {
+    text-align: left;
+    margin-left: 5px;
+    display: block;
+    line-height: 35px;
+}
+
+
+.preview-order button {
+    margin-left: 5px; /* Nếu muốn các nút gần nhau hơn */
+    padding: 5px 10px;
+    background-color: #ffffff;
+    color: rgb(16, 16, 16);
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.238);
+    border-radius: 2px;
+}
+
+.preview-order button:hover {
+    background-color: #c23333;
+    color: rgb(255, 255, 255);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.238);
+    border-radius: 5px;
+}
 
   
