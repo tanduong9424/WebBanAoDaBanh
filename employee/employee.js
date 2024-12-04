@@ -129,9 +129,9 @@ function renderProducts(filteredProducts) {
     filteredProducts.forEach(product => {
         const row = `
             <tr>
-                <td style="width: 25%">${product.tensp}</td>
+                <td style="width: 35%">${product.tensp}</td>
                 <td style="width: 15%">${product.price.toLocaleString()} VND</td>
-                <td style="width: 5%">${product.stock}</td>
+                <td style="width: 10%">${product.stock}</td>
                 <td>
                     <button onclick="showEditProductForm('${product.masp}')">Sửa</button>
                     <button onclick="deleteProduct('${product.masp}')">Xóa</button>
@@ -632,33 +632,41 @@ async function editProduct(masp) {
 }
 
 //lọc đơn hàng
-function filterAndSortOrders() {
+/* function filterAndSortOrders() {
     // Lấy giá trị được chọn từ radio buttons (trạng thái đơn hàng)
-    // Lấy giá trị được chọn từ radio buttons (trạng thái đơn hàng)
-const status = document.querySelector('input[name="radioStatus"]:checked').value;
+    const status = document.querySelector('input[name="radioStatus"]:checked').value;
 
     // Lấy giá trị được chọn từ dropdown (sắp xếp đơn hàng)
     const sortOrder = document.getElementById("Sort").value;
 
     // Lọc danh sách đơn hàng dựa trên trạng thái
     let filteredOrders = orders.filter(order => (status === "all") || (status === order.tthd));
-    //console.log(filteredOrders);
-    // Sắp xếp danh sách đơn hàng dựa trên tiêu chí
+
+    // Lấy thông tin địa chỉ từ localStorage
+    const addressOrders = JSON.parse(localStorage.getItem('addressOrders')) || [];
+
     filteredOrders.sort((a, b) => {
         if (sortOrder === "latest") {
             return new Date(b.thoigianmua) - new Date(a.thoigianmua); // Mới nhất
-        } else if (sortOrder === "oldest") {
+        } 
+        else if (sortOrder === "oldest") {
             return new Date(a.thoigianmua) - new Date(b.thoigianmua); // Cũ nhất
-        } else if (sortOrder === "highestTotal") {
+        } 
+        else if (sortOrder === "highestTotal") {
             return b.tongtien - a.tongtien; // Tổng tiền cao nhất
-        } else if (sortOrder === "lowestTotal") {
+        } 
+        else if (sortOrder === "lowestTotal") {
             return a.tongtien - b.tongtien; // Tổng tiền thấp nhất
+        }
+        else if (document.getElementById("Sort").value === "addressSort") {
+            return b.tongtien - a.tongtien; // Tổng tiền cao nhất
         }
     });
 
     // Hiển thị kết quả lọc và sắp xếp
     renderOrders(filteredOrders);
-}
+} */
+
 // Hiển thị các đơn hàng
 function renderOrders(filteredOrders) {
     const orderList = document.getElementById('order-list');
@@ -680,15 +688,24 @@ function renderOrders(filteredOrders) {
             customerID = customer ? customer.makh : 'Không xác định';
         }
 
+        // Tìm thông tin chi tiết của khách hàng
+        const customerInfo = customers.find(kh => kh.makh === customerID);
+        if (!customerInfo) {
+            console.error("Không tìm thấy thông tin khách hàng.");
+            return;
+        }
+        const addressOrders = JSON.parse(localStorage.getItem('addressOrders')) || [];
+        const addressOrder = addressOrders.find(ao => ao.madh === order.madonhang);
+        //console.log(addressOrder);
         const row = `
             <tr>
                 <td>${order.madonhang}</td>
                 <td>${customerID}</td>
                 <td>${formattedDate}</td>
                 <td>${order.tongtien.toLocaleString()} VND</td>
-                
+                <td>${addressOrder.quan}</td>
                 <td>
-                    <span id="Status-${order.madonhang}">${order.tthd}</span>
+                    <span id="">${order.tthd}</span>
                 </td>
                 <td><button onclick="viewOrderDetails('${order.madonhang}')">Xem chi tiết</button></td>
             </tr>
@@ -808,6 +825,9 @@ function viewOrderDetails(madonhang) {
         console.error("Không tìm thấy thông tin khách hàng.");
         return;
     }
+    //Tìm địa chỉ giao
+    const addressOrders = JSON.parse(localStorage.getItem('addressOrders')) || [];
+    const addressOrder = addressOrders.find(ao => ao.madh === order.madonhang);
 
     // Tìm thông tin sản phẩm liên quan đến đơn hàng
     const orderProducts = orderDetails.filter(detail => detail.madonhang === madonhang);
@@ -857,10 +877,12 @@ function viewOrderDetails(madonhang) {
         </div>
         <div>
             <div><strong>Khách hàng:</strong></div>
-            <div>Tên: ${customerInfo.tenkh}</div>
-            <div>Số điện thoại: ${customerInfo.sdt}</div>
-            <div>Email: ${customerInfo.email}</div>
-            <div>Địa chỉ: ${customerInfo.diachi}</div>
+            <div>Tên khách đặt: ${customerInfo.tenkh}</div>
+            <div>Tên người nhận: ${addressOrder.nguoinhan}</div>
+            <div>Số điện thoại người đặt: ${customerInfo.sdt}</div>
+            <div>Số điện thoại người nhận: ${addressOrder.sdtngnhan}</div>
+            <div>Email khách đặt: ${customerInfo.email}</div>
+            <div>Địa chỉ nhận: ${addressOrder.diachi}, ${addressOrder.quan}, ${addressOrder.tinh}</div>
         </div>
         <div style="margin: 20px 0px; display: flex;">
             <div><strong>Thời gian mua:</strong></div>
@@ -992,7 +1014,18 @@ function filterAndSortOrders() {
             return b.tongtien - a.tongtien;
         } else if (sortOrder === "lowestTotal") {
             return a.tongtien - b.tongtien;
+        } else if (sortOrder === "address"){
+            // Lấy thông tin địa chỉ từ localStorage
+            const addressOrders = JSON.parse(localStorage.getItem('addressOrders')) || [];
+
+            // Tìm địa chỉ của từng đơn hàng, nếu không có thì mặc định là một chuỗi rỗng
+            const addressOrder_A = addressOrders.find(ao => ao.madh === a.madonhang);
+            const addressOrder_B = addressOrders.find(ao => ao.madh === b.madonhang);
+
+            // So sánh quận của 2 đơn hàng (theo thứ tự ABC)
+            return addressOrder_A.quan.localeCompare(addressOrder_B.quan); // Sắp xếp quận theo thứ tự ABC
         }
+
     });
 
     renderOrders(filteredOrders);

@@ -68,7 +68,7 @@ function kiemtradiachi() {
             // Kiểm tra và gán địa chỉ
             const tenkh = userCus ? userCus.tenkh : "Tài khoản chưa cung cấp đủ thông tin"
             const sdt = userCus ? userCus.sdt : "Tài khoản chưa cung cấp đủ thông tin"
-            const dchi = userCus && userCus.diachi ? userCus.diachi.dchi : "Tài khoản chưa cung cấp địa chỉ";
+            const dchi = userCus && userCus.diachi ? userCus.diachi.chitiet : "Tài khoản chưa cung cấp địa chỉ";
             const quan = userCus && userCus.diachi ? userCus.diachi.quan : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
             const tinh = userCus && userCus.diachi ? userCus.diachi.tinh : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
 
@@ -110,7 +110,7 @@ function kiemtradiachi() {
     //trường hợp mặc định tick cái load từ thông tin khách hàng ra
     const tenkh = userCus ? userCus.tenkh : "Tài khoản chưa cung cấp đủ thông tin"
     const sdt = userCus ? userCus.sdt : "Tài khoản chưa cung cấp đủ thông tin"
-    const dchi = userCus && userCus.diachi ? userCus.diachi.dchi : "Tài khoản chưa cung cấp địa chỉ";
+    const dchi = userCus && userCus.diachi ? userCus.diachi.chitiet : "Tài khoản chưa cung cấp địa chỉ";
     const quan = userCus && userCus.diachi ? userCus.diachi.quan : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
     const tinh = userCus && userCus.diachi ? userCus.diachi.tinh : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
     document.getElementById("tennguoinhan").value =tenkh;
