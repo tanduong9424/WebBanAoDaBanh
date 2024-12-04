@@ -125,7 +125,7 @@ function renderProducts(filteredProducts) {
         }
         console.log(product);
     }); */
-
+    filteredProducts = filteredProducts.filter(product => product.status==true);
     filteredProducts.forEach(product => {
         const row = `
             <tr>
@@ -623,7 +623,8 @@ async function editProduct(masp) {
 
         // Lưu trữ và hiển thị lại danh sách sản phẩm
         saveData();
-        renderProducts(products);
+        //renderProducts(products);
+        applyFilters();
 
         // Ẩn form sau khi hoàn thành chỉnh sửa
         document.getElementById("editProductForm").style.display = "none";
