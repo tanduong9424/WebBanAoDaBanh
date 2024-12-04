@@ -2,10 +2,7 @@ window.onload = updateAmount();/*mở cửa sổ lên mặc định gọi hàm n
 window.onload = updateCartTotal();/*mở cửa sổ lên mặc định gọi hàm này*/
 let currUser = JSON.parse(localStorage.getItem('currentuser'));
 
-function ThemDieuKienSearch() {/*mở tìm kiếm nâng cao*/
-    event.preventDefault();
-    document.querySelector(".advanced-search").classList.toggle("open")
-}
+
 
 LoadCount = () => {
     let countCart = document.getElementById('count');
@@ -41,42 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 LoadCount();
-
-function hienthichinhsach() { /*chính sách*/
-    const productList = document.querySelector(".main-wrapper .container");
-    productList.innerHTML = `
-        <div style="display:block;
-         font-family: Arial,sans-serif; color: #333; line-height: 1.6; background-color: white; width: 100%; height: auto;margin-bottom:40px;padding-left: 20px;transform: translate(0%, 5%);">
-            <h1 style="color: #007BFF; font-size: 2em;text-align: center;margin-bottom: 20px;">BẢO HÀNH - ĐỔI HÀNG - TRẢ HÀNG VỚI FOOTBALL KIT</h1>
-            <h2 style="color: #0056b3; font-size: 1.5em;margin-bottom: 10px;">QUY ĐỊNH BẢO HÀNH - ĐỔI TRẢ</h2>
-            <h3 style="color: #28a745; font-size: 1.3em; margin-bottom: 5px;">1. ĐỔI HÀNG TRONG 60 NGÀY NẾU CHƯA SỬ DỤNG</h3>
-            <ul style="padding-left: 20px;">
-                <li style="color: red; font-size: 1em;font-weight: bold;">*Chỉ áp dụng sản phẩm nguyên giá, không sale off</li>
-                <li>- Sản phẩm mua online (hoặc đến shop mua) được đổi sang mẫu khác trong vòng 60 ngày (kể từ ngày nhận hàng hoặc ngày lưu trên hóa đơn).</li>
-                <li>- Được đổi cùng mẫu sang size khác trong 365 ngày, nếu thử không vừa (vui lòng giữ sản phẩm mới nguyên 100%).</li>
-                <li>- Quý khách vui lòng liên hệ qua Facebook, Instagram hoặc liên hệ 0987654321 để kiểm tra kho và hỗ trợ đổi hàng.</li>
-                <li>- Gửi sản phẩm về địa chỉ: 273 An Dương Vương, Phường 3, Quận 5, TP Hồ Chí Minh hoặc đến trực tiếp để thử và đổi size.</li>
-                <li>- Chi phí vận chuyển đổi hàng, Quý Khách vui lòng thanh toán cho bên công ty giao hàng.</li>
-            </ul>
-
-            <h3 style="color: #28a745; font-size: 1.3em; margin-bottom: 5px;">2. ĐỔI HÀNG TRONG 14 NGÀY NẾU HÀNG BỊ LỖI SẢN XUẤT</h3>
-            <ul style="padding-left: 20px;">
-                <li>- Trong vòng 14 ngày kể từ ngày mua hàng (có hóa đơn), khách hàng được đổi sản phẩm mới nếu lỗi sản xuất:</li>
-                <li>- Đổi sang sản phẩm cùng loại nếu có.</li>
-                <li>- Nếu sản phẩm cùng mẫu hết size, quý khách có thể đổi sang mẫu khác hoặc yêu cầu hoàn tiền (100% giá trị sản phẩm).</li>
-            </ul>
-
-            <h3 style="color: #28a745; font-size: 1.3em;margin-bottom: 5px;">3. BẢO HÀNH KEO 1 NĂM CHO TẤT CẢ SẢN PHẨM GIÀY ĐÁ BÓNG</h3>
-            <ul style="padding-left: 20px;">
-                <li>- Bảo hành 1 đổi 1 trong 30 ngày đầu sử dụng nếu bị gãy đế (lỗi sản xuất).</li>
-                <li>- Bảo hành dán keo lên đến 12 tháng.</li>
-                <li>- Không bảo hành phần da giày và chỉ khâu giày.</li>
-            </ul>
-            
-            <p style="color: red; font-weight: bold; font-size: 1.9em;">Lưu ý: Không bảo hành sản phẩm do lỗi chủ quan sử dụng sai mục đích.</p>
-        </div>`
-        ;
-}
 
 function openCart() { //mở giỏ
     let currentuser = JSON.parse(localStorage.getItem('currentuser'));// Lấy người dùng hiện tại
@@ -911,6 +872,115 @@ function filterProducts() {//lọc tìm sản phẩm theo category
 }
 // ------------------------------------------------------------- HẾT DANH MỤC -----------------------------------------------------------------
 
+let display = document.getElementById('userdata');
+
+let userDisPlay = '';
+
+if (!currUser) {
+    userDisPlay += `
+    <i class="fa fa-user-circle"></i>
+    <div class="auth-container">
+        <span class="text-tk">Tài khoản <i class="fa fa-caret-down"></i></span>
+    </div>
+    <ul class="header-top-right-menu">
+        <li>
+            <a id="iconlogin" href="javascript:;"><i class="fa fa-user"></i> Đăng nhập</a>
+        </li>
+        <li>
+            <a id="iconsignup" href="javascript:;"><i class="fa fa-user-plus"></i> Đăng ký</a>
+        </li>
+    </ul>
+  `
+}
+else {
+    userDisPlay += `
+    <i class="fas fa-user-circle"></i>
+    <div class="auth-container">
+        <span class="text-tk">Xin chào - ${currUser.username}</i></span>
+    </div>
+    <ul class="header-top-right-menu">
+        <li>
+            <a id="iconsigout" href="javascript:;"><i class="fa fa-user-plus"></i> Đăng xuất</a>
+        </li>
+    </ul>
+  `
+}
+
+display.innerHTML = userDisPlay;
+
+const loginDiv = document.getElementById('user');
+const toggleButton = document.getElementById('iconlogin');
+const signupButton = document.getElementById('iconsignup');
+
+let loginForm = document.getElementById('login');
+let signupForm = document.getElementById('signup');
+let signout = document.getElementById('iconsigout');
+
+if (signout) {
+    signout.addEventListener('click', () => {
+        localStorage.removeItem('currentuser');
+        window.location.reload();
+    });
+}
+
+toggleButton.addEventListener('click', () => {
+    loginDiv.classList.add('user-open');
+    signupForm.style.display = 'none';
+    loginForm.style.display = 'block';
+});
+
+signupButton.addEventListener('click', () => {
+    loginDiv.classList.add('user-open');
+    loginForm.style.display = 'none';
+    signupForm.style.display = 'block';
+});
+
+CloseForm = () => {
+    loginDiv.classList.remove('user-open');
+}
+
+/*-------------------------------------HUỲNH TẤN DƯƠNG-------------------------------------------------------------------------------- */
+function ThemDieuKienSearch() {/*mở tìm kiếm nâng cao*/
+    event.preventDefault();
+    document.querySelector(".advanced-search").classList.toggle("open")
+}
+
+function hienthichinhsach() { /*chính sách*/
+    const productList = document.querySelector(".main-wrapper .container");
+    productList.innerHTML = `
+        <div style="display:block;
+         font-family: Arial,sans-serif; color: #333; line-height: 1.6; background-color: white; width: 100%; height: auto;margin-bottom:40px;padding-left: 20px;transform: translate(0%, 5%);">
+            <h1 style="color: #007BFF; font-size: 2em;text-align: center;margin-bottom: 20px;">BẢO HÀNH - ĐỔI HÀNG - TRẢ HÀNG VỚI FOOTBALL KIT</h1>
+            <h2 style="color: #0056b3; font-size: 1.5em;margin-bottom: 10px;">QUY ĐỊNH BẢO HÀNH - ĐỔI TRẢ</h2>
+            <h3 style="color: #28a745; font-size: 1.3em; margin-bottom: 5px;">1. ĐỔI HÀNG TRONG 60 NGÀY NẾU CHƯA SỬ DỤNG</h3>
+            <ul style="padding-left: 20px;">
+                <li style="color: red; font-size: 1em;font-weight: bold;">*Chỉ áp dụng sản phẩm nguyên giá, không sale off</li>
+                <li>- Sản phẩm mua online (hoặc đến shop mua) được đổi sang mẫu khác trong vòng 60 ngày (kể từ ngày nhận hàng hoặc ngày lưu trên hóa đơn).</li>
+                <li>- Được đổi cùng mẫu sang size khác trong 365 ngày, nếu thử không vừa (vui lòng giữ sản phẩm mới nguyên 100%).</li>
+                <li>- Quý khách vui lòng liên hệ qua Facebook, Instagram hoặc liên hệ 0987654321 để kiểm tra kho và hỗ trợ đổi hàng.</li>
+                <li>- Gửi sản phẩm về địa chỉ: 273 An Dương Vương, Phường 3, Quận 5, TP Hồ Chí Minh hoặc đến trực tiếp để thử và đổi size.</li>
+                <li>- Chi phí vận chuyển đổi hàng, Quý Khách vui lòng thanh toán cho bên công ty giao hàng.</li>
+            </ul>
+
+            <h3 style="color: #28a745; font-size: 1.3em; margin-bottom: 5px;">2. ĐỔI HÀNG TRONG 14 NGÀY NẾU HÀNG BỊ LỖI SẢN XUẤT</h3>
+            <ul style="padding-left: 20px;">
+                <li>- Trong vòng 14 ngày kể từ ngày mua hàng (có hóa đơn), khách hàng được đổi sản phẩm mới nếu lỗi sản xuất:</li>
+                <li>- Đổi sang sản phẩm cùng loại nếu có.</li>
+                <li>- Nếu sản phẩm cùng mẫu hết size, quý khách có thể đổi sang mẫu khác hoặc yêu cầu hoàn tiền (100% giá trị sản phẩm).</li>
+            </ul>
+
+            <h3 style="color: #28a745; font-size: 1.3em;margin-bottom: 5px;">3. BẢO HÀNH KEO 1 NĂM CHO TẤT CẢ SẢN PHẨM GIÀY ĐÁ BÓNG</h3>
+            <ul style="padding-left: 20px;">
+                <li>- Bảo hành 1 đổi 1 trong 30 ngày đầu sử dụng nếu bị gãy đế (lỗi sản xuất).</li>
+                <li>- Bảo hành dán keo lên đến 12 tháng.</li>
+                <li>- Không bảo hành phần da giày và chỉ khâu giày.</li>
+            </ul>
+            
+            <p style="color: red; font-weight: bold; font-size: 1.9em;">Lưu ý: Không bảo hành sản phẩm do lỗi chủ quan sử dụng sai mục đích.</p>
+        </div>`
+        ;
+}
+
 function showProductDetail(productId) {// hiện chi tiết sản phẩm khi ấn chi tiết
     const products = JSON.parse(localStorage.getItem('products')) || [];  // Lấy danh sách sản phẩm từ localStorage
     const product = products.find(item => item.masp === productId);// Tìm sản phẩm theo ID
@@ -941,10 +1011,11 @@ function closeDetail() { //đóng chi tiết sản phẩm
     document.body.classList.remove('no-scroll');
 }
 
-function loadOrdersTable() {//load hóa đơn lên table
+function loadOrdersTable() {//load hóa đơn, lịch sử mua hàng lên table
     const orders = JSON.parse(localStorage.getItem("orders")) || [];
     const currentUser = JSON.parse(localStorage.getItem("currentuser")) || {};
     const customers = JSON.parse(localStorage.getItem("customers")) || [];
+
     const A = customers.find(cust => cust.matk === currentUser.matk);
     const customerOrders = orders.filter(order => order.makh.matk === A.matk);
     const tableContainer = document.querySelector(".main-wrapper .container");
@@ -1080,7 +1151,8 @@ function cancerOrderDetail(madonhang) {//hủy đơn
         alert(`Không thể hủy đơn hàng ${madonhang}.`);
     }
 }
-function checkfillAddress(){
+
+function checkfillAddress(){// kiểm tra các text input/combobox được chọn chưa
     const tenNguoiNhan = document.getElementById("tennguoinhan");
     const soDienThoai = document.getElementById("sodienthoai");
     const diaChiNha = document.getElementById("diachinha");
@@ -1113,12 +1185,12 @@ function checkfillAddress(){
     }
     return 1;
 }
+
 function createNewOrder(cartKey, customerID) {//tạo hóa đơn mới
     if (!customerID) {
         alert('Hãy đăng nhập trước !');
         return;
     }
-
     if (checkfillAddress() == 1){
         const cart = JSON.parse(localStorage.getItem(cartKey)) || []; //lấy ra cart
         const orders = JSON.parse(localStorage.getItem('orders')) || [];// lấy ra orders
@@ -1190,9 +1262,7 @@ function checkCartAndToggleButton(cartKey, buttonID) {/*Kiểm tra trong giỏ c
     }
 }
 
-/* ----------------------------------------------Lựa chọn địa chỉ cho đơn hàng-------------------------------------------------------------- */
-
-function handleAddressOption(newOrderID) {// kiểm tra radio button để gọi hàm nhập địa chỉ mới /từ thông tin khách hàng
+function handleAddressOption(newOrderID) {// kiểm tra radio button để gọi hàm nhập địa chỉ mới hoặc từ thông tin khách hàng
     const selectedOption = document.querySelector('input[name="address-option"]:checked').value;
     switch (selectedOption) {
         case "account":// địa chỉ từ thông tin khách hàng
@@ -1251,7 +1321,7 @@ function enterNewAddress(newOrderID) {// Hàm xử lý khi nhập địa chỉ m
     localStorage.setItem("addressOrders", JSON.stringify(addressOrders));
 }
 
-function showPreviewOrder() {// hiện chi tiết hóa đơn trước khi thanh toán
+function showPreviewOrder() {// hiện chi tiết hóa đơn xem trước khi thanh toán
     if(checkfillAddress()==1){
         const carts = JSON.parse(localStorage.getItem("cart"));
         const currentuser= JSON.parse(localStorage.getItem("currentuser"));
@@ -1326,14 +1396,14 @@ function showPreviewOrder() {// hiện chi tiết hóa đơn trước khi thanh 
     }
     
 }
-function closePreviewOrder() { //đóng chi tiết sản phẩm
+
+function closePreviewOrder() { //đóng xem trước hóa đơn
     const detailDiv = document.querySelector(".preview-order");
     detailDiv.style.display = "none"; // Ẩn div chi tiết
     document.body.classList.remove('no-scroll');
 }
 
-
-function kiemtradiachi() {
+function kiemtradiachi() {// ẩn hiện các combobox / disable các text input khi chọn radio giữa lấy từ thông tin customer hoặc nhập mới
     const accountAddressOption = document.getElementById("useAccountAddress");
     const newAddressOption = document.getElementById("enterNewAddress");
     const formAddress1Elements = document.querySelectorAll(".form-address1");
@@ -1407,10 +1477,10 @@ function kiemtradiachi() {
     document.getElementById("diachinha").value =dchi;
     document.getElementById("text-address-city").value =tinh;
     document.getElementById("text-address-distric").value =quan;
-
 }
-function loadCitiesorder(){
-    const diachiData = JSON.parse(localStorage.getItem('diachiData')); // Lấy dữ liệu từ localStorage
+
+function loadCitiesorder(){ //load ra các thành phố/tỉnh để lựa chọn trong combobox
+    const diachiData = JSON.parse(localStorage.getItem('diachiData'));
     const citySelect = document.getElementById('cities');
     diachiData.regions.forEach(region => {// Thêm các thành phố vào combobox
       const option = document.createElement('option');
@@ -1419,12 +1489,12 @@ function loadCitiesorder(){
       citySelect.appendChild(option);
     });
     loadDistrictsorder("Hồ Chí Minh", diachiData);
-    citySelect.addEventListener('change', function () {// Lắng nghe sự kiện thay đổi trên combobox thành phố
+    citySelect.addEventListener('change', function () {
       loadDistrictsorder(this.value, diachiData);
     });
 }
   
-function loadDistrictsorder(selectedCity, diachiData) {// Hàm tải danh sách quận/huyện dựa vào thành phố được chọn
+function loadDistrictsorder(selectedCity, diachiData) {// load ra các quận/huyện dựa trên thành phố đã chọn
     const districtSelect = document.getElementById('districts');
     // Tìm thành phố được chọn
     districtSelect.innerHTML = '<option value="Chọn quận/huyện">Chọn quận/huyện</option>'; // Reset với một option mặc định
@@ -1432,80 +1502,14 @@ function loadDistrictsorder(selectedCity, diachiData) {// Hàm tải danh sách 
     if (selectedRegion) {
       selectedRegion.districts.forEach(district => {
         const option = document.createElement('option');
-        option.value = district.quan; // Dùng giá trị quận
-        option.textContent = district.quan; // Hiển thị tên quận/huyện
+        option.value = district.quan;
+        option.textContent = district.quan;
         districtSelect.appendChild(option);
       });
     } else {
       console.log('Không tìm thấy thành phố được chọn:', selectedCity);
     }
 }
-    
-/*-------------------------------------------------------------------------------------- */
-let display = document.getElementById('userdata');
 
-let userDisPlay = '';
 
-if (!currUser) {
-    userDisPlay += `
-    <i class="fa fa-user-circle"></i>
-    <div class="auth-container">
-        <span class="text-tk">Tài khoản <i class="fa fa-caret-down"></i></span>
-    </div>
-    <ul class="header-top-right-menu">
-        <li>
-            <a id="iconlogin" href="javascript:;"><i class="fa fa-user"></i> Đăng nhập</a>
-        </li>
-        <li>
-            <a id="iconsignup" href="javascript:;"><i class="fa fa-user-plus"></i> Đăng ký</a>
-        </li>
-    </ul>
-  `
-}
-else {
-    userDisPlay += `
-    <i class="fas fa-user-circle"></i>
-    <div class="auth-container">
-        <span class="text-tk">Xin chào - ${currUser.username}</i></span>
-    </div>
-    <ul class="header-top-right-menu">
-        <li>
-            <a id="iconsigout" href="javascript:;"><i class="fa fa-user-plus"></i> Đăng xuất</a>
-        </li>
-    </ul>
-  `
-}
-
-display.innerHTML = userDisPlay;
-
-const loginDiv = document.getElementById('user');
-const toggleButton = document.getElementById('iconlogin');
-const signupButton = document.getElementById('iconsignup');
-
-let loginForm = document.getElementById('login');
-let signupForm = document.getElementById('signup');
-let signout = document.getElementById('iconsigout');
-
-if (signout) {
-    signout.addEventListener('click', () => {
-        localStorage.removeItem('currentuser');
-        window.location.reload();
-    });
-}
-
-toggleButton.addEventListener('click', () => {
-    loginDiv.classList.add('user-open');
-    signupForm.style.display = 'none';
-    loginForm.style.display = 'block';
-});
-
-signupButton.addEventListener('click', () => {
-    loginDiv.classList.add('user-open');
-    loginForm.style.display = 'none';
-    signupForm.style.display = 'block';
-});
-
-CloseForm = () => {
-    loginDiv.classList.remove('user-open');
-}
-
+/*-------------------------------------------------------------------------------------*/
