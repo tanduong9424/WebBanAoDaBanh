@@ -43,6 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
 LoadCount();
 
 
+    
+ 
 
 function hienthichinhsach() { /*chính sách*/
     const productList = document.querySelector(".main-wrapper .container");
