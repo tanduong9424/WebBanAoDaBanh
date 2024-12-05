@@ -1,6 +1,6 @@
 let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
-let employee = JSON.parse(localStorage.getItem("employee")) || [];
-let customer = JSON.parse(localStorage.getItem("customers")) || [];
+let employees = JSON.parse(localStorage.getItem("employees")) || [];
+let customers = JSON.parse(localStorage.getItem("customers")) || [];
 let products = JSON.parse(localStorage.getItem("products")) || [];
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
 let orderDetails = JSON.parse(localStorage.getItem("orderDetails")) || [];
@@ -297,7 +297,7 @@ function viewAccountDetails(index) {
     let detailContent = '';
 
     // Tải dữ liệu từ localStorage
-    const employees = JSON.parse(localStorage.getItem("employee")) || [];
+    const employees = JSON.parse(localStorage.getItem("employees")) || [];
     const customers = JSON.parse(localStorage.getItem("customers")) || [];
 
     if (account.role === 'Nhân Viên') {
@@ -374,18 +374,28 @@ function createAccountElement(account, originalIndex) {
 
 
 // Hiển thị form thêm tài khoản
-function showAddAccountForm() {
-    // Đặt tiêu đề form và hiện form
-    document.getElementById("formTitle").innerText = "Thêm Tài Khoản Nhân Viên";
-    document.getElementById("accountForm").style.display = "block";
-    document.getElementById("username").value = "";
-    document.getElementById("password").value = "";
-    document.getElementById("name").value = "";
-    document.getElementById("phone").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("salary").value = "";
-    document.getElementById("status").value = "Hoạt động";
+function showAddAccountForm(type) {
+    // Ẩn Modal chọn loại tài khoản
+    document.getElementById("accountTypeModal").style.display = "none";
+
+    // Ẩn tất cả các form modal trước khi hiển thị form tương ứng
+    cancelForm();
+
+    // Hiển thị form cụ thể
+    if (type === "admin") {
+        document.getElementById("adminForm").style.display = "block";
+    } else if (type === "employee") {
+        document.getElementById("employeeForm").style.display = "block";
+    } else if (type === "customer") {
+        document.getElementById("customerForm").style.display = "block";
+    }
 }
+
+
+function showAccountTypeModal() {
+    document.getElementById("accountTypeModal").style.display = "flex";
+}
+
 
 // Lưu tài khoản mới
 function saveAccount() {
@@ -414,8 +424,8 @@ function saveAccount() {
     const newAccount = { matk: accountId, username, password, role: "Nhân Viên", status, isHidden: false };
     accounts.push(newAccount);
 
-    const empId = `NV${employee.length + 1}`;
-    employee.push({ matk: accountId, manv: empId, tennv: name, sdt: phone, email, luong: salary, isHidden: false });
+    const empId = `NV${employees.length + 1}`;
+    employees.push({ matk: accountId, manv: empId, tennv: name, sdt: phone, email, luong: salary, isHidden: false });
 
     saveData();
     renderAccounts();
@@ -425,10 +435,14 @@ function saveAccount() {
 // Hủy form thêm hoặc sửa tài khoản
 function cancelForm() {
     // Ẩn form và đưa các trường về trạng thái ban đầu
-    document.getElementById("accountForm").style.display = "none";
+//    document.getElementById("accountForm").style.display = "none";
     document.getElementById("editAdminForm").style.display = "none";
     document.getElementById("editEmployeeForm").style.display = "none";
     document.getElementById("editCustomerForm").style.display = "none";
+    document.getElementById("adminForm").style.display = "none";
+    document.getElementById("employeeForm").style.display = "none";
+    document.getElementById("customerForm").style.display = "none";
+    document.getElementById("accountTypeModal").style.display = "none";
 }
 
 // Hiển thị form sửa tài khoản
@@ -437,7 +451,7 @@ function showEditAccountForm(index) {
 
     // Lấy dữ liệu từ localStorage
     const customers = JSON.parse(localStorage.getItem("customers")) || [];
-    const employees = JSON.parse(localStorage.getItem("employee")) || [];
+    const employees = JSON.parse(localStorage.getItem("employees")) || [];
 
     // Tìm thông tin nhân viên hoặc khách hàng
     const emp = employees.find(e => e.matk === account.matk);
@@ -495,7 +509,7 @@ function updateAccount(index) {
 
     // Lấy dữ liệu từ localStorage
     const customers = JSON.parse(localStorage.getItem("customers")) || [];
-    const employees = JSON.parse(localStorage.getItem("employee")) || [];
+    const employees = JSON.parse(localStorage.getItem("employees")) || [];
 
     // Cập nhật thông tin cơ bản của tài khoản
     account.password = password;
@@ -534,7 +548,7 @@ function updateAccount(index) {
     }
     // Lưu thay đổi vào localStorage
     localStorage.setItem("accounts", JSON.stringify(accounts));
-    localStorage.setItem("employee", JSON.stringify(employees));
+    localStorage.setItem("employees", JSON.stringify(employees));
     localStorage.setItem("customers", JSON.stringify(customers));
     saveData();
     renderAccounts();
@@ -564,7 +578,7 @@ function updateAdminAccount() {
 
 function updateEmployeeAccount() {
     const account = accounts[editAccountIndex];
-    const emp = employee.find(e => e.matk === account.matk);
+    const emp = employees.find(e => e.matk === account.matk);
 
     const newPassword = document.getElementById("empPassword").value;
     const newStatus = document.getElementById("empStatus").value;
@@ -605,7 +619,7 @@ function updateEmployeeAccount() {
 
 function updateCustomerAccount() {
     const account = accounts[editAccountIndex];
-    const cust = customer.find(c => c.matk === account.matk);
+    const cust = customers.find(c => c.matk === account.matk);
 
     const newPassword = document.getElementById("custPassword").value;
     const newName = document.getElementById("custName").value;
@@ -738,8 +752,8 @@ function restoreAccount(index) {
 // Lưu dữ liệu vào localStorage
 function saveData() {
     localStorage.setItem("accounts", JSON.stringify(accounts));
-    localStorage.setItem("employee", JSON.stringify(employee));
-    localStorage.setItem("customer", JSON.stringify(customer));
+    localStorage.setItem("employees", JSON.stringify(employees));
+    localStorage.setItem("customers", JSON.stringify(customers));
 }
 
 // Chuyển đổi giữa các panel
@@ -788,8 +802,20 @@ window.onload = () => {
 
 // Kiểm tra tên đăng nhập duy nhất
 function isUniqueUsername(username) {
-    return !accounts.some(account => account.username === username);
+    if (!username || typeof username !== "string") {
+        console.error("Tên đăng nhập không hợp lệ:", username);
+        return false;
+    }
+
+    const exists = accounts.some(account => {
+        if (!account.username) return false; // Bỏ qua tài khoản không hợp lệ
+        return account.username.trim().toLowerCase() === username.trim().toLowerCase();
+    });
+
+    console.log("Checking username:", username, "Exists:", exists);
+    return !exists;
 }
+
 
 
 // Kiểm tra tính hợp lệ của số điện thoại
@@ -1111,13 +1137,13 @@ console.log(invoices);
 
 function calculateCustomerStatistics(filteredOrders) {
     // Giả sử customers là mảng chứa thông tin khách hàng đã được định nghĩa ở nơi khác
-    const customerRevenue = customer.map(customer => {
+    const customerRevenue = customers.map(customers => {
         // Lọc các hóa đơn của khách hàng trong thời gian đã chọn
         const totalRevenue = filteredOrders
-            .filter(orders => orders.makh.matk === customer.matk)  // Lọc hóa đơn theo mã khách hàng
+            .filter(orders => orders.makh.matk === customers.matk)  // Lọc hóa đơn theo mã khách hàng
             .reduce((sum, orders) => sum + orders.tongtien, 0);  // Tính tổng tiền từ các hóa đơn
 
-        return { ...customer, revenue: totalRevenue };  // Trả về thông tin khách hàng kèm theo tổng doanh thu
+        return { ...customers, revenue: totalRevenue };  // Trả về thông tin khách hàng kèm theo tổng doanh thu
     });
 
     // Sắp xếp khách hàng theo tổng tiền giảm dần
@@ -1469,3 +1495,130 @@ function editCustomerDetails(matk) {
     };
 } */
 
+    function saveAdmin() {
+        const username = document.getElementById("usernameAdmin").value;
+        const password = document.getElementById("passwordAdmin").value;
+    
+        if (!isUniqueUsername(username)) {
+            alert("Tên đăng nhập đã tồn tại!");
+            return;
+        }
+    
+        const accountId = `TK${accounts.length + 1}`;
+        accounts.push({ matk: accountId, username, password, role: "admin", status: "Hoạt động", isHidden: false });
+        saveData();
+        renderAccounts();
+        cancelForm();
+    }
+    
+    function saveEmployee() {
+        // Lấy giá trị từ form
+        const username = document.getElementById("usernameEmployee").value.trim();
+        const password = document.getElementById("passwordEmployee").value.trim();
+        const name = document.getElementById("nameEmployee").value.trim();
+        const phone = document.getElementById("phoneEmployee").value.trim();
+        const email = document.getElementById("emailEmployee").value.trim();
+        const salary = document.getElementById("salary").value.trim();
+    
+        // Kiểm tra tên đăng nhập duy nhất
+        if (!isUniqueUsername(username)) {
+            alert("Tên đăng nhập đã tồn tại!");
+            return;
+        }
+    
+        // Kiểm tra số điện thoại hợp lệ
+        if (!isValidPhone(phone)) {
+            alert("Số điện thoại không hợp lệ! Số điện thoại phải gồm 10 chữ số và bắt đầu bằng số 0.");
+            return;
+        }
+    
+        // Kiểm tra email hợp lệ
+        if (!isValidEmail(email)) {
+            alert("Email không hợp lệ! Hãy kiểm tra lại định dạng email.");
+            return;
+        }
+    
+        // Tạo tài khoản mới
+        const accountId = `TK${accounts.length + 1}`;
+        accounts.push({ matk: accountId, username, password, role: "Nhân Viên", status: "Hoạt động", isHidden: false });
+    
+        // Tạo nhân viên mới
+        const empId = `NV${employees.length + 1}`;
+        employees.push({
+            matk: accountId,
+            manv: empId,
+            tennv: name,
+            sdt: phone,
+            email: email,
+            luong: salary
+        });
+    
+        // Lưu vào LocalStorage
+        localStorage.setItem("accounts", JSON.stringify(accounts));
+        localStorage.setItem("employees", JSON.stringify(employees));
+    
+        // Cập nhật giao diện
+        saveData();
+        renderAccounts();
+        cancelForm();
+    }
+    
+    function saveCustomer() {
+        // Lấy giá trị từ form
+        const username = document.getElementById("usernameCustomer").value.trim();
+        const password = document.getElementById("passwordCustomer").value.trim();
+        const name = document.getElementById("nameCustomer").value.trim();
+        const phone = document.getElementById("phoneCustomer").value.trim();
+        const email = document.getElementById("emailCustomer").value.trim();
+        const address = document.getElementById("address").value.trim();
+    
+        // Kiểm tra tên đăng nhập duy nhất
+        if (!isUniqueUsername(username)) {
+            alert("Tên đăng nhập đã tồn tại!");
+            return;
+        }
+    
+        // Kiểm tra số điện thoại hợp lệ
+        if (!isValidPhone(phone)) {
+            alert("Số điện thoại không hợp lệ! Số điện thoại phải gồm 10 chữ số và bắt đầu bằng số 0.");
+            return;
+        }
+    
+        // Kiểm tra email hợp lệ
+        if (!isValidEmail(email)) {
+            alert("Email không hợp lệ! Hãy kiểm tra lại định dạng email.");
+            return;
+        }
+    
+        // Tạo tài khoản mới
+        const accountId = `TK${accounts.length + 1}`;
+        accounts.push({
+            matk: accountId,
+            username: username,
+            password: password,
+            role: "Khách Hàng",
+            status: "Hoạt động",
+            isHidden: false,
+        });
+    
+        // Tạo khách hàng mới
+        const custId = `KH${customers.length + 1}`;
+        customers.push({
+            matk: accountId,
+            makh: custId,
+            tenkh: name,
+            sdt: phone,
+            email: email,
+            diachi: address,
+        });
+    
+        // Lưu vào LocalStorage
+        localStorage.setItem("accounts", JSON.stringify(accounts));
+        localStorage.setItem("customer", JSON.stringify(customers));
+    
+        // Cập nhật giao diện
+        saveData();
+        renderAccounts();
+        cancelForm();
+    }
+    
