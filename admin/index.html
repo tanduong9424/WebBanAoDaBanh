@@ -79,6 +79,7 @@
                 
                 <button onclick="generateStatistics()">Thống kê</button>
             </div>
+            <div id="totalRevenue"></div>
             <div id="productStatistics"></div>
             <div id="customerStatistics"></div>
         </div>
@@ -260,8 +261,11 @@
     </div>
 
 
-    <!--Log out-->
-    <button id="logoutButton" onclick="logout()" style="display: none;">Đăng xuất</button>
+    <div id="userInfo" style="display: flex; align-items: center; gap: 10px;">
+        <span id="loggedInUserName"></span>
+    </div>    
+    <button id="logoutButton" onclick="logout()">Đăng xuất</button>
+    
     
     <script src="admin.js"></script>
     <script src="data.js"></script>

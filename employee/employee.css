@@ -289,3 +289,14 @@ button:hover {
 #logoutButton:active {
     transform: scale(0.98); /* Slightly shrink on click */
 }
+#userInfo {
+    position: fixed;
+    top: 10px;
+    right: 150px;
+    background-color: blue;
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    color: white;
+}

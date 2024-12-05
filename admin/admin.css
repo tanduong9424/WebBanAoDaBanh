@@ -610,3 +610,20 @@ table th {
     background-color: #007bff;
     color: white;
 }
+#totalRevenue {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+#userInfo {
+    position: fixed;
+    top: 10px;
+    right: 150px;
+    background-color: blue;
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    color: white;
+}
