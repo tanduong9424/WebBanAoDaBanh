@@ -1,109 +1,49 @@
+document.addEventListener("DOMContentLoaded", function () {
+  loadCities();
 
+});
 
-//30//11/2024
-let diachiJson = {
-  "regions": [
-    {
-      "city": "Hồ Chí Minh",
-      "districts": [
-        { "id": 1, "name": "Quận 1" },
-        { "id": 2, "name": "Quận 2" },
-        { "id": 3, "name": "Quận 3" },
-        { "id": 4, "name": "Quận 4" },
-        { "id": 5, "name": "Quận 5" },
-        { "id": 6, "name": "Quận 6" },
-        { "id": 7, "name": "Quận 7" },
-        { "id": 8, "name": "Quận 8" },
-        { "id": 9, "name": "Quận 9" },
-        { "id": 10, "name": "Quận 10" },
-        { "id": 11, "name": "Quận 11" },
-        { "id": 12, "name": "Quận Tân Bình" }
-      ]
-    },
-    {
-      "city": "Hà Nội",
-      "districts": [
-        { "id": 4, "name": "Ba Đình" },
-        { "id": 5, "name": "Hoàn Kiếm" },
-        { "id": 6, "name": "Đống Đa" }
-      ]
-    },
-    {
-      "city": "Đà Nẵng",
-      "districts": [
-        { "id": 7, "name": "Hải Châu" },
-        { "id": 8, "name": "Thanh Khê" },
-        { "id": 9, "name": "Sơn Trà" }
-      ]
-    }
-  ]
-};
+function loadCities(){
+    const diachiData = JSON.parse(localStorage.getItem('diachiData')); // Lấy dữ liệu từ localStorage
+    const citySelect = document.getElementById('city');
 
-
-
-
-
-//30//11/2024
-try {
-  const citySelect = document.getElementById('city');
-  
-  // Thêm các thành phố vào combobox
-  diachiJson.regions.forEach(region => {
-    const option = document.createElement('option');
-    option.value = region.city;
-    option.textContent = region.city;
-    citySelect.appendChild(option);
-  });
-
-  // Lắng nghe sự kiện thay đổi trên combobox thành phố
-  citySelect.addEventListener('change', function () {
-    loadDistricts(this.value);
-  });
-} catch (error) {
-  console.error('Lỗi khi tải danh sách thành phố:', error);
-}
-//30//11/2024
-function loadDistricts(selectedCity) {
-try {
-  const districtSelect = document.getElementById('district');
-  districtSelect.innerHTML = '<option value="">Chọn quận/huyện</option>'; // Reset danh sách quận/huyện
-
-  // Tìm thành phố được chọn
-  const selectedRegion = diachiJson.regions.find(region => region.city === selectedCity);
-
-  if (selectedRegion) {
-    selectedRegion.districts.forEach(district => {
+    diachiData.regions.forEach(region => {// Thêm các thành phố vào combobox
       const option = document.createElement('option');
-      option.value = district.id;
-      option.textContent = district.name;
-      districtSelect.appendChild(option);
+      option.value = region.city;
+      option.textContent = region.city;
+      citySelect.appendChild(option);
     });
-  }
-} catch (error) {
-  console.error('Lỗi khi tải danh sách quận/huyện:', error);
+
+    citySelect.addEventListener('change', function () {// Lắng nghe sự kiện thay đổi trên combobox thành phố
+      loadDistricts(this.value, diachiData);
+    });
 }
+  
+function loadDistricts(selectedCity, diachiData) {// Hàm tải danh sách quận/huyện dựa vào thành phố được chọn
+    const districtSelect = document.getElementById('district');
+    districtSelect.innerHTML = '<option value="">Chọn quận/huyện</option>'; // Reset danh sách quận/huyện
+    // Tìm thành phố được chọn
+    const selectedRegion = diachiData.regions.find(region => region.city === selectedCity);
+
+    if (selectedRegion) {
+      selectedRegion.districts.forEach(district => {
+        const option = document.createElement('option');
+        option.value = district.quan; // Dùng giá trị quận
+        option.textContent = district.quan; // Hiển thị tên quận/huyện
+        districtSelect.appendChild(option);
+      });
+    } else {
+      console.log('Không tìm thấy thành phố được chọn:', selectedCity);
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function closeform() {
-
   var arr = document.getElementById("user");
   if (arr) {
     arr.style.display = "none";
   }
 }
+
 function showSignup() {
   var loginform = document.getElementById("login");
   var signupform = document.getElementById("signup");
@@ -115,6 +55,7 @@ function showSignup() {
     signupform.style.display = "block";
   }
 }
+
 function showLogin() {
   var loginform = document.getElementById("login");
   var signupform = document.getElementById("signup");

@@ -2,10 +2,6 @@ window.onload = updateAmount();/*mở cửa sổ lên mặc định gọi hàm n
 window.onload = updateCartTotal();/*mở cửa sổ lên mặc định gọi hàm này*/
 let currUser = JSON.parse(localStorage.getItem('currentuser'));
 
-function ThemDieuKienSearch() {/*mở tìm kiếm nâng cao*/
-    event.preventDefault();
-    document.querySelector(".advanced-search").classList.toggle("open")
-}
 
 
 LoadCount = () => {
@@ -16,7 +12,8 @@ LoadCount = () => {
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    kiemtradiachi();;
+    kiemtradiachi();
+    loadCitiesorder();
      document.querySelector('.category-responsive-btn').addEventListener('click', () => {
         document.querySelector('.category').style.transform = 'translateX(0)';
         document.querySelector('#category-overlay').style.display = 'block';
@@ -42,123 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 LoadCount();
 
-function kiemtradiachi() {
-    const accountAddressOption = document.getElementById("useAccountAddress");
-    const newAddressOption = document.getElementById("enterNewAddress");
-    const formAddress1Elements = document.querySelectorAll(".form-address1");
-    const formAddress2Elements = document.querySelectorAll(".form-address2");
-
-    // Lấy dữ liệu từ localStorage
-    const user = JSON.parse(localStorage.getItem("currentuser")) || {};
-    const customers = JSON.parse(localStorage.getItem("customers")) || [];
-    const userCus = customers.find(item => item.matk === user.matk);
-
-    accountAddressOption.addEventListener("change", function () {
-        if (accountAddressOption.checked) {
-            // Hiển thị form-address1
-            formAddress1Elements.forEach(element => {
-                element.classList.remove("hidden");
-                element.style.display = "block";
-            });
-            // Ẩn form-address2
-            formAddress2Elements.forEach(element => {
-                element.classList.add("hidden");
-                element.style.display = "none";
-            });
-            // Kiểm tra và gán địa chỉ
-            const tenkh = userCus ? userCus.tenkh : "Tài khoản chưa cung cấp đủ thông tin"
-            const sdt = userCus ? userCus.sdt : "Tài khoản chưa cung cấp đủ thông tin"
-            const dchi = userCus && userCus.diachi ? userCus.diachi.chitiet : "Tài khoản chưa cung cấp địa chỉ";
-            const quan = userCus && userCus.diachi ? userCus.diachi.quan : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
-            const tinh = userCus && userCus.diachi ? userCus.diachi.tinh : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
-
-            document.getElementById("tennguoinhan").value =tenkh;
-            document.getElementById("tennguoinhan").disabled = true;
-            document.getElementById("sodienthoai").value =sdt;
-            document.getElementById("sodienthoai").disabled = true;
-            document.getElementById("diachinha").value =dchi;
-            document.getElementById("diachinha").disabled = true;
-            document.getElementById("text-address-city").value =tinh;
-            document.getElementById("text-address-city").disabled = true;
-            document.getElementById("text-address-distric").value =quan;
-            document.getElementById("text-address-distric").disabled = true;
-        }
-    });
-
-    // Xử lý sự kiện khi chọn "Nhập địa chỉ giao hàng mới"
-    newAddressOption.addEventListener("change", function () {
-        if (newAddressOption.checked) {    
-            // Ẩn form-address1
-            formAddress1Elements.forEach(element => {
-                element.classList.add("hidden");
-                element.style.display = "none";
-            });
-            // Hiển thị form-address2
-            formAddress2Elements.forEach(element => {
-                element.classList.remove("hidden");
-                element.style.display = "block";
-            });
-
-            document.getElementById("tennguoinhan").value ="";
-            document.getElementById("tennguoinhan").disabled = false;
-            document.getElementById("sodienthoai").value ="";
-            document.getElementById("sodienthoai").disabled = false;
-            document.getElementById("diachinha").value ="";
-            document.getElementById("diachinha").disabled = false;
-        }
-    });
-    //trường hợp mặc định tick cái load từ thông tin khách hàng ra
-    const tenkh = userCus ? userCus.tenkh : "Tài khoản chưa cung cấp đủ thông tin"
-    const sdt = userCus ? userCus.sdt : "Tài khoản chưa cung cấp đủ thông tin"
-    const dchi = userCus && userCus.diachi ? userCus.diachi.chitiet : "Tài khoản chưa cung cấp địa chỉ";
-    const quan = userCus && userCus.diachi ? userCus.diachi.quan : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
-    const tinh = userCus && userCus.diachi ? userCus.diachi.tinh : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
-    document.getElementById("tennguoinhan").value =tenkh;
-    document.getElementById("sodienthoai").value =sdt;
-    document.getElementById("diachinha").value =dchi;
-    document.getElementById("text-address-city").value =tinh;
-    document.getElementById("text-address-distric").value =quan;
-
-}
-    
- 
-
-function hienthichinhsach() { /*chính sách*/
-    const productList = document.querySelector(".main-wrapper .container");
-    productList.innerHTML = `
-        <div style="display:block;
-         font-family: Arial,sans-serif; color: #333; line-height: 1.6; background-color: white; width: 100%; height: auto;margin-bottom:40px;padding-left: 20px;transform: translate(0%, 5%);">
-            <h1 style="color: #007BFF; font-size: 2em;text-align: center;margin-bottom: 20px;">BẢO HÀNH - ĐỔI HÀNG - TRẢ HÀNG VỚI FOOTBALL KIT</h1>
-            <h2 style="color: #0056b3; font-size: 1.5em;margin-bottom: 10px;">QUY ĐỊNH BẢO HÀNH - ĐỔI TRẢ</h2>
-            <h3 style="color: #28a745; font-size: 1.3em; margin-bottom: 5px;">1. ĐỔI HÀNG TRONG 60 NGÀY NẾU CHƯA SỬ DỤNG</h3>
-            <ul style="padding-left: 20px;">
-                <li style="color: red; font-size: 1em;font-weight: bold;">*Chỉ áp dụng sản phẩm nguyên giá, không sale off</li>
-                <li>- Sản phẩm mua online (hoặc đến shop mua) được đổi sang mẫu khác trong vòng 60 ngày (kể từ ngày nhận hàng hoặc ngày lưu trên hóa đơn).</li>
-                <li>- Được đổi cùng mẫu sang size khác trong 365 ngày, nếu thử không vừa (vui lòng giữ sản phẩm mới nguyên 100%).</li>
-                <li>- Quý khách vui lòng liên hệ qua Facebook, Instagram hoặc liên hệ 0987654321 để kiểm tra kho và hỗ trợ đổi hàng.</li>
-                <li>- Gửi sản phẩm về địa chỉ: 273 An Dương Vương, Phường 3, Quận 5, TP Hồ Chí Minh hoặc đến trực tiếp để thử và đổi size.</li>
-                <li>- Chi phí vận chuyển đổi hàng, Quý Khách vui lòng thanh toán cho bên công ty giao hàng.</li>
-            </ul>
-
-            <h3 style="color: #28a745; font-size: 1.3em; margin-bottom: 5px;">2. ĐỔI HÀNG TRONG 14 NGÀY NẾU HÀNG BỊ LỖI SẢN XUẤT</h3>
-            <ul style="padding-left: 20px;">
-                <li>- Trong vòng 14 ngày kể từ ngày mua hàng (có hóa đơn), khách hàng được đổi sản phẩm mới nếu lỗi sản xuất:</li>
-                <li>- Đổi sang sản phẩm cùng loại nếu có.</li>
-                <li>- Nếu sản phẩm cùng mẫu hết size, quý khách có thể đổi sang mẫu khác hoặc yêu cầu hoàn tiền (100% giá trị sản phẩm).</li>
-            </ul>
-
-            <h3 style="color: #28a745; font-size: 1.3em;margin-bottom: 5px;">3. BẢO HÀNH KEO 1 NĂM CHO TẤT CẢ SẢN PHẨM GIÀY ĐÁ BÓNG</h3>
-            <ul style="padding-left: 20px;">
-                <li>- Bảo hành 1 đổi 1 trong 30 ngày đầu sử dụng nếu bị gãy đế (lỗi sản xuất).</li>
-                <li>- Bảo hành dán keo lên đến 12 tháng.</li>
-                <li>- Không bảo hành phần da giày và chỉ khâu giày.</li>
-            </ul>
-            
-            <p style="color: red; font-weight: bold; font-size: 1.9em;">Lưu ý: Không bảo hành sản phẩm do lỗi chủ quan sử dụng sai mục đích.</p>
-        </div>`
-        ;
-}
-
 function openCart() { //mở giỏ
     let currentuser = JSON.parse(localStorage.getItem('currentuser'));// Lấy người dùng hiện tại
     if (!currentuser || !currentuser.username) {
@@ -168,14 +48,14 @@ function openCart() { //mở giỏ
     else {
         showCart();/*gọi hàm show giỏ*/
         document.querySelector('.modal-cart').classList.add('open');
-        body.style.overflow = "hidden";
+        //body.style.overflow = "hidden";
     }
 
 }
 
 function closeCart() {//đóng giỏ
     document.querySelector('.modal-cart').classList.remove('open');
-    body.style.overflow = "auto";
+    //body.style.overflow = "auto";
     updateAmount();
 }
 
@@ -208,7 +88,6 @@ function increasingNumber(id) { // Tăng số lượng trong giỏ hàng
     showCart();
     updateCartTotal();
 }
-
 
 decreasingNumber = (id) => {//Giảm số lượng trong giỏ hàng
     let cart = JSON.parse(localStorage.getItem('cart'));
@@ -270,7 +149,7 @@ nutthanhtoan.addEventListener('click', () => {
     checkoutpage.classList.add('active');
     thanhtoanpage();
     closeCart();
-    body.style.overflow = "hidden"
+    //body.style.overflow = "hidden"
 })
 function closecheckout() {
     checkoutpage.classList.remove('active');
@@ -554,7 +433,6 @@ function addToCart(productId) {
     alert("Thêm sản phẩm vào giỏ hàng thành công!");
     LoadCount();
 }
-
 
 const products_1 = JSON.parse(localStorage.getItem('products')) || [];
 let filteredProducts = products_1;
@@ -994,6 +872,115 @@ function filterProducts() {//lọc tìm sản phẩm theo category
 }
 // ------------------------------------------------------------- HẾT DANH MỤC -----------------------------------------------------------------
 
+let display = document.getElementById('userdata');
+
+let userDisPlay = '';
+
+if (!currUser) {
+    userDisPlay += `
+    <i class="fa fa-user-circle"></i>
+    <div class="auth-container">
+        <span class="text-tk">Tài khoản <i class="fa fa-caret-down"></i></span>
+    </div>
+    <ul class="header-top-right-menu">
+        <li>
+            <a id="iconlogin" href="javascript:;"><i class="fa fa-user"></i> Đăng nhập</a>
+        </li>
+        <li>
+            <a id="iconsignup" href="javascript:;"><i class="fa fa-user-plus"></i> Đăng ký</a>
+        </li>
+    </ul>
+  `
+}
+else {
+    userDisPlay += `
+    <i class="fas fa-user-circle"></i>
+    <div class="auth-container">
+        <span class="text-tk">Xin chào - ${currUser.username}</i></span>
+    </div>
+    <ul class="header-top-right-menu">
+        <li>
+            <a id="iconsigout" href="javascript:;"><i class="fa fa-user-plus"></i> Đăng xuất</a>
+        </li>
+    </ul>
+  `
+}
+
+display.innerHTML = userDisPlay;
+
+const loginDiv = document.getElementById('user');
+const toggleButton = document.getElementById('iconlogin');
+const signupButton = document.getElementById('iconsignup');
+
+let loginForm = document.getElementById('login');
+let signupForm = document.getElementById('signup');
+let signout = document.getElementById('iconsigout');
+
+if (signout) {
+    signout.addEventListener('click', () => {
+        localStorage.removeItem('currentuser');
+        window.location.reload();
+    });
+}
+
+toggleButton.addEventListener('click', () => {
+    loginDiv.classList.add('user-open');
+    signupForm.style.display = 'none';
+    loginForm.style.display = 'block';
+});
+
+signupButton.addEventListener('click', () => {
+    loginDiv.classList.add('user-open');
+    loginForm.style.display = 'none';
+    signupForm.style.display = 'block';
+});
+
+CloseForm = () => {
+    loginDiv.classList.remove('user-open');
+}
+
+/*-------------------------------------HUỲNH TẤN DƯƠNG-------------------------------------------------------------------------------- */
+function ThemDieuKienSearch() {/*mở tìm kiếm nâng cao*/
+    event.preventDefault();
+    document.querySelector(".advanced-search").classList.toggle("open")
+}
+
+function hienthichinhsach() { /*chính sách*/
+    const productList = document.querySelector(".main-wrapper .container");
+    productList.innerHTML = `
+        <div style="display:block;
+         font-family: Arial,sans-serif; color: #333; line-height: 1.6; background-color: white; width: 100%; height: auto;margin-bottom:40px;padding-left: 20px;transform: translate(0%, 5%);">
+            <h1 style="color: #007BFF; font-size: 2em;text-align: center;margin-bottom: 20px;">BẢO HÀNH - ĐỔI HÀNG - TRẢ HÀNG VỚI FOOTBALL KIT</h1>
+            <h2 style="color: #0056b3; font-size: 1.5em;margin-bottom: 10px;">QUY ĐỊNH BẢO HÀNH - ĐỔI TRẢ</h2>
+            <h3 style="color: #28a745; font-size: 1.3em; margin-bottom: 5px;">1. ĐỔI HÀNG TRONG 60 NGÀY NẾU CHƯA SỬ DỤNG</h3>
+            <ul style="padding-left: 20px;">
+                <li style="color: red; font-size: 1em;font-weight: bold;">*Chỉ áp dụng sản phẩm nguyên giá, không sale off</li>
+                <li>- Sản phẩm mua online (hoặc đến shop mua) được đổi sang mẫu khác trong vòng 60 ngày (kể từ ngày nhận hàng hoặc ngày lưu trên hóa đơn).</li>
+                <li>- Được đổi cùng mẫu sang size khác trong 365 ngày, nếu thử không vừa (vui lòng giữ sản phẩm mới nguyên 100%).</li>
+                <li>- Quý khách vui lòng liên hệ qua Facebook, Instagram hoặc liên hệ 0987654321 để kiểm tra kho và hỗ trợ đổi hàng.</li>
+                <li>- Gửi sản phẩm về địa chỉ: 273 An Dương Vương, Phường 3, Quận 5, TP Hồ Chí Minh hoặc đến trực tiếp để thử và đổi size.</li>
+                <li>- Chi phí vận chuyển đổi hàng, Quý Khách vui lòng thanh toán cho bên công ty giao hàng.</li>
+            </ul>
+
+            <h3 style="color: #28a745; font-size: 1.3em; margin-bottom: 5px;">2. ĐỔI HÀNG TRONG 14 NGÀY NẾU HÀNG BỊ LỖI SẢN XUẤT</h3>
+            <ul style="padding-left: 20px;">
+                <li>- Trong vòng 14 ngày kể từ ngày mua hàng (có hóa đơn), khách hàng được đổi sản phẩm mới nếu lỗi sản xuất:</li>
+                <li>- Đổi sang sản phẩm cùng loại nếu có.</li>
+                <li>- Nếu sản phẩm cùng mẫu hết size, quý khách có thể đổi sang mẫu khác hoặc yêu cầu hoàn tiền (100% giá trị sản phẩm).</li>
+            </ul>
+
+            <h3 style="color: #28a745; font-size: 1.3em;margin-bottom: 5px;">3. BẢO HÀNH KEO 1 NĂM CHO TẤT CẢ SẢN PHẨM GIÀY ĐÁ BÓNG</h3>
+            <ul style="padding-left: 20px;">
+                <li>- Bảo hành 1 đổi 1 trong 30 ngày đầu sử dụng nếu bị gãy đế (lỗi sản xuất).</li>
+                <li>- Bảo hành dán keo lên đến 12 tháng.</li>
+                <li>- Không bảo hành phần da giày và chỉ khâu giày.</li>
+            </ul>
+            
+            <p style="color: red; font-weight: bold; font-size: 1.9em;">Lưu ý: Không bảo hành sản phẩm do lỗi chủ quan sử dụng sai mục đích.</p>
+        </div>`
+        ;
+}
+
 function showProductDetail(productId) {// hiện chi tiết sản phẩm khi ấn chi tiết
     const products = JSON.parse(localStorage.getItem('products')) || [];  // Lấy danh sách sản phẩm từ localStorage
     const product = products.find(item => item.masp === productId);// Tìm sản phẩm theo ID
@@ -1024,10 +1011,11 @@ function closeDetail() { //đóng chi tiết sản phẩm
     document.body.classList.remove('no-scroll');
 }
 
-function loadOrdersTable() {//load hóa đơn lên table
+function loadOrdersTable() {//load hóa đơn, lịch sử mua hàng lên table
     const orders = JSON.parse(localStorage.getItem("orders")) || [];
     const currentUser = JSON.parse(localStorage.getItem("currentuser")) || {};
     const customers = JSON.parse(localStorage.getItem("customers")) || [];
+
     const A = customers.find(cust => cust.matk === currentUser.matk);
     const customerOrders = orders.filter(order => order.makh.matk === A.matk);
     const tableContainer = document.querySelector(".main-wrapper .container");
@@ -1164,63 +1152,102 @@ function cancerOrderDetail(madonhang) {//hủy đơn
     }
 }
 
+function checkfillAddress(){// kiểm tra các text input/combobox được chọn chưa
+    const tenNguoiNhan = document.getElementById("tennguoinhan");
+    const soDienThoai = document.getElementById("sodienthoai");
+    const diaChiNha = document.getElementById("diachinha");
+    const districts = document.getElementById("districts");
+    const enterNewAddresss = document.getElementById("enterNewAddress");
+
+    if (!tenNguoiNhan.value.trim()){
+        alert("Vui lòng nhập tên người nhận.");
+        tenNguoiNhan.focus();
+        return 0;
+    }
+    if (!diaChiNha.value.trim()) {
+        alert("Vui lòng nhập địa chỉ nhà.");
+        diaChiNha.focus();
+        return 0;
+    }
+    if (!soDienThoai.value.trim()) {
+        alert("Vui lòng nhập số điện thoại.");
+        soDienThoai.focus();
+        return 0;
+    }
+    
+    if (enterNewAddresss.checked) {
+        if (districts.value.trim() === "Chọn quận/huyện") {
+            alert("Vui lòng chọn quận");
+            districts.focus();
+            return 0;
+        }
+        return 1;
+    }
+    return 1;
+}
+
 function createNewOrder(cartKey, customerID) {//tạo hóa đơn mới
     if (!customerID) {
         alert('Hãy đăng nhập trước !');
         return;
     }
-    const cart = JSON.parse(localStorage.getItem(cartKey)) || []; //lấy ra cart
-    const orders = JSON.parse(localStorage.getItem('orders')) || [];// lấy ra orders
-    const products = JSON.parse(localStorage.getItem('products')) || []; //lấy ra products
-    const orderDetails = JSON.parse(localStorage.getItem('orderDetails')) || [];// lấy ra orders details
+    if (checkfillAddress() == 1){
+        const cart = JSON.parse(localStorage.getItem(cartKey)) || []; //lấy ra cart
+        const orders = JSON.parse(localStorage.getItem('orders')) || [];// lấy ra orders
+        const products = JSON.parse(localStorage.getItem('products')) || []; //lấy ra products
+        const orderDetails = JSON.parse(localStorage.getItem('orderDetails')) || [];// lấy ra orders details
 
-    const lastOrderID = orders.length ? orders[orders.length - 1].madonhang : 'DH0';//lấy ra giá trị cuối để +1 cho madonhang
-    const newOrderID = 'DH' + (parseInt(lastOrderID.slice(2)) + 1);
+        const lastOrderID = orders.length ? orders[orders.length - 1].madonhang : 'DH0';//lấy ra giá trị cuối để +1 cho madonhang
+        const newOrderID = 'DH' + (parseInt(lastOrderID.slice(2)) + 1);
 
-    // Tính tổng tiền cho đơn hàng
-    const totalAmount = cart.reduce((total, item) => total + item.price * item.soluong, 0);
-    // Tạo đối tượng đơn hàng mới
-    const newOrder = {
-        madonhang: newOrderID,
-        makh: customerID,
-        thoigianmua: new Date().toISOString(),
-        tongtien: totalAmount,
-        tthd: "chưa xử lý"
-    };
+        // Tính tổng tiền cho đơn hàng
+        const totalAmount = cart.reduce((total, item) => total + item.price * item.soluong, 0);
+        // Tạo đối tượng đơn hàng mới
+        const newOrder = {
+            madonhang: newOrderID,
+            makh: customerID,
+            thoigianmua: new Date().toISOString(),
+            tongtien: totalAmount,
+            tthd: "chưa xử lý"
+        };
 
-    // Tạo chi tiết đơn hàng từ giỏ hàng
-    const newOrderDetails = cart.map
-        (item => (
-            {
-                madonhang: newOrderID,
-                masp: item.masp,
-                soluong: item.soluong,
-                dongia: item.price,
-                thanhtien: item.price * item.soluong
+        // Tạo chi tiết đơn hàng từ giỏ hàng
+        const newOrderDetails = cart.map
+            (item => (
+                {
+                    madonhang: newOrderID,
+                    masp: item.masp,
+                    soluong: item.soluong,
+                    dongia: item.price,
+                    thanhtien: item.price * item.soluong
+                }
+            )
+            );
+
+        cart.forEach(item => {/*giảm số lượng stock của product khi thanh toán */
+            const product = products.find(p => p.masp === item.masp);
+            if (product) {
+                product.stock -= item.soluong;
             }
-        )
-        );
+        });
+        localStorage.setItem('products', JSON.stringify(products));/*lưu lại products */
 
-    cart.forEach(item => {/*giảm số lượng stock của product khi thanh toán */
-        const product = products.find(p => p.masp === item.masp);
-        if (product) {
-            product.stock -= item.soluong;
-        }
-    });
-    localStorage.setItem('products', JSON.stringify(products));/*lưu lại products */
+        orders.push(newOrder);//push vào orders
+        localStorage.setItem('orders', JSON.stringify(orders));
 
-    orders.push(newOrder);//push vào orders
-    localStorage.setItem('orders', JSON.stringify(orders));
+        orderDetails.push(...newOrderDetails);//push vào orderDetails
+        localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
+        handleAddressOption(newOrderID);/*Kiểm tra địa chỉ giao hàng là thêm mới hay từ thông tin khách hàng*/
 
-    orderDetails.push(...newOrderDetails);//push vào orderDetails
-    localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
-    handleAddressOption(newOrderID);/*Kiểm tra địa chỉ giao hàng là thêm mới hay từ thông tin khách hàng*/
+        localStorage.removeItem(cartKey);// Xóa giỏ hàng sau khi tạo đơn hàng
+        localStorage.removeItem('cart');
+        LoadCount();
+        window.location.reload();
+        alert("Thanh toán thành công !\nVui lòng kiểm tra lịch sử mua hàng");
+    }
+    
 
-    localStorage.removeItem(cartKey);// Xóa giỏ hàng sau khi tạo đơn hàng
-    localStorage.removeItem('cart');
-    LoadCount();
-    window.location.reload();
-    alert("Thanh toán thành công !\nVui lòng kiểm tra lịch sử mua hàng");
+    
 
 }
 
@@ -1235,9 +1262,7 @@ function checkCartAndToggleButton(cartKey, buttonID) {/*Kiểm tra trong giỏ c
     }
 }
 
-/* ----------------------------------------------Lựa chọn địa chỉ cho đơn hàng-------------------------------------------------------------- */
-
-function handleAddressOption(newOrderID) {// kiểm tra radio button để gọi hàm nhập địa chỉ mới /từ thông tin khách hàng
+function handleAddressOption(newOrderID) {// kiểm tra radio button để gọi hàm nhập địa chỉ mới hoặc từ thông tin khách hàng
     const selectedOption = document.querySelector('input[name="address-option"]:checked').value;
     switch (selectedOption) {
         case "account":// địa chỉ từ thông tin khách hàng
@@ -1259,7 +1284,7 @@ function useAccountAddress(newOrderID) {// Hàm xử lý khi chọn địa chỉ
     const sdt = userCus ? userCus.sdt : "Khách hàng chưa cung cấp số điện thoại";
     const ten = userCus ? userCus.tenkh : "Khách hàng chưa cung cấp họ và tên";
 
-    const dchi = userCus ? userCus.diachi.dchi : "Khách hàng chưa cung cấp địa chỉ";
+    const dchi = userCus ? userCus.diachi.chitiet : "Khách hàng chưa cung cấp địa chỉ";
     const quan = userCus ? userCus.diachi.quan : "Khách hàng chưa cung cấp địa chỉ";
     const tinh = userCus ? userCus.diachi.tinh : "Khách hàng chưa cung cấp địa chỉ";
 
@@ -1296,83 +1321,195 @@ function enterNewAddress(newOrderID) {// Hàm xử lý khi nhập địa chỉ m
     localStorage.setItem("addressOrders", JSON.stringify(addressOrders));
 }
 
-let display = document.getElementById('userdata');
+function showPreviewOrder() {// hiện chi tiết hóa đơn xem trước khi thanh toán
+    if(checkfillAddress()==1){
+        const carts = JSON.parse(localStorage.getItem("cart"));
+        const currentuser= JSON.parse(localStorage.getItem("currentuser"));
+        const cart = carts.filter(item => item.username === currentuser.username);
+        const tenNguoiNhan = document.getElementById("tennguoinhan");
+        const soDienThoai = document.getElementById("sodienthoai");
+        const enterNewAddresss = document.getElementById("enterNewAddress");
+        const diaChiNha=document.getElementById("diachinha");
 
-let userDisPlay = '';
+        let totalPrice = 0;
+        cart.forEach(item => {
+            totalPrice += item.price * item.soluong; // Tính tiền cho mỗi sản phẩm và cộng dồn vào totalPrice
+        });
 
-if (!currUser) {
-    userDisPlay += `
-    <i class="fa fa-user-circle"></i>
-    <div class="auth-container">
-        <span class="text-tk">Tài khoản <i class="fa fa-caret-down"></i></span>
-    </div>
-    <ul class="header-top-right-menu">
-        <li>
-            <a id="iconlogin" href="javascript:;"><i class="fa fa-user"></i> Đăng nhập</a>
-        </li>
-        <li>
-            <a id="iconsignup" href="javascript:;"><i class="fa fa-user-plus"></i> Đăng ký</a>
-        </li>
-    </ul>
-  `
+        let districts='';
+        let cities='';
+       
+        if (enterNewAddresss.checked) {//khi nhập mới địa chỉ thì lấy từ combox
+            districts = document.getElementById("districts");
+            cities = document.getElementById("cities");
+        }
+        else{//lấy từ thông tin user thì lấy từ text input đã bị disabled
+            districts = document.getElementById("text-address-distric");
+            cities = document.getElementById("text-address-city");
+        }
+        let addressOd =  `${diaChiNha.value}, ${districts.value}, ${cities.value}`;
+
+        const detailDiv = document.querySelector(".preview-order");
+        const tableRows = cart.map(detail => `
+            <tr>
+                <td>${detail.masp}</td>
+                <td>${detail.soluong}</td>
+                <td>${detail.size}</td>
+                <td>${detail.price.toLocaleString().replace(/,/g, '.')} VNĐ</td>
+                <td>${detail.soluong*detail.price} VNĐ</td>
+            </tr>
+        `).join('');
+        
+        
+        detailDiv.innerHTML = `
+            <div class="detail-container">
+                <div id="chitiet-tren">
+                    <div class="header-chitiettren">
+                        <h3>TỔNG QUÁT HÓA ĐƠN</h3>
+                        <button onclick=closePreviewOrder();>Đóng</button>
+                    </div>
+                    <p><strong>Khách nhận hàng:</strong>${tenNguoiNhan.value}</p>
+                    <p><strong>Số điện thoại:</strong>${soDienThoai.value}</p>
+                    <p><strong>Địa chỉ giao hàng:</strong> ${addressOd}</p>
+                    <p><strong>Tổng tiền:</strong> ${totalPrice} VNĐ</p>
+                </div>
+
+                <div id="chitiet-duoi">
+                     <table id="orderDe" border="1" cellspacing="0" cellpadding="5" style="width: 100%; text-align: left;">
+                        <thead>
+                            <tr>
+                                <th>Mã sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Size</th>
+                                <th>Đơn giá</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableRows}
+                        </tbody>
+                    </table>
+                </div>
+            </div>`;
+        detailDiv.style.display = "block"; // Hiển thị div
+        document.body.classList.add('no-scroll');
+    }
+    
 }
-else {
-    userDisPlay += `
-    <i class="fas fa-user-circle"></i>
-    <div class="auth-container">
-        <span class="text-tk">Xin chào - ${currUser.username}</i></span>
-    </div>
-    <ul class="header-top-right-menu">
-        <li>
-            <a id="iconsigout" href="javascript:;"><i class="fa fa-user-plus"></i> Đăng xuất</a>
-        </li>
-    </ul>
-  `
+
+function closePreviewOrder() { //đóng xem trước hóa đơn
+    const detailDiv = document.querySelector(".preview-order");
+    detailDiv.style.display = "none"; // Ẩn div chi tiết
+    document.body.classList.remove('no-scroll');
 }
 
-display.innerHTML = userDisPlay;
+function kiemtradiachi() {// ẩn hiện các combobox / disable các text input khi chọn radio giữa lấy từ thông tin customer hoặc nhập mới
+    const accountAddressOption = document.getElementById("useAccountAddress");
+    const newAddressOption = document.getElementById("enterNewAddress");
+    const formAddress1Elements = document.querySelectorAll(".form-address1");
+    const formAddress2Elements = document.querySelectorAll(".form-address2");
 
-const loginDiv = document.getElementById('user');
-const toggleButton = document.getElementById('iconlogin');
-const signupButton = document.getElementById('iconsignup');
+    const user = JSON.parse(localStorage.getItem("currentuser")) || {};
+    const customers = JSON.parse(localStorage.getItem("customers")) || [];
+    const userCus = customers.find(item => item.matk === user.matk);
 
-let loginForm = document.getElementById('login');
-let signupForm = document.getElementById('signup');
-let signout = document.getElementById('iconsigout');
+    accountAddressOption.addEventListener("change", function () {
+        if (accountAddressOption.checked) {// Hiển thị form-address1 khi chon radio button lấy thông tin từ khách
+            formAddress1Elements.forEach(element => {
+                element.classList.remove("hidden");
+                element.style.display = "block";
+            });
+            formAddress2Elements.forEach(element => {// Ẩn form-address2 khi nhập mới địa chỉ,..
+                element.classList.add("hidden");
+                element.style.display = "none";
+            });
+            // Kiểm tra và gán địa chỉ
+            const tenkh = userCus ? userCus.tenkh : "Tài khoản chưa cung cấp đủ thông tin"
+            const sdt = userCus ? userCus.sdt : "Tài khoản chưa cung cấp đủ thông tin"
+            const dcchitiet = userCus && userCus.diachi ? userCus.diachi.chitiet : "Tài khoản chưa cung cấp địa chỉ";
+            const quan = userCus && userCus.diachi ? userCus.diachi.quan : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
+            const tinh = userCus && userCus.diachi ? userCus.diachi.tinh : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
 
-if (signout) {
-    signout.addEventListener('click', () => {
-        localStorage.removeItem('currentuser');
-        window.location.reload();
+            document.getElementById("tennguoinhan").value =tenkh;
+            document.getElementById("tennguoinhan").disabled = true;
+            document.getElementById("sodienthoai").value =sdt;
+            document.getElementById("sodienthoai").disabled = true;
+            document.getElementById("diachinha").value =dcchitiet;
+            document.getElementById("diachinha").disabled = true;
+            document.getElementById("text-address-city").value =tinh;
+            document.getElementById("text-address-city").disabled = true;
+            document.getElementById("text-address-distric").value =quan;
+            document.getElementById("text-address-distric").disabled = true;
+        }
+    });
+
+    // Xử lý sự kiện khi chọn "Nhập địa chỉ giao hàng mới"
+    newAddressOption.addEventListener("change", function () {
+        if (newAddressOption.checked) {    
+            // Ẩn form-address1
+            formAddress1Elements.forEach(element => {
+                element.classList.add("hidden");
+                element.style.display = "none";
+            });
+            // Hiển thị form-address2
+            formAddress2Elements.forEach(element => {
+                element.classList.remove("hidden");
+                element.style.display = "block";
+            });
+
+            document.getElementById("tennguoinhan").value ="";
+            document.getElementById("tennguoinhan").disabled = false;
+            document.getElementById("sodienthoai").value ="";
+            document.getElementById("sodienthoai").disabled = false;
+            document.getElementById("diachinha").value ="";
+            document.getElementById("diachinha").disabled = false;
+           
+        }
+    });
+    //trường hợp mặc định tick cái load từ thông tin khách hàng ra
+    const tenkh = userCus ? userCus.tenkh : "Tài khoản chưa cung cấp đủ thông tin"
+    const sdt = userCus ? userCus.sdt : "Tài khoản chưa cung cấp đủ thông tin"
+    const dchi = userCus && userCus.diachi ? userCus.diachi.chitiet : "Tài khoản chưa cung cấp địa chỉ";
+    const quan = userCus && userCus.diachi ? userCus.diachi.quan : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
+    const tinh = userCus && userCus.diachi ? userCus.diachi.tinh : "Tài khoản chưa cung cấp đủ thông tin địa chỉ";
+    document.getElementById("tennguoinhan").value =tenkh;
+    document.getElementById("sodienthoai").value =sdt;
+    document.getElementById("diachinha").value =dchi;
+    document.getElementById("text-address-city").value =tinh;
+    document.getElementById("text-address-distric").value =quan;
+}
+
+function loadCitiesorder(){ //load ra các thành phố/tỉnh để lựa chọn trong combobox
+    const diachiData = JSON.parse(localStorage.getItem('diachiData'));
+    const citySelect = document.getElementById('cities');
+    diachiData.regions.forEach(region => {// Thêm các thành phố vào combobox
+      const option = document.createElement('option');
+      option.value = region.city;
+      option.textContent = region.city;
+      citySelect.appendChild(option);
+    });
+    loadDistrictsorder("Hồ Chí Minh", diachiData);
+    citySelect.addEventListener('change', function () {
+      loadDistrictsorder(this.value, diachiData);
     });
 }
-
-toggleButton.addEventListener('click', () => {
-    loginDiv.classList.add('user-open');
-    signupForm.style.display = 'none';
-    loginForm.style.display = 'block';
-});
-
-signupButton.addEventListener('click', () => {
-    loginDiv.classList.add('user-open');
-    loginForm.style.display = 'none';
-    signupForm.style.display = 'block';
-});
-
-CloseForm = () => {
-    loginDiv.classList.remove('user-open');
+  
+function loadDistrictsorder(selectedCity, diachiData) {// load ra các quận/huyện dựa trên thành phố đã chọn
+    const districtSelect = document.getElementById('districts');
+    // Tìm thành phố được chọn
+    districtSelect.innerHTML = '<option value="Chọn quận/huyện">Chọn quận/huyện</option>'; // Reset với một option mặc định
+    const selectedRegion = diachiData.regions.find(region => region.city === selectedCity);
+    if (selectedRegion) {
+      selectedRegion.districts.forEach(district => {
+        const option = document.createElement('option');
+        option.value = district.quan;
+        option.textContent = district.quan;
+        districtSelect.appendChild(option);
+      });
+    } else {
+      console.log('Không tìm thấy thành phố được chọn:', selectedCity);
+    }
 }
 
 
-
-
-
-
-
-
-
-
-
-
-  
-  
+/*-------------------------------------------------------------------------------------*/
