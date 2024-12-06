@@ -10,7 +10,15 @@ function createAdminAccount() {
             status: "Hoạt động",
             role: "admin",
             isHidden: false
-        }        
+        },
+        {
+            matk: "TK2",
+            username: "dai",
+            password: "12345",
+            status: "Hoạt động",
+            role: "Khách Hàng",
+            isHidden: false
+          }        
         )
         localStorage.setItem('accounts', JSON.stringify(accounts));
     }
@@ -246,6 +254,7 @@ function createProducts() {
         localStorage.setItem('products', JSON.stringify(products));
     }
 }
+
 let diachiJson = {
     "regions": [
       {
@@ -308,19 +317,240 @@ let diachiJson = {
       }
     ]
   };
-  function saveToLocalStorage(key, data) {
+
+function saveToLocalStorage(key, data) {
     if (typeof key === "string" && data) {
-      localStorage.setItem(key, JSON.stringify(data));
-      console.log(`Dữ liệu đã được lưu vào Local Storage với key: "${key}"`);
+        localStorage.setItem(key, JSON.stringify(data));
+        console.log(`Dữ liệu đã được lưu vào Local Storage với key: "${key}"`);
     } else {
-      console.error("Key phải là chuỗi và data không được null hoặc undefined.");
+        console.error("Key phải là chuỗi và data không được null hoặc undefined.");
     }
-  }
+}
   
-  
+function createCustomers() {
+    let customers = localStorage.getItem("customers");
+    if (!customers) {
+        customers = [];
+        customers.push(
+        {
+            "makh": "KH1",
+            "matk": "TK2",
+            "tenkh": "dai",
+            "sdt": "0944432424",
+            "email": "test2@gmail.com",
+            "diachi": {
+                "chitiet": "abc",
+                "quan": "Cầu Giấy",
+                "tinh": "Hà Nội"
+            }
+            }
+        )
+        localStorage.setItem('customers', JSON.stringify(customers));
+    }
+}
+
+function createOrders() {
+    let orders = localStorage.getItem("orders");
+    if (!orders) {
+        orders = [];
+        orders.push(
+        {
+            "madonhang": "DH1",
+            "makh": {
+                "matk": "TK2",
+                "username": "dai",
+                "password": "12345",
+                "status": "Hoạt động",
+                "role": "Khách Hàng",
+                "isHidden": false
+            },
+            "thoigianmua": "2024-09-06T09:10:57.986Z",
+            "tongtien": 100000,
+            "tthd": "đã giao"
+        },
+        {
+            "madonhang": "DH2",
+            "makh": {
+              "matk": "TK2",
+              "username": "dai",
+              "password": "12345",
+              "status": "Hoạt động",
+              "role": "Khách Hàng",
+              "isHidden": false
+            },
+            "thoigianmua": "2024-10-16T09:12:35.877Z",
+            "tongtien": 570000,
+            "tthd": "đã giao"
+          },
+          {
+            "madonhang": "DH3",
+            "makh": {
+              "matk": "TK2",
+              "username": "dai",
+              "password": "12345",
+              "status": "Hoạt động",
+              "role": "Khách Hàng",
+              "isHidden": false
+            },
+            "thoigianmua": "2023-12-06T09:13:15.847Z",
+            "tongtien": 910000,
+            "tthd": "chưa xử lý"
+          },
+          {
+            "madonhang": "DH4",
+            "makh": {
+              "matk": "TK2",
+              "username": "dai",
+              "password": "12345",
+              "status": "Hoạt động",
+              "role": "Khách Hàng",
+              "isHidden": false
+            },
+            "thoigianmua": "2024-10-06T09:13:37.455Z",
+            "tongtien": 1200000,
+            "tthd": "chưa xử lý"
+          },
+          {
+            "madonhang": "DH5",
+            "makh": {
+              "matk": "TK2",
+              "username": "dai",
+              "password": "12345",
+              "status": "Hoạt động",
+              "role": "Khách Hàng",
+              "isHidden": false
+            },
+            "thoigianmua": "2024-11-11T09:13:52.968Z",
+            "tongtien": 250000,
+            "tthd": "đã giao"
+          }
+
+        )
+        localStorage.setItem('orders', JSON.stringify(orders));
+    }
+}
+
+function createOrderDetails() {
+    let orderDetails = localStorage.getItem("orderDetails");
+    if (!orderDetails) {
+        orderDetails = [];
+        orderDetails.push(
+        {
+            "madonhang": "DH1",
+            "masp": "SP1",
+            "soluong": 1,
+            "dongia": 100000,
+            "thanhtien": 100000
+        },
+        {
+            "madonhang": "DH2",
+            "masp": "SP3",
+            "soluong": 1,
+            "dongia": 250000,
+            "thanhtien": 250000
+        },
+        {
+            "madonhang": "DH2",
+            "masp": "SP6",
+            "soluong": 1,
+            "dongia": 320000,
+            "thanhtien": 320000
+          },
+          {
+            "madonhang": "DH3",
+            "masp": "SP17",
+            "soluong": 1,
+            "dongia": 260000,
+            "thanhtien": 260000
+          },
+          {
+            "madonhang": "DH3",
+            "masp": "SP13",
+            "soluong": 1,
+            "dongia": 650000,
+            "thanhtien": 650000
+          },
+          {
+            "madonhang": "DH4",
+            "masp": "SP10",
+            "soluong": 1,
+            "dongia": 550000,
+            "thanhtien": 550000
+          },
+          {
+            "madonhang": "DH4",
+            "masp": "SP12",
+            "soluong": 1,
+            "dongia": 650000,
+            "thanhtien": 650000
+          },
+          {
+            "madonhang": "DH5",
+            "masp": "SP3",
+            "soluong": 1,
+            "dongia": 250000,
+            "thanhtien": 250000
+          }
+        )
+        localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
+    }
+}
+
+function addressOrders() {
+    let addressOrders = localStorage.getItem("addressOrders");
+    if (!addressOrders) {
+        addressOrders = [];
+        addressOrders.push(
+        {
+            "nguoinhan": "dai",
+            "sdtngnhan": "0944432424",
+            "diachi": "abc",
+            "quan": "Cầu Giấy",
+            "tinh": "Hà Nội",
+            "madh": "DH1"
+        },
+        {
+            "nguoinhan": "dai",
+            "sdtngnhan": "0944432424",
+            "diachi": "abc",
+            "quan": "Cầu Giấy",
+            "tinh": "Hà Nội",
+            "madh": "DH2"
+          },
+          {
+            "nguoinhan": "Lương Cẩm Đào",
+            "sdtngnhan": "09883234",
+            "diachi": "b13b/35 đường cây cám ấp 2b xã vĩnh lộc b",
+            "quan": "Tây Hồ",
+            "tinh": "Hà Nội",
+            "madh": "DH3"
+          },
+          {
+            "nguoinhan": "dai",
+            "sdtngnhan": "0944432424",
+            "diachi": "abc",
+            "quan": "Cầu Giấy",
+            "tinh": "Hà Nội",
+            "madh": "DH4"
+          },{
+            "nguoinhan": "dai",
+            "sdtngnhan": "0944432424",
+            "diachi": "abc",
+            "quan": "Cầu Giấy",
+            "tinh": "Hà Nội",
+            "madh": "DH5"
+          }
+        )
+        localStorage.setItem('addressOrders', JSON.stringify(addressOrders));
+    }
+}
 
 window.onload = function() {
     createAdminAccount();
+    createCustomers();
     createProducts();
+    createOrders();
+    createOrderDetails();
+    addressOrders();
     saveToLocalStorage("diachiData", diachiJson);
 };
