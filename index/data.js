@@ -546,6 +546,7 @@ function addressOrders() {
 }
 
 window.onload = function() {
+    // Thêm account mới
     createAdminAccount();
     createCustomers();
     createProducts();
@@ -553,4 +554,5 @@ window.onload = function() {
     createOrderDetails();
     addressOrders();
     saveToLocalStorage("diachiData", diachiJson);
+    createOrders();
 };
