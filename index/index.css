@@ -365,7 +365,7 @@ body,input,button,textarea,pre {
 }
 #advanced-search-category-select{
     height: 35px;
-    width:100px;
+    width:150px;
     outline: none;
     border: none;
     border-radius: 5px;

@@ -592,7 +592,43 @@ function toggleSelectBox() {// hàm này chỉ để ẩn hiện lúc chọn cá
         }
     }
 }
+function filterClub(){
+    filteredProducts = products_1;
+    filteredProducts = products_1.filter(product =>
+        product.team.toLowerCase()!==""
+    );
+    document.querySelectorAll(".category-nation li.active").forEach(item => {
+        item.classList.remove("active");
+    });
 
+    document.querySelectorAll(".category-club li.active").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    document.querySelectorAll(".category-price li.active").forEach(item => {
+        item.classList.remove("active");
+    });
+    showPage(1);
+}
+
+function filterNational() {
+    filteredProducts = products_1;
+    filteredProducts = products_1.filter(product =>
+        product.national.toLowerCase()!==""
+    );
+    document.querySelectorAll(".category-nation li.active").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    document.querySelectorAll(".category-club li.active").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    document.querySelectorAll(".category-price li.active").forEach(item => {
+        item.classList.remove("active");
+    });
+    showPage(1);
+}
 function advancedSearch() {//tìm kiếm nâng cao
     filteredProducts = products_1;
     if (document.querySelector('.club').style.display != 'none') {
@@ -601,6 +637,10 @@ function advancedSearch() {//tìm kiếm nâng cao
 
             filteredProducts = products_1.filter(product =>
                 product.team.toLowerCase().includes(selectedClub)
+            );
+        }else{
+            filteredProducts = products_1.filter(product =>
+                product.team.toLowerCase()!==""
             );
         }
     }
@@ -612,6 +652,10 @@ function advancedSearch() {//tìm kiếm nâng cao
 
             filteredProducts = products_1.filter(product =>
                 product.national.toLowerCase().includes(selectedNation)
+            );
+        }else{
+            filteredProducts = products_1.filter(product =>
+                product.national.toLowerCase()!==""
             );
         }
     }
