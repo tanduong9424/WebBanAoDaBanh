@@ -365,6 +365,7 @@ body,input,button,textarea,pre {
 }
 #advanced-search-category-select{
     height: 35px;
+    width:150px;
     outline: none;
     border: none;
     border-radius: 5px;
@@ -376,6 +377,7 @@ body,input,button,textarea,pre {
 .advanced-search-category-select-club {
     display: none;
     height: 35px;
+    width:200px;
     outline: none;
     border: none;
     border-radius: 5px;
@@ -387,6 +389,7 @@ body,input,button,textarea,pre {
 .advanced-search-category-select-nation {
     display: none;
     height: 35px;
+    width:200px;
     outline: none;
     border: none;
     border-radius: 5px;
