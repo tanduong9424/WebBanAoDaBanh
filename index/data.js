@@ -10,7 +10,15 @@ function createAdminAccount() {
             status: "Hoạt động",
             role: "admin",
             isHidden: false
-        }        
+        },
+/*         {
+            matk: "TK2",
+            username: "duy",
+            password: "12345",
+            role: "Khách Hàng",
+            status: "Hoạt động",
+            isHidden: false
+        }   */     
         )
         localStorage.setItem('accounts', JSON.stringify(accounts));
     }
@@ -246,6 +254,78 @@ function createProducts() {
         localStorage.setItem('products', JSON.stringify(products));
     }
 }
+function createOrders() {
+    let orders = [];
+    let orderDetails = [];
+    let addressOrders = [];
+
+    const orderStatuses = ["chưa xử lý", "xác nhận", "đã giao", "đã hủy"];
+    const makh = {
+        "matk": "TK2",
+        "username": "duy",
+        "password": "12345",
+        "status": "Hoạt động",
+        "role": "Khách Hàng",
+        "isHidden": false
+    };
+    const products = JSON.parse(localStorage.getItem("products"));
+    const regions = JSON.parse(JSON.stringify(diachiJson));
+    
+
+    for (let i = 1; i <= 20; i++) {
+        const madonhang = `DH${i}`;
+        const thoigianmua = new Date().toISOString();
+        const tthd = orderStatuses[Math.floor(Math.random() * orderStatuses.length)];
+
+        // Generate order details (1 to 3 items)
+        const numDetails = Math.floor(Math.random() * 3) + 1;
+        let tongtien = 0;
+
+        for (let j = 0; j < numDetails; j++) {
+            const product = products[Math.floor(Math.random() * products.length)];
+            const soluong = Math.floor(Math.random() * 5) + 1;
+            const dongia = product.price;
+            const thanhtien = soluong * dongia;
+            tongtien += thanhtien;
+
+            orderDetails.push({
+                madonhang,
+                masp: product.masp,
+                soluong,
+                dongia,
+                thanhtien
+            });
+        }
+
+        // Generate address
+        const region = regions.regions[Math.floor(Math.random() * regions.regions.length)];
+        const district = region.districts[Math.floor(Math.random() * region.districts.length)];
+
+        addressOrders.push({
+            nguoinhan: makh.username,
+            sdtngnhan: "0985052900",
+            diachi: "Đường ABC",
+            quan: district.quan,
+            tinh: region.city,
+            madonhang
+        });
+
+        // Add order
+        orders.push({
+            madonhang,
+            makh,
+            thoigianmua,
+            tongtien,
+            tthd
+        });
+    }
+
+    // Save data to localStorage
+    localStorage.setItem("orders", JSON.stringify(orders));
+    localStorage.setItem("orderDetails", JSON.stringify(orderDetails));
+    localStorage.setItem("addressOrders", JSON.stringify(addressOrders));
+}
+
 let diachiJson = {
     "regions": [
       {
@@ -317,10 +397,12 @@ let diachiJson = {
     }
   }
   
-  
+
 
 window.onload = function() {
+    // Thêm account mới
     createAdminAccount();
     createProducts();
     saveToLocalStorage("diachiData", diachiJson);
+    createOrders();
 };

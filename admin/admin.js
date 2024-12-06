@@ -800,7 +800,7 @@ function generateStatistics() {
     const filteredOrders = orders.filter(order => {
         const orderDate = new Date(order.thoigianmua);
 
-        // Nếu không có ngày lọc, lấy toàn bộ
+        // Nếu không có ngày lọc, lấy toàn bộ đơn hàng đã giao
         if (!startDate && !endDate) return order.tthd === 'đã giao';
 
         // Nếu chỉ có ngày bắt đầu
@@ -843,7 +843,7 @@ function generateStatistics() {
         if ((!leastSelling || stat.soluong < leastSelling.soluong) && stat.soluong > 0) leastSelling = stat;
     });
 
-    // Hiển thị thống kê
+    // Hiển thị thống kê sản phẩm
     let html = `<h3>Thống kê sản phẩm</h3>`;
     html += `<p><strong>Tổng doanh thu:</strong> ${totalRevenue.toLocaleString()} VND</p>`; // Tổng doanh thu
     Object.values(productStatistics).forEach(stat => {
@@ -858,18 +858,110 @@ function generateStatistics() {
     if (bestSelling) html += `<p>Sản phẩm bán chạy nhất: ${bestSelling.tensp} (${bestSelling.soluong})</p>`;
     if (leastSelling) html += `<p>Sản phẩm bán ế nhất: ${leastSelling.tensp} (${leastSelling.soluong})</p>`;
 
-    // Tính toán và hiển thị top khách hàng
-    const topCustomers = calculateCustomerStatistics(filteredOrders);
-    renderCustomerStatistics(topCustomers);
+    // Thêm thống kê khách hàng
+    const customerStatistics = {};
 
+    filteredOrders.forEach(order => {
+        // Lấy mã khách hàng từ object `makh` trong đơn hàng (lấy `matk` từ `makh`)
+        const customerCode = customers.find(c => c.matk === order.makh?.matk)?.makh;
+        const customer = customers.find(c => c.makh === customerCode); // Tìm khách hàng từ `customers`
+
+        if (!customer) return;
+
+        if (!customerStatistics[customer.makh]) {
+            customerStatistics[customer.makh] = {
+                tenkh: customer.tenkh,
+                sdt: customer.sdt,
+                diachi: customer.diachi,
+                totalSpent: 0,
+                orderCount: 0,
+                orders: []
+            };
+        }
+
+        // Cộng tổng tiền chi tiêu của khách hàng
+        customerStatistics[customer.makh].totalSpent += order.tongtien;
+        customerStatistics[customer.makh].orderCount += 1;
+        customerStatistics[customer.makh].orders.push(order.madonhang);
+    });
+
+    // Hiển thị thống kê khách hàng
+    html += `<h3>Thống kê khách hàng</h3>`;
+    Object.values(customerStatistics).forEach(stat => {
+        html += `
+            <div>
+                <p><strong>Khách hàng:</strong> ${stat.tenkh}</p>
+                <p><strong>Số điện thoại:</strong> ${stat.sdt}</p>
+                <p><strong>Địa chỉ:</strong> ${stat.diachi?.chitiet}, ${stat.diachi?.quan}, ${stat.diachi?.tinh}</p>
+                <p><strong>Tổng tiền chi tiêu:</strong> ${stat.totalSpent.toLocaleString()} VND</p>
+                <p><strong>Số đơn hàng:</strong> ${stat.orderCount}</p>
+                <button onclick="viewCustomerOrders('${stat.makh}')">Xem hóa đơn</button>
+            </div>
+            <hr>
+        `;
+    });
+
+    // Hiển thị thống kê trong phần tử có ID "productStatistics"
     document.getElementById("productStatistics").innerHTML = html;
 }
 
 
 
 
+function viewProductOrders(orderIds) {
+    const orderIdList = orderIds.split(","); // Tách danh sách mã đơn hàng
+    let html = `<h3>Chi tiết đơn hàng</h3>`;
+
+    orderIdList.forEach(orderId => {
+        const order = orders.find(o => o.madonhang === orderId); // Lấy thông tin đơn hàng
+        if (!order) {
+            html += `<p>Không tìm thấy thông tin cho mã đơn hàng: ${orderId}</p><hr>`;
+            return;
+        }
+
+        // Tìm mã khách hàng trong object `makh` của đơn hàng
+        const customerCode = customers.find(c => c.matk === order.makh?.matk)?.makh;
+        const customer = customers.find(c => c.makh === customerCode); // Tìm khách hàng trong danh sách `customers`
+
+        // Kiểm tra nếu `diachi` là một object
+        const address = customer?.diachi;
+        const addressString = address
+            ? `${address.chitiet || ''}, ${address.quan || ''}, ${address.tinh || ''}`.replace(/^, |, $/g, '').trim()
+            : 'Không xác định';
+
+        if (customer) {
+            html += `
+                <p><strong>Mã đơn hàng:</strong> ${order.madonhang}</p>
+                <p><strong>Khách hàng:</strong> ${customer.tenkh} - ${customer.sdt}</p>
+                <p><strong>Địa chỉ:</strong> ${addressString}</p>
+                <p><strong>Thời gian mua:</strong> ${formatDateVietnam(order.thoigianmua)}</p>
+                <p><strong>Tổng tiền:</strong> ${order.tongtien.toLocaleString()} VND</p>
+                <h4>Chi tiết sản phẩm:</h4>
+                <ul>
+            `;
+            // Hiển thị từng sản phẩm trong đơn hàng
+            const details = orderDetails.filter(d => d.madonhang === orderId);
+            details.forEach(detail => {
+                const product = products.find(p => p.masp === detail.masp);
+                html += `
+                    <li>${product?.tensp || "Không xác định"} - Số lượng: ${detail.soluong}, Thành tiền: ${detail.thanhtien.toLocaleString()} VND</li>
+                `;
+            });
+
+            html += `</ul><hr>`;
+        } else {
+            html += `<p>Không tìm thấy khách hàng cho mã đơn hàng: ${orderId}</p><hr>`;
+        }
+    });
+
+    // Hiển thị nội dung trong modal
+    document.getElementById("detailContent").innerHTML = html;
+    document.getElementById("detailModal").style.display = "block";
+}
+
 function viewCustomerOrders(customerId) {
-    const customerOrders = orders.filter(order => order.makh === customerId);
+    // Lọc các đơn hàng của khách hàng theo `matk` trong object `makh`
+    const customerOrders = orders.filter(order => order.makh?.matk === customerId);
 
     let html = `
         <div class="modal" id="customerOrdersModal">
@@ -878,11 +970,16 @@ function viewCustomerOrders(customerId) {
                 <h3>Hóa đơn của khách hàng ${customerId}</h3>
     `;
 
+    // Hiển thị các đơn hàng của khách hàng
     customerOrders.forEach(order => {
+        // Tìm thông tin khách hàng từ matk trong object makh của order
+        const customer = customers.find(c => c.makh === order.makh?.matk);
+
         html += `
-            <p>Đơn hàng: ${order.madonhang}</p>
-            <p>Tổng tiền: ${order.tongtien.toLocaleString()} VND</p>
-            <p>Thời gian mua: ${formatDateVietnam(order.thoigianmua)}</p>
+            <p><strong>Đơn hàng:</strong> ${order.madonhang}</p>
+            <p><strong>Tổng tiền:</strong> ${order.tongtien.toLocaleString()} VND</p>
+            <p><strong>Thời gian mua:</strong> ${formatDateVietnam(order.thoigianmua)}</p>
+            <p><strong>Khách hàng:</strong> ${customer ? customer.tenkh : 'Không tìm thấy khách hàng'}</p>
             <hr>
         `;
     });
@@ -890,8 +987,6 @@ function viewCustomerOrders(customerId) {
     html += `</div></div>`;
     document.body.insertAdjacentHTML("beforeend", html); // Thêm modal vào DOM
 }
-
-
 
 
 //Thống kê sản phẩm
@@ -1667,6 +1762,7 @@ window.onload = () => {
         renderAccounts();
     }
     console.log("Window onload executed");
+    
     // Gọi hàm hiển thị thông tin người dùng
     displayLoggedInUser();
 
