@@ -113,6 +113,23 @@ const logic = {
       usernameInput.focus();
       return;
     }
+    const citySelect = document.getElementById('city');
+    const districtSelect = document.getElementById('district');
+    
+    const selectedCity = citySelect.options[citySelect.selectedIndex].text;
+    const selectedDistrict = districtSelect.options[districtSelect.selectedIndex].text;
+    
+    if (!selectedCity || selectedCity === "Chọn thành phố") {
+      alert("Vui lòng chọn thành phố!");
+      citySelect.focus();
+      return;
+    }
+    
+    if (!selectedDistrict || selectedDistrict === "Chọn quận/huyện") {
+      alert("Vui lòng chọn quận/huyện!");
+      districtSelect.focus();
+      return;
+    }
     if (!addressInput.value) {
       alert("Vui lòng nhập địa chỉ!");
       addressInput.focus();
@@ -162,23 +179,7 @@ const logic = {
       emailInput.focus();
       return;
     }
-    const citySelect = document.getElementById('city');
-    const districtSelect = document.getElementById('district');
-    
-    const selectedCity = citySelect.options[citySelect.selectedIndex].text;
-    const selectedDistrict = districtSelect.options[districtSelect.selectedIndex].text;
-    
-    if (!selectedCity || selectedCity === "Chọn thành phố") {
-      alert("Vui lòng chọn thành phố!");
-      citySelect.focus();
-      return;
-    }
-    
-    if (!selectedDistrict || selectedDistrict === "Chọn quận/huyện") {
-      alert("Vui lòng chọn quận/huyện!");
-      districtSelect.focus();
-      return;
-    }
+
     
     // Tạo tài khoản mới (giữ nguyên)
     const accounts = JSON.parse(localStorage.getItem("accounts")) || [];

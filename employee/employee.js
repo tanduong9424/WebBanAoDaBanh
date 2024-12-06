@@ -4,6 +4,18 @@ let orders = JSON.parse(localStorage.getItem("orders")) || [];
 let orderDetails = JSON.parse(localStorage.getItem("orderDetails")) || [];
 let customer = JSON.parse(localStorage.getItem("customers")) || [];
 
+//Hiển thị tên người đăng nhập
+localStorage.setItem("isLoggedIn", "true");
+const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+console.log("Window onload executed");
+// Gọi hàm hiển thị thông tin người dùng
+const userNameDisplay = document.getElementById("loggedInUserName");
+userNameDisplay.textContent = `Xin chào, ${loggedInUser.username || 'Người dùng'}`;
+document.getElementById("userInfo").style.display = "flex"; // Hiển thị phần thông tin
+displayLoggedInUser();
+
+
 
 function resetProductFilter(){
     document.getElementById("allRadio").checked=true;
@@ -935,6 +947,7 @@ saveData();
 
 function logout() {
     localStorage.setItem("isLoggedIn", "false");  // Reset login status
+    localStorage.removeItem("loggedInUser"); // Xóa thông tin người dùng
     window.location.href = "http://127.0.0.1:5505/admin/"; // Chuyển sang giao diện đăng nhập
 }
 
@@ -1069,3 +1082,28 @@ function validateDates() {
     }
 }
 
+function displayLoggedInUser() {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+    if (isLoggedIn && loggedInUser) {
+        const userNameDisplay = document.getElementById("loggedInUserName");
+        userNameDisplay.textContent = `Xin chào, ${loggedInUser.username || 'Người dùng'}`;
+        document.getElementById("userInfo").style.display = "flex"; // Hiển thị phần thông tin
+    } else {
+        document.getElementById("userInfo").style.display = "none"; // Ẩn thông tin nếu chưa đăng nhập
+    }
+}
+window.onload = () => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    console.log("Window onload executed");
+    // Gọi hàm hiển thị thông tin người dùng
+    if (isLoggedIn && loggedInUser) {
+        const userNameDisplay = document.getElementById("loggedInUserName");
+        userNameDisplay.textContent = `Xin chào, ${loggedInUser.username || 'Người dùng'}`;
+        document.getElementById("userInfo").style.display = "flex"; // Hiển thị phần thông tin
+    } else {
+        document.getElementById("userInfo").style.display = "none"; // Ẩn thông tin nếu chưa đăng nhập
+    }
+    displayLoggedInUser();
+}
