@@ -462,6 +462,12 @@ function renderPagination() {// hàm để tạo mấy nút phân trang
     `;
     }
     paginationButtons.innerHTML = paginationHTML;
+    if(totalPages === 1) {
+        document.querySelector('.pagination').style.display = 'none';
+    }
+    else {
+        document.querySelector('.pagination').style.display = 'flex';
+    }
 }
 
 function showPage(page) { //hiển thị sản phẩm
