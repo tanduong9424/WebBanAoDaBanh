@@ -13,12 +13,20 @@ function createAdminAccount() {
         },
         {
             matk: "TK2",
-            username: "dai",
+            username: "duy",
             password: "12345",
             status: "Hoạt động",
             role: "Khách Hàng",
             isHidden: false
-          }        
+          },
+          {
+            matk: "TK3",
+            username: "dai",
+            password: "12345",
+            status: "Hoạt động",
+            role: "Nhân Viên",
+            isHidden: false
+          }          
         )
         localStorage.setItem('accounts', JSON.stringify(accounts));
     }
@@ -358,7 +366,7 @@ function createOrders() {
             "madonhang": "DH1",
             "makh": {
                 "matk": "TK2",
-                "username": "dai",
+                "username": "duy",
                 "password": "12345",
                 "status": "Hoạt động",
                 "role": "Khách Hàng",
@@ -372,7 +380,7 @@ function createOrders() {
             "madonhang": "DH2",
             "makh": {
               "matk": "TK2",
-              "username": "dai",
+              "username": "duy",
               "password": "12345",
               "status": "Hoạt động",
               "role": "Khách Hàng",
@@ -386,7 +394,7 @@ function createOrders() {
             "madonhang": "DH3",
             "makh": {
               "matk": "TK2",
-              "username": "dai",
+              "username": "duy",
               "password": "12345",
               "status": "Hoạt động",
               "role": "Khách Hàng",
@@ -400,7 +408,7 @@ function createOrders() {
             "madonhang": "DH4",
             "makh": {
               "matk": "TK2",
-              "username": "dai",
+              "username": "duy",
               "password": "12345",
               "status": "Hoạt động",
               "role": "Khách Hàng",
@@ -414,7 +422,7 @@ function createOrders() {
             "madonhang": "DH5",
             "makh": {
               "matk": "TK2",
-              "username": "dai",
+              "username": "duy",
               "password": "12345",
               "status": "Hoạt động",
               "role": "Khách Hàng",
@@ -502,20 +510,20 @@ function addressOrders() {
         addressOrders = [];
         addressOrders.push(
         {
-            "nguoinhan": "dai",
+            "nguoinhan": "duy",
             "sdtngnhan": "0944432424",
             "diachi": "abc",
             "quan": "Cầu Giấy",
             "tinh": "Hà Nội",
-            "madh": "DH1"
+            "madonhang": "DH1"
         },
         {
-            "nguoinhan": "dai",
-            "sdtngnhan": "0944432424",
+            "nguoinhan": "Hồ Hữu Đại",
+            "sdtngnhan": "0944332424",
             "diachi": "abc",
             "quan": "Cầu Giấy",
             "tinh": "Hà Nội",
-            "madh": "DH2"
+            "madonhang": "DH2"
           },
           {
             "nguoinhan": "Lương Cẩm Đào",
@@ -523,22 +531,22 @@ function addressOrders() {
             "diachi": "b13b/35 đường cây cám ấp 2b xã vĩnh lộc b",
             "quan": "Tây Hồ",
             "tinh": "Hà Nội",
-            "madh": "DH3"
+            "madonhang": "DH3"
           },
           {
-            "nguoinhan": "dai",
+            "nguoinhan": "duy",
             "sdtngnhan": "0944432424",
             "diachi": "abc",
             "quan": "Cầu Giấy",
             "tinh": "Hà Nội",
-            "madh": "DH4"
+            "madonhang": "DH4"
           },{
-            "nguoinhan": "dai",
+            "nguoinhan": "duy",
             "sdtngnhan": "0944432424",
             "diachi": "abc",
             "quan": "Cầu Giấy",
             "tinh": "Hà Nội",
-            "madh": "DH5"
+            "madonhang": "DH5"
           }
         )
         localStorage.setItem('addressOrders', JSON.stringify(addressOrders));

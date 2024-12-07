@@ -1344,7 +1344,7 @@ function useAccountAddress(newOrderID) {// Hàm xử lý khi chọn địa chỉ
         diachi: dchi,
         quan: quan,
         tinh: tinh,
-        madh: newOrderID
+        madonhang: newOrderID
     };
     let addressOrders = JSON.parse(localStorage.getItem("addressOrders")) || [];
     addressOrders.push(newAddressOrder);
@@ -1364,7 +1364,7 @@ function enterNewAddress(newOrderID) {// Hàm xử lý khi nhập địa chỉ m
         diachi: dchi,
         quan: quan,
         tinh: tinh,
-        madh: newOrderID
+        madonhang: newOrderID
     };
     let addressOrders = JSON.parse(localStorage.getItem("addressOrders")) || [];
     addressOrders.push(newAddressOrder);
