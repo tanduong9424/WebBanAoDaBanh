@@ -1065,9 +1065,12 @@ function loadOrdersTable() {//load hóa đơn, lịch sử mua hàng lên table
     const orders = JSON.parse(localStorage.getItem("orders")) || [];
     const currentUser = JSON.parse(localStorage.getItem("currentuser")) || {};
     const customers = JSON.parse(localStorage.getItem("customers")) || [];
-
-    const A = customers.find(cust => cust.matk === currentUser.matk);
-    const customerOrders = orders.filter(order => order.makh.matk === A.matk);
+    const NguoiDungHienTai = customers.find(cust => cust.matk === currentUser.matk);
+    if (!NguoiDungHienTai) {// lúc chưa đăng nhập sẽ báo lỗi
+        alert("Vui lòng đăng nhập để xem lịch sử mua hàng !");
+        return;
+    }
+    const customerOrders = orders.filter(order => order.makh.matk === NguoiDungHienTai.matk);
     const tableContainer = document.querySelector(".main-wrapper .container");
     tableContainer.innerHTML = ""; // Xóa nội dung cũ
     const table = document.createElement("table");

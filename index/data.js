@@ -36,32 +36,35 @@ function createProducts() {
     let products = localStorage.getItem("products");
     if (!products) {
         products = [];
-        products.push({
+        products.push(
+          {
             masp: 'SP1', 
-            tensp: "Manchester United Kit", 
-            description:"Áo đấu sân nhà của đội Manchester United",
+            tensp: "Anh", 
+            description:"Áo đội tuyển Anh World Cup 2018 sân khách",
             size:"S",
-            price: 100000,
+            price: 250000,
             stock:32,
-            team:"MU",
-            national:'',
+            team:'',
+            national:"EN",
             date_added:"2024-11-16T04:21:54.645Z",
-            image_url: "../img/mu1.png", 
+            image_url: "../img/eng1.jpg", 
             status:true,
         },
+
         {
             masp: 'SP2', 
-            tensp: "Manchester City Kit", 
-            description:"Áo đấu sân nhà của đội Manchester City",
+            tensp: "Pháp", 
+            description:"Áo Đội Tuyển Pháp World Cup 2022",
             size:"S",
-            price: 120000,
+            price: 260000,
             stock:32,
-            team:"MC",
-            national:'',
+            team:'',
+            national:"PR",
             date_added:"2024-11-16T04:21:54.645Z",
-            image_url: "../img/mc1.png", 
+            image_url: "../img/phap1.jpg", 
             status:true,
         },
+        
         {
             masp: 'SP3', 
             tensp: "Barcelona Kit", 
@@ -232,32 +235,32 @@ function createProducts() {
             status:true,
         },
         {
-            masp: 'SP16', 
-            tensp: "Anh", 
-            description:"Áo đội tuyển Anh World Cup 2018 sân khách",
-            size:"S",
-            price: 250000,
-            stock:32,
-            team:'',
-            national:"EN",
-            date_added:"2024-11-16T04:21:54.645Z",
-            image_url: "../img/eng1.jpg", 
-            status:true,
-        },
-
-        {
-            masp: 'SP17', 
-            tensp: "Pháp", 
-            description:"Áo Đội Tuyển Pháp World Cup 2022",
-            size:"S",
-            price: 260000,
-            stock:32,
-            team:'',
-            national:"PR",
-            date_added:"2024-11-16T04:21:54.645Z",
-            image_url: "../img/phap1.jpg", 
-            status:true,
-        },
+          masp: 'SP16', 
+          tensp: "Manchester United Kit", 
+          description:"Áo đấu sân nhà của đội Manchester United",
+          size:"S",
+          price: 100000,
+          stock:32,
+          team:"MU",
+          national:'',
+          date_added:"2024-11-16T04:21:54.645Z",
+          image_url: "../img/mu1.png", 
+          status:true,
+      },
+      {
+          masp: 'SP17', 
+          tensp: "Manchester City Kit", 
+          description:"Áo đấu sân nhà của đội Manchester City",
+          size:"S",
+          price: 120000,
+          stock:32,
+          team:"MC",
+          national:'',
+          date_added:"2024-11-16T04:21:54.645Z",
+          image_url: "../img/mc1.png", 
+          status:true,
+      },
+        
     )
         localStorage.setItem('products', JSON.stringify(products));
     }
@@ -329,10 +332,7 @@ let diachiJson = {
 function saveToLocalStorage(key, data) {
     if (typeof key === "string" && data) {
         localStorage.setItem(key, JSON.stringify(data));
-        console.log(`Dữ liệu đã được lưu vào Local Storage với key: "${key}"`);
-    } else {
-        console.error("Key phải là chuỗi và data không được null hoặc undefined.");
-    }
+    } 
 }
   
 function createCustomers() {
@@ -343,12 +343,12 @@ function createCustomers() {
         {
             "makh": "KH1",
             "matk": "TK2",
-            "tenkh": "dai",
+            "tenkh": "duy",
             "sdt": "0944432424",
             "email": "test2@gmail.com",
             "diachi": {
-                "chitiet": "abc",
-                "quan": "Cầu Giấy",
+                "chitiet": "Số 38, đường Yên Lãng",
+                "quan": "Đống Đa",
                 "tinh": "Hà Nội"
             }
             }
@@ -402,7 +402,7 @@ function createOrders() {
             },
             "thoigianmua": "2023-12-06T09:13:15.847Z",
             "tongtien": 910000,
-            "tthd": "chưa xử lý"
+            "tthd": "đã giao"
           },
           {
             "madonhang": "DH4",
@@ -428,7 +428,7 @@ function createOrders() {
               "role": "Khách Hàng",
               "isHidden": false
             },
-            "thoigianmua": "2024-11-11T09:13:52.968Z",
+            "thoigianmua": "2024-12-07T09:13:52.968Z",
             "tongtien": 250000,
             "tthd": "đã giao"
           }
@@ -445,7 +445,7 @@ function createOrderDetails() {
         orderDetails.push(
         {
             "madonhang": "DH1",
-            "masp": "SP1",
+            "masp": "SP16",
             "soluong": 1,
             "dongia": 100000,
             "thanhtien": 100000
@@ -466,7 +466,7 @@ function createOrderDetails() {
           },
           {
             "madonhang": "DH3",
-            "masp": "SP17",
+            "masp": "SP2",
             "soluong": 1,
             "dongia": 260000,
             "thanhtien": 260000
@@ -521,8 +521,8 @@ function addressOrders() {
             "nguoinhan": "Hồ Hữu Đại",
             "sdtngnhan": "0944332424",
             "diachi": "abc",
-            "quan": "Cầu Giấy",
-            "tinh": "Hà Nội",
+            "quan": "Quận 1",
+            "tinh": "Hồ Chí Minh",
             "madonhang": "DH2"
           },
           {
@@ -537,15 +537,15 @@ function addressOrders() {
             "nguoinhan": "duy",
             "sdtngnhan": "0944432424",
             "diachi": "abc",
-            "quan": "Cầu Giấy",
-            "tinh": "Hà Nội",
+            "quan": "Quận 5",
+            "tinh": "Hồ Chí Minh",
             "madonhang": "DH4"
           },{
             "nguoinhan": "duy",
             "sdtngnhan": "0944432424",
             "diachi": "abc",
-            "quan": "Cầu Giấy",
-            "tinh": "Hà Nội",
+            "quan": "Quận 10",
+            "tinh": "Hồ Chí Minh",
             "madonhang": "DH5"
           }
         )
@@ -554,7 +554,6 @@ function addressOrders() {
 }
 
 window.onload = function() {
-    // Thêm account mới
     createAdminAccount();
     createCustomers();
     createProducts();
