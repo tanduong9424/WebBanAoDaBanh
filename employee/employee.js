@@ -707,7 +707,7 @@ function renderOrders(filteredOrders) {
             return;
         }
         const addressOrders = JSON.parse(localStorage.getItem('addressOrders')) || [];
-        const addressOrder = addressOrders.find(ao => ao.madonhang === order.madonhang);
+        const addressOrder = addressOrders.find(ao => ao.madh === order.madonhang);
         //console.log(addressOrder);
         const row = `
             <tr>
@@ -839,7 +839,7 @@ function viewOrderDetails(madonhang) {
     }
     //Tìm địa chỉ giao
     const addressOrders = JSON.parse(localStorage.getItem('addressOrders')) || [];
-    const addressOrder = addressOrders.find(ao => ao.madonhang === order.madonhang);
+    const addressOrder = addressOrders.find(ao => ao.madh === order.madonhang);
 
     // Tìm thông tin sản phẩm liên quan đến đơn hàng
     const orderProducts = orderDetails.filter(detail => detail.madonhang === madonhang);
@@ -1032,8 +1032,8 @@ function filterAndSortOrders() {
             const addressOrders = JSON.parse(localStorage.getItem('addressOrders')) || [];
 
             // Tìm địa chỉ của từng đơn hàng, nếu không có thì mặc định là một chuỗi rỗng
-            const addressOrder_A = addressOrders.find(ao => ao.madonhang === a.madonhang);
-            const addressOrder_B = addressOrders.find(ao => ao.madonhang === b.madonhang);
+            const addressOrder_A = addressOrders.find(ao => ao.madh === a.madonhang);
+            const addressOrder_B = addressOrders.find(ao => ao.madh === b.madonhang);
 
             // So sánh quận của 2 đơn hàng (theo thứ tự ABC)
             return addressOrder_A.quan.localeCompare(addressOrder_B.quan); // Sắp xếp quận theo thứ tự ABC

@@ -627,3 +627,31 @@ table th {
     font-size: 14px;
     color: white;
 }
+#customerStatistics {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+#customerStatistics table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#customerStatistics th, #customerStatistics td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+#customerStatistics th {
+    background-color: #4CAF50;
+    color: white;
+}
