@@ -464,6 +464,9 @@ function renderPagination() {// hàm để tạo mấy nút phân trang
     paginationButtons.innerHTML = paginationHTML;
     if(totalPages === 1) {
         document.querySelector('.pagination').style.display = 'none';
+        document.querySelector('.chevron-left').style.display = 'none';
+        document.querySelector('.chevron-rightright').style.display = 'none';
+        
     }
     else {
         document.querySelector('.pagination').style.display = 'flex';
@@ -515,6 +518,8 @@ function showPage(page) { //hiển thị sản phẩm
         <div class="empty">Cửa hàng hiện chưa có sản phẩm theo yêu cầu của bạn. Xin lỗi vì sự bất tiện.</div>
         `;
         document.querySelector('.pagination').style.display = 'none';
+        document.querySelector('.chevron-left').style.display = 'none';
+        document.querySelector('.chevron-rightright').style.display = 'none';
     }
     renderPagination(); // gọi hàm tạo nút phân trang
 }
@@ -1297,12 +1302,8 @@ function createNewOrder(cartKey, customerID) {//tạo hóa đơn mới
         localStorage.removeItem('cart');
         LoadCount();
         window.location.reload();
-        alert("Thanh toán thành công !\nVui lòng kiểm tra lịch sử mua hàng");
+        alert("Thanh toán thành công\nVui lòng kiểm tra lịch sử mua hàng");
     }
-    
-
-    
-
 }
 
 function checkCartAndToggleButton(cartKey, buttonID) {/*Kiểm tra trong giỏ có sản phẩm ko r mới cho thanh toán */
