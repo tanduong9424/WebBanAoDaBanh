@@ -1045,7 +1045,7 @@ function viewProductOrders(orderIds) {
     document.getElementById("detailModal").style.display = "block";
 }
 
-function viewCustomerOrders(makh) {
+/* function viewCustomerOrders(makh) {
     const customer = customers.find(c => c.makh === makh);
     if (!customer) {
         alert("Không tìm thấy thông tin khách hàng!");
@@ -1091,8 +1091,69 @@ function viewCustomerOrders(makh) {
     // Hiển thị nội dung trong modal
     document.getElementById("detailContent").innerHTML = html;
     document.getElementById("detailModal").style.display = "block";
-}
+} */
 
+    function viewCustomerOrders(makh) {
+        const customer = customers.find(c => c.makh === makh);
+        if (!customer) {
+            alert("Không tìm thấy thông tin khách hàng!");
+            return;
+        }
+    
+        const matk = customer.matk; // Lấy mã tài khoản từ khách hàng
+        const customerOrders = orders.filter(order => order.makh?.matk === matk);
+    
+        let html = `<h3>Chi tiết hóa đơn của khách hàng ${makh} (${customer.tenkh} - ${customer.sdt})</h3>`;
+    
+        if (customerOrders.length === 0) {
+            html += `<p>Không tìm thấy hóa đơn nào cho khách hàng này.</p>`;
+        } else {
+            html += `
+                <table border="1" cellspacing="0" cellpadding="5">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn hàng</th>
+                            <th>Địa chỉ</th>
+                            <th>Thời gian mua</th>
+                            <th>Tổng tiền</th>
+                            <th>Chi tiết sản phẩm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+    
+            customerOrders.forEach(order => {
+                const address = customer?.diachi;
+                const addressString = address
+                    ? `${address.chitiet || ''}, ${address.quan || ''}, ${address.tinh || ''}`.replace(/^, |, $/g, '').trim()
+                    : 'Không xác định';
+    
+                let productDetails = "<ul>";
+                const details = orderDetails.filter(d => d.madonhang === order.madonhang);
+                details.forEach(detail => {
+                    const product = products.find(p => p.masp === detail.masp);
+                    productDetails += `<li>${product?.tensp || "Không xác định"} - Số lượng: ${detail.soluong}, Thành tiền: ${detail.thanhtien.toLocaleString()} VND</li>`;
+                });
+                productDetails += "</ul>";
+    
+                html += `
+                    <tr>
+                        <td>${order.madonhang}</td>
+                        <td>${addressString}</td>
+                        <td>${formatDateVietnam(order.thoigianmua)}</td>
+                        <td>${order.tongtien.toLocaleString()} VND</td>
+                        <td>${productDetails}</td>
+                    </tr>
+                `;
+            });
+    
+            html += `</tbody></table>`;
+        }
+    
+        // Hiển thị nội dung trong modal
+        document.getElementById("detailContent").innerHTML = html;
+        document.getElementById("detailModal").style.display = "block";
+    }
 
 
 

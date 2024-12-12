@@ -943,6 +943,7 @@ if (!currUser) {
   `
 }
 else {
+    
     userDisPlay += `
     <i class="fas fa-user-circle"></i>
     <div class="auth-container">

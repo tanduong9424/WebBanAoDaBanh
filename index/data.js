@@ -26,6 +26,30 @@ function createAdminAccount() {
             status: "Hoạt động",
             role: "Nhân Viên",
             isHidden: false
+          },
+          {
+            matk: "TK4",
+            username: "duong",
+            password: "12345",
+            role: "Khách Hàng",
+            status: "Hoạt động",
+            isHidden: false
+          },
+          {
+            matk: "TK5",
+            username: "tham",
+            password: "12345",
+            role: "Khách Hàng",
+            status: "Hoạt động",
+            isHidden: false
+          },
+          {
+            matk: "TK6",
+            username: "bao",
+            password: "12345",
+            role: "Khách Hàng",
+            status: "Hoạt động",
+            isHidden: false
           }          
         )
         localStorage.setItem('accounts', JSON.stringify(accounts));
@@ -424,24 +448,81 @@ function saveToLocalStorage(key, data) {
         localStorage.setItem(key, JSON.stringify(data));
     } 
 }
-  
+
+function createEmployees() {
+  let employees = localStorage.getItem("employees");
+  if (!employees) {
+    employees = [];
+    employees.push(
+      {
+        "matk": "TK3",
+        "manv": "NV1",
+        "tennv": "Hồ Hữu Đại",
+        "sdt": "0987652211",
+        "email": "dai@abc.com",
+        "luong": "12345"
+      }
+      )
+      localStorage.setItem('employees', JSON.stringify(employees));
+  }
+}
+
 function createCustomers() {
     let customers = localStorage.getItem("customers");
     if (!customers) {
         customers = [];
         customers.push(
         {
-            "makh": "KH1",
-            "matk": "TK2",
-            "tenkh": "duy",
-            "sdt": "0944432424",
-            "email": "test2@gmail.com",
-            "diachi": {
-                "chitiet": "Số 38, đường Yên Lãng",
-                "quan": "Đống Đa",
-                "tinh": "Hà Nội"
+            makh: "KH1",
+            matk: "TK2",
+            tenkh: "Nguyễn Xuân Duy",
+            sdt: "0944432424",
+            email: "duy@gmail.com",
+            diachi: {
+                chitiet: "Số 38, đường Yên Lãng",
+                quan: "Đống Đa",
+                tinh: "Hà Nội"
             }
+          },
+          {
+            makh: "KH2",
+            matk: "TK4",
+            tenkh: "Huỳnh Tấn Dương",
+            sdt: "0987654321",
+            email: "duong@gmail.com",
+            diachi: {
+              chitiet: "99/b",
+              quan: "Quận Tân Bình",
+              tinh: "Hồ Chí Minh"
             }
+          },
+          {
+            makh: "KH3",
+            matk: "TK5",
+            tenkh: "Nguyễn Lê Hồng Thắm",
+            sdt: "0987654321",
+            email: "thamg@gmail.com",
+            diachi: {
+              chitiet: "100/B/34",
+              quan: "Hoàng Mai",
+              tinh: "Hà Nội"
+            }
+          },
+          {
+            makh: "KH4",
+            matk: "TK6",
+            tenkh: "Huỳnh Nguyễn Thiên Bảo",
+            sdt: "0987654321",
+            email: "bao@gmail.com",
+            diachi: {
+              chitiet: "330/B/34",
+              quan: "Hoàng Mai",
+              tinh: "Hà Nội"
+            }
+          }
+
+
+
         )
         localStorage.setItem('customers', JSON.stringify(customers));
     }
@@ -521,6 +602,103 @@ function createOrders() {
             "thoigianmua": "2024-12-07T09:13:52.968Z",
             "tongtien": 250000,
             "tthd": "đã giao"
+          },
+          {
+            "madonhang": "DH6",
+            "makh": {
+              "matk": "TK5",
+              "username": "tham",
+              "password": "12345",
+              "role": "Khách Hàng",
+              "status": "Hoạt động",
+              "isHidden": false
+            },
+            "thoigianmua": "2024-11-10T12:20:01.237Z",
+            "tongtien": 700000,
+            "tthd": "đã giao"
+          },
+          {
+            "madonhang": "DH7",
+            "makh": {
+              "matk": "TK5",
+              "username": "tham",
+              "password": "12345",
+              "role": "Khách Hàng",
+              "status": "Hoạt động",
+              "isHidden": false
+            },
+            "thoigianmua": "2024-12-10T12:20:14.750Z",
+            "tongtien": 2820000,
+            "tthd": "đã giao"
+          },
+          {
+            "madonhang": "DH8",
+            "makh": {
+              "matk": "TK5",
+              "username": "tham",
+              "password": "12345",
+              "role": "Khách Hàng",
+              "status": "Hoạt động",
+              "isHidden": false
+            },
+            "thoigianmua": "2024-12-10T12:20:36.222Z",
+            "tongtien": 5000000,
+            "tthd": "đã giao"
+          },
+          {
+            "madonhang": "DH9",
+            "makh": {
+              "matk": "TK6",
+              "username": "bao",
+              "password": "12345",
+              "role": "Khách Hàng",
+              "status": "Hoạt động",
+              "isHidden": false
+            },
+            "thoigianmua": "2024-12-12T12:30:37.577Z",
+            "tongtien": 940000,
+            "tthd": "chưa xử lý"
+          },{
+            "madonhang": "DH10",
+            "makh": {
+              "matk": "TK6",
+              "username": "bao",
+              "password": "12345",
+              "role": "Khách Hàng",
+              "status": "Hoạt động",
+              "isHidden": false
+            },
+            "thoigianmua": "2024-12-12T12:30:46.274Z",
+            "tongtien": 390000,
+            "tthd": "đã giao"
+          },
+          {
+            "madonhang": "DH11",
+            "makh": {
+              "matk": "TK6",
+              "username": "bao",
+              "password": "12345",
+              "role": "Khách Hàng",
+              "status": "Hoạt động",
+              "isHidden": false
+            },
+            "thoigianmua": "2024-12-12T12:30:53.705Z",
+            "tongtien": 100000,
+            "tthd": "chưa xử lý"
+          },
+          {
+            "madonhang": "DH12",
+            "makh": {
+              "matk": "TK4",
+              "username": "duong",
+              "password": "12345",
+              "role": "Khách Hàng",
+              "status": "Hoạt động",
+              "isHidden": false
+            },
+            "thoigianmua": "2024-12-12T12:36:53.669Z",
+            "tongtien": 100000,
+            "tthd": "đã giao"
           }
 
         )
@@ -588,6 +766,73 @@ function createOrderDetails() {
             "soluong": 1,
             "dongia": 250000,
             "thanhtien": 250000
+          },
+          {
+            "madonhang": "DH6",
+            "masp": "SP3",
+            "soluong": 1,
+            "dongia": 350000,
+            "thanhtien": 350000
+          },{
+            "madonhang": "DH6",
+            "masp": "SP5",
+            "soluong": 1,
+            "dongia": 350000,
+            "thanhtien": 350000
+          },
+          {
+            "madonhang": "DH7",
+            "masp": "SP4",
+            "soluong": 1,
+            "dongia": 320000,
+            "thanhtien": 320000
+          },{
+            "madonhang": "DH7",
+            "masp": "SP1",
+            "soluong": 5,
+            "dongia": 500000,
+            "thanhtien": 2500000
+          },
+          {
+            "madonhang": "DH8",
+            "masp": "SP18",
+            "soluong": 11,
+            "dongia": 400000,
+            "thanhtien": 4400000
+          },{
+            "madonhang": "DH8",
+            "masp": "SP14",
+            "soluong": 4,
+            "dongia": 150000,
+            "thanhtien": 600000
+          },
+          {
+            "madonhang": "DH9",
+            "masp": "SP2",
+            "soluong": 2,
+            "dongia": 470000,
+            "thanhtien": 940000
+          },
+          {
+            "madonhang": "DH10",
+            "masp": "SP6",
+            "soluong": 1,
+            "dongia": 390000,
+            "thanhtien": 390000
+          },
+          {
+            "madonhang": "DH11",
+            "masp": "SP16",
+            "soluong": 1,
+            "dongia": 100000,
+            "thanhtien": 100000
+          },
+          {
+            "madonhang": "DH12",
+            "masp": "SP16",
+            "soluong": 1,
+            "dongia": 100000,
+            "thanhtien": 100000
           }
         )
         localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
@@ -637,6 +882,59 @@ function addressOrders() {
             "quan": "Quận 10",
             "tinh": "Hồ Chí Minh",
             "madonhang": "DH5"
+          },
+          {
+            "nguoinhan": "Nguyễn Lê Hồng Thắm",
+            "sdtngnhan": "0987654321",
+            "diachi": "100/B/34",
+            "quan": "Hoàng Mai",
+            "tinh": "Hà Nội",
+            "madonhang": "DH6"
+          },{
+            "nguoinhan": "Nguyễn Lê Hồng Thắm",
+            "sdtngnhan": "0987654321",
+            "diachi": "100/B/34",
+            "quan": "Hoàng Mai",
+            "tinh": "Hà Nội",
+            "madonhang": "DH7"
+          },{
+            "nguoinhan": "Nguyễn Lê Hồng Thắm",
+            "sdtngnhan": "0987654321",
+            "diachi": "100/B/34",
+            "quan": "Hoàng Mai",
+            "tinh": "Hà Nội",
+            "madonhang": "DH8"
+          },
+          {
+            "nguoinhan": "Huỳnh Nguyễn Thiên Bảo",
+            "sdtngnhan": "0987654321",
+            "diachi": "330/B/34",
+            "quan": "Hoàng Mai",
+            "tinh": "Hà Nội",
+            "madonhang": "DH9"
+          },{
+            "nguoinhan": "Huỳnh Nguyễn Thiên Bảo",
+            "sdtngnhan": "0987654321",
+            "diachi": "330/B/34",
+            "quan": "Hoàng Mai",
+            "tinh": "Hà Nội",
+            "madonhang": "DH10"
+          },
+          {
+            "nguoinhan": "Huỳnh Nguyễn Thiên Bảo",
+            "sdtngnhan": "0987654321",
+            "diachi": "330/B/34",
+            "quan": "Hoàng Mai",
+            "tinh": "Hà Nội",
+            "madonhang": "DH11"
+          },
+          {
+            "nguoinhan": "Huỳnh Tấn Dương",
+            "sdtngnhan": "0987654321",
+            "diachi": "99/b",
+            "quan": "Quận Tân Bình",
+            "tinh": "Hồ Chí Minh",
+            "madonhang": "DH12"
           }
         )
         localStorage.setItem('addressOrders', JSON.stringify(addressOrders));
@@ -646,6 +944,7 @@ function addressOrders() {
 window.onload = function() {
     createAdminAccount();
     createCustomers();
+    createEmployees();
     createProducts();
     createOrders();
     createOrderDetails();

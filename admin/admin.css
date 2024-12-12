@@ -8,6 +8,7 @@ html, body {
     background: #f3f3f3;
     font-family: Arial, sans-serif;
     color: #333;
+    background-color: #333;
 }
 #tab_menu, #main_content, #logoutButton {
     display: none; /* Hide content by default */
@@ -16,7 +17,7 @@ html, body {
 #tab_menu {
     float: left;
     width: 15%;
-    height: 100vh;
+    height: auto;
     border-right: 1px solid #ccc;
     background-color: #333;
     color: white;
@@ -177,7 +178,8 @@ html, body {
     border-radius: 8px;
     padding: 20px;
     width: 100%;
-    max-width:400px; /* Độ rộng tối đa cho modal */
+    margin: auto;
+    max-width:1400px; /* Độ rộng tối đa cho modal */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Đổ bóng cho form */
     position: relative;
     max-height: 90vh; /* Chiều cao tối đa để tránh vượt quá màn hình */
