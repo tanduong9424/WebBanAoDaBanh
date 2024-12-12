@@ -15,23 +15,24 @@ document.addEventListener("DOMContentLoaded", function () {
     kiemtradiachi();
     loadCitiesorder();
      document.querySelector('.category-responsive-btn').addEventListener('click', () => {
+        
         document.querySelector('.category').style.transform = 'translateX(0)';
         document.querySelector('#category-overlay').style.display = 'block';
     });
 
     document.querySelector('#category-overlay').addEventListener('click', () => {
-        document.querySelector('.category').style.transform = 'translateX(-100%)';
+        document.querySelector('.category').style.transform = 'translateX(-1220%)';
         document.querySelector('#category-overlay').style.display = 'none';
     });
 
     let resizeTimeout;
-
     window.addEventListener('resize', () => {// Xóa timeout trước đó (nếu có)
         clearTimeout(resizeTimeout);// Đặt timeout mới để tránh reload liên tục khi kéo
         resizeTimeout = setTimeout(() => {
             const width = window.innerWidth;// Kiểm tra điều kiện kích thước
             if (width > 800) {
                 location.reload(); // Tự reload trang
+                //document.querySelector('.category').style.transform = 'translateX(0)';
             }
         }, 200); // Thời gian chờ để tránh reload quá nhanh
     });
@@ -465,7 +466,7 @@ function renderPagination() {// hàm để tạo mấy nút phân trang
     if(totalPages === 1) {
         document.querySelector('.pagination').style.display = 'none';
         document.querySelector('.chevron-left').style.display = 'none';
-        document.querySelector('.chevron-rightright').style.display = 'none';
+        document.querySelector('.chevron-right').style.display = 'none';
         
     }
     else {
@@ -519,7 +520,7 @@ function showPage(page) { //hiển thị sản phẩm
         `;
         document.querySelector('.pagination').style.display = 'none';
         document.querySelector('.chevron-left').style.display = 'none';
-        document.querySelector('.chevron-rightright').style.display = 'none';
+        document.querySelector('.chevron-right').style.display = 'none';
     }
     renderPagination(); // gọi hàm tạo nút phân trang
 }
@@ -952,7 +953,7 @@ else {
     userDisPlay += `
     <i class="fas fa-user-circle"></i>
     <div class="auth-container">
-        <span class="text-tk">Xin chào - ${currUser.username}</i></span>
+        <span class="text-tk">Xin chào ${currUser.username}</i></span>
     </div>
     <ul class="header-top-right-menu">
         <li>
@@ -1093,7 +1094,8 @@ function loadOrdersTable() {//load hóa đơn, lịch sử mua hàng lên table
         ["madonhang", "tenkh", "thoigianmua", "tongtien", "tthd"].forEach(attr => {
             const td = document.createElement("td");
             if (attr === "tenkh") {
-                td.textContent = order.makh.username;
+                //td.textContent = order.makh.username;
+                td.textContent =NguoiDungHienTai.tenkh;
             } else if (attr === "thoigianmua") {
                 td.textContent = new Date(order.thoigianmua).toLocaleString();
             } else {

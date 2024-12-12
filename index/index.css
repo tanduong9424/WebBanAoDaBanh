@@ -46,7 +46,7 @@ body,input,button,textarea,pre {
     display: flex; /*sắp xếp các phần tử con theo chiều ngang */
     width: 100%;
     margin: 5px auto; /*căn giữa main-content */
-    padding: 20px;
+    padding: 20px 0px;
     gap: 20px; /* khoảng cách giữa category và product-list */
     background-color: #EFEBEA;
     border-radius: 8px; /* Bo góc */    
@@ -54,7 +54,9 @@ body,input,button,textarea,pre {
 /*----------------------------------danh mục sản phẩm-----------------------------*/
 .category {
     width: 20%;
-    margin-top: 0px;
+    margin-top: 10px;
+    margin-left: 10px;
+    border-radius: 5px;
     background-color: #ffffff;
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.582); /*đổ bóng */
 }
@@ -76,11 +78,13 @@ body,input,button,textarea,pre {
     display: flex;
     width: 100%;
 }
-
+.category-content button{
+    margin-left: 20px;
+}
 .category-content i {
     display: block;
     font-size: 18px;
-    color: #000000;
+    color: #ff0000;
     margin-right: 5px;
 }
 
@@ -135,21 +139,21 @@ body,input,button,textarea,pre {
 
 /*----------------------------------Sản phẩm--------------------------------------------------*/
 #product-wrapper  {
-    width: 80%;
+    width: 85%;
     display: flex;
     background-color: #EFEBEA;
-    padding: 10px;
-    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1); 
+    padding: 10px 0px;
     border-radius: 5px;
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 15px; 
     margin-left: 0px;
-    align-content: space-between;
+   /*  align-content: space-between; */
 }
 
 .product-item {
     width: calc(33.33% - 10px); 
+    height: calc(50% - 10px); 
     margin-bottom: 10px;
     background-color: #ffffff;
     padding: 10px;
@@ -670,6 +674,7 @@ button.thanh-toan.disabled { /* cái nút thanh toán bị disabled*/
 
 .input-qty {/*cái số lượng sản phẩm trong giỏ*/
     width: 50px;
+    height: 30px;
     text-align: center;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -1555,7 +1560,8 @@ button.thanh-toan.disabled { /* cái nút thanh toán bị disabled*/
 
 .header-top-right-item {
     height: 50px;
-    width: 110px;
+    gap:10px;
+    /*width: 110px;*/
     background-color: rgba(255, 255, 255, 0);
     border-radius: 80px;
     display: flex;
