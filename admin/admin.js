@@ -496,7 +496,7 @@ function showEditAccountForm(index) {
             document.getElementById("custName").value = cust.tenkh;
             document.getElementById("custPhone").value = cust.sdt;
             document.getElementById("custEmail").value = cust.email;
-            document.getElementById("custAddress").value = cust.diachi;
+            document.getElementById("custAddress").value = cust.diachi.chitiet + ", " + cust.diachi.quan +", " + cust.diachi.tinh;
         }
     }
 
