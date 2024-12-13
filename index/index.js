@@ -471,6 +471,8 @@ function renderPagination() {// hàm để tạo mấy nút phân trang
     }
     else {
         document.querySelector('.pagination').style.display = 'flex';
+        document.querySelector('.chevron-left').style.display = 'flex';
+        document.querySelector('.chevron-right').style.display = 'flex';
     }
 }
 
