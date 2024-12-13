@@ -261,16 +261,53 @@ function logout() {
 
 
 // Hiển thị danh sách tài khoản
-function renderAccounts() {
+/* function renderAccounts() {
     const container = document.getElementById("accounts_container");
-    container.innerHTML = '';
+    container.innerHTML = 
+    '
+                 <thead>
+                    <tr>
+                        <th>Mã tài khoản</th>
+                        <th>Tên đăng nhập</th>
+                        <th>Loại</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>';
     accounts.forEach((account, index) => {
         if (!account.isHidden) {  // Only render accounts that are not hidden
             const accountEl = createAccountElement(account, index);
             container.appendChild(accountEl);
         }
     });
-}
+} */
+    function renderAccounts() {
+        const container = document.getElementById("accounts_container");
+        container.innerHTML = `
+            <table border="1" style="border-collapse: collapse; width: 100%; text-align: center;">
+                <thead>
+                    <tr>
+                        <th>Mã tài khoản</th>
+                        <th>Tên đăng nhập</th>
+                        <th>Loại</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        `;
+    
+        const tableBody = container.querySelector("tbody"); // Lấy tbody từ bảng vừa tạo
+    
+        accounts.forEach((account, index) => {
+            if (!account.isHidden) { // Chỉ hiển thị tài khoản không bị ẩn
+                const accountRow = createAccountElement(account, index); // Hàm tạo từng dòng
+                tableBody.appendChild(accountRow);
+            }
+        });
+    }
 
 
 //Lọc tài khoản
@@ -349,7 +386,7 @@ function closeModal() {
 
 // Tạo phần tử hiển thị tài khoản
 // Cập nhật nút trong hàm tạo phần tử tài khoản
-function createAccountElement(account, originalIndex) {
+/*function createAccountElement(account, originalIndex) {
     const actionButtons = account.role === 'admin'
         ? `<button class="edit" onclick="editAccount(${originalIndex})">Sửa</button>`
         : `
@@ -360,19 +397,55 @@ function createAccountElement(account, originalIndex) {
 
     const accountEl = document.createElement("div");
     accountEl.className = "account";
-    accountEl.innerHTML = `
-        <span>Mã tài khoản: ${account.matk}</span>
-        <span>Tên đăng nhập: ${account.username}</span>
-        <span>Loại: ${account.role}</span>
-        <span>Trạng thái: ${account.status}</span>
+    /* accountEl.innerHTML = `
+        <span>${account.matk}</span>
+        <span> ${account.username}</span>
+        <span> ${account.role}</span>
+        <span> ${account.status}</span>
         <div>
             ${actionButtons}
         </div>
-    `;
+    `; */
+    /*accountEl.innerHTML = `
+    <table>
+        
+        <tbody>
+            <tr>
+                <td>${account.matk}</td>
+                <td>${account.username}</td>
+                <td>${account.role}</td>
+                <td>${account.status}</td>
+                <td>${actionButtons}</td>
+            </tr>
+        </tbody>
+    </table>
+`;
+
 
     return accountEl;
 }
+*/
+function createAccountElement(account, originalIndex) {
+    const actionButtons = account.role === 'admin'
+        ? `<button class="edit" onclick="editAccount(${originalIndex})">Sửa</button>`
+        : `
+            <button class="view-detail" onclick="viewAccountDetails(${originalIndex})">Xem chi tiết</button>
+            <button class="edit" onclick="editAccount(${originalIndex})">Sửa</button>
+            <button class="delete" onclick="deleteAccount(${originalIndex})">Xóa</button>
+        `;
 
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+        <td>${account.matk}</td>
+        <td>${account.username}</td>
+        <td>${account.role}</td>
+        <td>${account.status}</td>
+        <td>${actionButtons}</td>
+    `;
+
+    return tr;
+}
 
 
 
@@ -690,7 +763,7 @@ function deleteAccount(index) {
 
 
 // Cập nhật hàm renderFilteredAccounts để hiển thị danh sách đã lọc
-function renderFilteredAccounts(filteredAccounts) {
+/* function renderFilteredAccounts(filteredAccounts) {
     const container = document.getElementById("accounts_container");
     container.innerHTML = ''; // Xóa nội dung trước đó
 
@@ -699,7 +772,44 @@ function renderFilteredAccounts(filteredAccounts) {
         const accountEl = createAccountElement(account, originalIndex); // Truyền chỉ số gốc
         container.appendChild(accountEl);
     });
-}
+} */
+    function renderFilteredAccounts(filteredAccounts) {
+        const container = document.getElementById("accounts_container");
+        container.innerHTML = ''; // Xóa nội dung trước đó
+    
+        // Tạo bảng chứa tài khoản
+        const table = document.createElement("table");
+        table.border = "1"; // Đường viền bảng
+        table.style.borderCollapse = "collapse";
+        table.style.width = "100%";
+        table.style.textAlign = "center";
+    
+        // Tạo phần tiêu đề của bảng
+        table.innerHTML = `
+            <thead>
+                <tr>
+                    <th>Mã tài khoản</th>
+                    <th>Tên đăng nhập</th>
+                    <th>Loại</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        `;
+    
+        const tbody = table.querySelector("tbody");
+    
+        // Thêm các dòng dữ liệu vào bảng
+        filteredAccounts.forEach((account, filteredIndex) => {
+            const originalIndex = accounts.findIndex(acc => acc.matk === account.matk);
+            const accountRow = createAccountElement(account, originalIndex); // Truyền chỉ số gốc
+            tbody.appendChild(accountRow);
+        });
+    
+        container.appendChild(table); // Thêm bảng vào container
+    }
+    
 
 
 function filterLockedAccounts() {
