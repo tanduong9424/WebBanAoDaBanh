@@ -1,0 +1,20 @@
+Tài khoản admin
+username: admin
+password: admin
+-------------------------
+Tài khoản khách hàng
+username: duy
+password: 12345
+
+username: duong
+password: 12345
+
+username: tham
+password: 12345
+
+username: bao
+password: 12345
+-------------------------
+Tài khoản nhân viên
+username: dai
+password: 12345
